@@ -18,7 +18,7 @@ view:**
 [![](/images/work/netuitive-japanese-300x230.png)](/images/work/netuitive-japanese.png)
 [![](/images/work/netuitive-service-graph-1-300x228.png)](/images/work/netuitive-service-graph-1.png)
 [![](/images/work/netuitive-service-graph-2-300x205.png)](/images/work/netuitive-service-graph-2.png)
-[![](/images/work/netuitive-service-table-300x286.png)](/images/work/netuitive-table.png)
+[![](/images/work/netuitive-service-table-300x286.png)](/images/work/netuitive-service-table.png)
 [![](/images/work/netuitive-tree-300x224.png)](/images/work/netuitive-tree.png)
 
 [Back to My Work](./index.html)
