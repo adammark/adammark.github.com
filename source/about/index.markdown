@@ -24,7 +24,7 @@ development, project management, and writing clean code. I also made lifelong
 friends.
 
 When I’m not working, I enjoy photography, cooking and playing piano. I live
-in the Boston area with my wife, twins and [dog][6].
+in the Boston area with my wife, our twins and our [dog][6].
 
 You can get in touch with me via [LinkedIn][7].
 
