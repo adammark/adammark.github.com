@@ -10,10 +10,8 @@ footer: true
 ![Adam Mark](/images/about/adammark.jpg)
 
 First, I’m no relation to the Adam’s Mark Hotel. But I get that a lot.
-Otherwise, I’m a developer evangelist for [Brightcove App Cloud][1], a
-platform for creating native iOS and Android apps with HTML5, CSS3 and
-JavaScript. Brightcove is a fantastic company full of smart, passionate
-people.
+Otherwise, I’m a web developer at [Brightcove][1], a fantastic company full 
+of smart, passionate people.
 
 Before joining Brightcove, I was technical director in the interactive
 department at [Home Front Communications][2], where I developed web sites for
@@ -28,7 +26,7 @@ in the Boston area with my wife, our twins and our [dog][6].
 
 You can get in touch with me via [LinkedIn][7].
 
-[1]: http://appcloud.brightcove.com/
+[1]: http://brightcove.com/
 [2]: http://homefrontdc.com/
 [3]: http://www.brivo.com/
 [4]: http://www.hillcrestlabs.com/
