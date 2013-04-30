@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "My Work"
-date: 2013-01-30 17:22
+date: 2013-04-30 17:22
 comments: true
 sharing: true
 footer: true
@@ -9,6 +9,13 @@ footer: true
 
 Here are just a few samples of my handiwork. Need a hand? Contact me via
 [LinkedIn][1].
+
+## [Chartlets](/work/chartlets.html)
+
+I created [Chartlets][2], a snappy little charting library for tablet and
+mobile web apps. [**More ...**](/work/chartlets.html)
+
+[![](/images/work/chartlets-samples-640x480.png)](/work/chartlets.html)
 
 ## [Wordico](/work/wordico.html)
 
@@ -38,11 +45,5 @@ Railroads. [**More ...**](/work/railroads.html)
 
 [![](/images/work/freight-home-640x416.jpg)](/work/railroads.html)
 
-## [Chartlets](/work/chartlets.html)
-
-I created _Chartlets_, a snappy little charting library, but never released
-it into the wild. [**More ...**](/work/chartlets.html)
-
-[![](/images/work/chartlets-pie-640x439.png)](/work/chartlets.html)
-
 [1]: http://www.linkedin.com/in/adammark/
+[2]: http://chartlets.com/

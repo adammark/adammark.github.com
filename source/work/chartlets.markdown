@@ -1,15 +1,19 @@
 ---
 layout: page
 title: "Chartlets"
-date: 2013-01-31 13:34
+date: 2013-04-30 13:34
 comments: true
 sharing: false
 footer: true
 ---
 
-Years ago I developed this handy dandy charting library in Flash, although I
-never quite finished it. One day I'd like to rebuild it in HTML5. **Click any
-thumbnail for a larger view:**
+I created [Chartlets][1], a handy-dandy charting library for tablet and mobile
+web apps. It uses the HTML5 &lt;canvas&gt; element.
+
+[![](/images/work/chartlets-samples-640x480.png)][1]
+
+Originally, I built Chartlets in Flash, but never released it into the wild. **Click 
+any thumbnail for a larger view:**
 
 [![](/images/work/chartlets-pie-300x206.png)](/images/work/chartlets-pie.png)
 [![](/images/work/chartlets-fill-300x206.png)](/images/work/chartlets-fill.png)
@@ -19,3 +23,5 @@ thumbnail for a larger view:**
 [![](/images/work/chartlets-updown-300x206.png)](/images/work/chartlets-updown.png)
 
 [Back to My Work](./index.html)
+
+[1]: http://chartlets.com/
