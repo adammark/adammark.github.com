@@ -15,11 +15,11 @@ of smart, passionate people.
 
 Before joining Brightcove, I was technical director in the interactive
 department at [Home Front Communications][2], where I developed web sites for
-non-profit groups and government agencies. Earlier, I was a front-end
-developer at three startup companies: [Brivo Systems][3], [Hillcrest Labs][4],
-and [Netuitive][5]. At each company I learned new things about product
-development, project management, and writing clean code. I also made lifelong
-friends.
+non-profit groups and government agencies. Earlier, I was a designer and 
+front-end developer at three startup companies: [Brivo Systems][3], 
+[Hillcrest Labs][4], and [Netuitive][5]. At each company I learned new 
+things about product development, project management, and writing clean code.
+ I also made lifelong friends.
 
 When I’m not working, I enjoy photography, cooking and playing piano. I live
 in the Boston area with my wife, our twins and our [dog][6].
