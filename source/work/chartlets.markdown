@@ -12,8 +12,7 @@ web apps. It uses the HTML5 &lt;canvas&gt; element.
 
 [![](/images/work/chartlets-samples-640x480.png)][1]
 
-Originally, I built Chartlets in Flash, but never released it into the wild. **Click 
-any thumbnail for a larger view:**
+Chartlets began as a Flash project in 2007. **Click any thumbnail for a larger view:**
 
 [![](/images/work/chartlets-pie-300x206.png)](/images/work/chartlets-pie.png)
 [![](/images/work/chartlets-fill-300x206.png)](/images/work/chartlets-fill.png)
