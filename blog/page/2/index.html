@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Adam Mark</title>
+  <meta name="author" content="Adam Mark">
+
+  
+  <meta name="description" content="Bugs are a way of life in both the physical and virtual worlds. In the
+physical world, we can “debug” with fly swatters and bug spray. In the virtual &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.adammark.net/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Adam Mark" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Adam Mark</a></h1>
+  
+    <h2>Web design and development</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.adammark.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/work">My Work</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/12/bug-off-app-cloud-introduces-on-device-debugging/">Bug Off! App Cloud Introduces On-device Debugging</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-12T10:35:00-04:00" pubdate data-updated="true">Jul 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Bugs are a way of life in both the physical and virtual worlds. In the
+physical world, we can “debug” with fly swatters and bug spray. In the virtual
+world, debugging is a bit more sophisticated, as software bugs can be
+invisible and unpredictable.</p>
+
+<p>It&#8217;s doubly hard to identify and kill bugs running on a mobile device—unless
+you have the right tools. <a href="http://appcloud.brightcove.com">App Cloud</a> developers already have the
+<a href="http://bit.ly/iworkshop">Workshop</a> app for previewing and interacting with their work in real time.
+Now they can take advantage of on-device debugging—also called <em>remote
+debugging</em>—to remotely inspect and tune their code. Here&#8217;s how it works:</p>
+
+<p>First, go to the &#8220;On-Device Debugging&#8221; page in App Cloud Studio. Then open an
+app in the Workshop and give the device a good shake. When the camera
+launches, scan the QR code that appears in the Studio:</p>
+
+<p><img src="/images/blog/app-cloud-debug-scan.png" alt="Screen shot" /></p>
+
+<p>Once a connection is established, you&#8217;ll see a debug panel in the Studio that
+looks like the Chrome Developer Tools. From here, you can remotely inspect and
+modify the DOM, issue JavaScript commands, and more:</p>
+
+<p><img src="/images/blog/app-cloud-debug-console.png" alt="Screen shot" /></p>
+
+<p>As a test, click the &#8220;Console&#8221; tab and type <code>bc.device.alert("Whoa!")</code>. You&#8217;ll
+see an alert pop up on the device!</p>
+
+<p>App Cloud&#8217;s on-device debugging is based on the open source <a href="http://phonegap.github.com/weinre/">Weinre</a>
+project. It&#8217;s a great tool for developers who want to build rock-solid apps
+quickly and easily.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/11/get-the-download-on-app-clouds-file-download-api/">Get the Download on App Cloud&#8217;s File Download API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-11T10:30:00-04:00" pubdate data-updated="true">Jul 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Your content-centric app is only as good as the network it&#8217;s running on—until
+now. With <a href="http://appcloud.brightcove.com">App Cloud&#8217;s</a> <a href="http://support.brightcove.com/en/app-cloud/docs/downloading-files-using-app-cloud-api">File Download API</a>, you can permanently store
+all kinds of media assets on the device for offline use. Text feeds, images,
+PDF documents, audio and video files, you name it. This presents lots of
+possibilities for app developers:</p>
+
+<ul>
+<li><p>Your apps can degrade gracefully when the user&#8217;s network goes in and out</p></li>
+<li><p>You can program your apps to front-load content so they work perfectly in
+&#8220;airplane mode&#8221;</p></li>
+<li><p>You can allow users to create custom content experiences that work anywhere,
+anytime</p></li>
+</ul>
+
+
+<p>Of course, your app can do all of the above. Here&#8217;s a quick look at the
+methods and events in the File Download API:</p>
+
+<h3>Methods</h3>
+
+<ul>
+<li><p><code>bc.device.requestDownload()</code>: Download a file from a remote URL</p></li>
+<li><p><code>bc.device.removeDownload()</code>: Delete a previously downloaded file</p></li>
+<li><p><code>bc.device.isDownloadAvailable()</code>: Determine if the device supports file downloading</p></li>
+<li><p><code>bc.device.getDownloadInfo()</code>: Get information about previously downloaded files</p></li>
+</ul>
+
+
+<p>As with other device methods, these are asynchronous—you must provide success
+and error callbacks.</p>
+
+<h3>Events</h3>
+
+<ul>
+<li><p><code>downloadprogress</code>: Dispatched on each progress event at the specified interval (e.g. 5%) (iOS only)</p></li>
+<li><p><code>downloadcomplete</code>: Dispatched when a download finishes</p></li>
+<li><p><code>downloaderror</code>: Dispatched on certain error conditions</p></li>
+</ul>
+
+
+<p>The API is low-level by design, requiring you to use bc.core.cache() to store
+associated metadata in most situations. I&#8217;ve written a <code>FileManager</code> object to
+hide some of the implementation details of downloading, retrieving and
+deleting files—check it out in the <a href="http://opensource.brightcove.com/project/app-cloud-demos">App Cloud Demos</a> repo, then get
+downloading!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/29/get-out-how-to-post-data-in-app-cloud/">GET Out! How to POST Data in App Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-29T11:21:00-04:00" pubdate data-updated="true">Jun 29<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="http://appcloud.brightcove.com">App Cloud</a> SDK provides two device methods for exchanging data with
+remote services. You&#8217;re probably familiar with the first one:</p>
+
+<pre><code>bc.device.fetchContentsOfURL(url, successCallback, errorCallback)
+</code></pre>
+
+<p>This method makes a cross-domain GET request, AJAX-style, to a remote URL. You
+might use it to pull down some tweets:</p>
+
+<pre><code>var url = "http://api.twitter.com/1/statuses/user_timeline.json?id=@adammark75";
+
+var handleData = function (data) {
+    var tweets = JSON.parse(data);
+
+    displayTweets(tweets);
+};
+
+var handleError = function (error) {
+    bc.device.alert("Oops! " + error.errorMessage);
+};
+
+bc.device.fetchContentsOfURL(url, handleData, handleError);
+</code></pre>
+
+<p>The second method works the same way, except it makes a POST request:</p>
+
+<pre><code>bc.device.postDataToURL(url, successCallback, errorCallback, options)
+</code></pre>
+
+<p>You might use it to send credentials to an authentication service:</p>
+
+<pre><code>var url = "https://example.com/login";
+
+var options = {
+    data: {
+        "username": "boba",
+        "password": "fett"
+    }
+};
+
+var handleData = function (data) {
+    var response = JSON.parse(data);
+
+    if (response.authorized) {
+        permitUser();
+    }
+    else {
+        rejectUser(response.failureCode);
+    }
+};
+
+var handleError = function (error) {
+    bc.device.alert("Oops! " + error.errorMessage);
+};
+
+bc.device.postDataToURL(url, handleData, handleError, options);
+</code></pre>
+
+<p>With these two device methods, you can access any REST service, AJAX-style!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/29/try-before-you-transcode-in-app-cloud-studio/">Try Before You Transcode: App Cloud Studio Helps You Explore Image Transcoding API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-29T10:50:00-04:00" pubdate data-updated="true">Jun 29<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://appcloud.brightcove.com">App Cloud&#8217;s</a> real-time image transcoding API now has a public &#8220;face&#8221; in
+App Cloud Studio. Developers can use it to explore the API in a visual way
+before writing a single line of code. Just enter an image URL and set a few
+parameters like width, height and image quality:</p>
+
+<p><img src="/images/blog/app-cloud-transcoding.png" alt="Screen shot" /></p>
+
+<p>It&#8217;s a quick way to determine the best level of compression for some JPEG
+photos or the correct cropping algorithm for a series of thumbnail images.</p>
+
+<p>With image transcoding, developers can dramatically improve app performance by
+reducing image sizes by <em>90% or more</em>. And it&#8217;s a snap to use—service URLs can
+be composed at runtime with a little bit of JavaScript.</p>
+
+<p>See the <a href="http://support.brightcove.com/en/docs/transcoding-images">App Cloud docs</a> for a complete rundown of the API.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/27/using-on-and-off-events-in-app-cloud/">Using &#8216;on&#8217; and &#8216;Off&#8217; Events in App Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-27T11:04:00-04:00" pubdate data-updated="true">Jun 27<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The latest version of the <a href="http://appcloud.brightcove.com">App Cloud</a> SDK includes jQuery 1.7, which
+introduces new methods for handling events.</p>
+
+<h2>Background</h2>
+
+<p>Prior to version 1.7, jQuery gave us a handful of ways to handle events.
+You&#8217;re probably familiar with the <code>bind</code> method:</p>
+
+<pre><code>$("li").bind("click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>Above, we&#8217;re <em>binding</em> an anonymous callback function to every <em>li</em> element in
+the document. The callback function has one argument (an object) that contains
+all the properties of the captured event. It&#8217;s simply a shorthand for the
+following:</p>
+
+<pre><code>var elems = document.querySelectorAll("li");
+
+for (var i = 0; i &lt; elems.length; i++) {
+    elems[i].addEventListener("click", function (evt) {
+        // do stuff
+    });
+}
+</code></pre>
+
+<p>The jQuery version is nicer, don&#8217;t you think?</p>
+
+<p>The <code>bind</code> method works on elements that already exist in the document. But what
+if the elements don&#8217;t exist yet? Enter the <code>live</code> method:</p>
+
+<pre><code>$("li").live("click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>The <code>live</code> method works on matched elements now or in the future by attaching
+a single event listener to the document root element and then inspecting the
+event data to determine which specific handlers to trigger. Pretty handy. The
+<code>delegate</code> method works in a similar fashion, although you can specify a scope:</p>
+
+<pre><code>$("ul").delegate("li", "click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>Each of these methods has a corresponding function to remove event listeners:
+<em>bind</em> and <em>unbind</em>, <em>live</em> and <em>die</em>, <em>delegate</em> and <em>undelegate</em>.</p>
+
+<h2>New in jQuery 1.7</h2>
+
+<p>In jQuery 1.7, all the above methods are replaced with <code>on</code> and <code>off</code>. There
+are two ways to use <code>on</code>:</p>
+
+<pre><code>$("#dataTable tbody tr").on("tap", function (evt) {
+    // do stuff
+});
+
+$("#dataTable tbody").on("tap", "tr", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>The first technique is like using <code>bind</code>; the second technique is like using
+<code>delegate</code> and is more efficient when working with large DOM trees.</p>
+
+<p>See the <a href="http://docs.jquery.com">jQuery docs</a> for a complete rundown.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/24/get-two-layouts-for-the-price-of-one-with-css-media-queries/">Get Two Layouts for the Price of One With CSS Media Queries</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-24T11:25:00-04:00" pubdate data-updated="true">May 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/blog/app-cloud-orientation.jpg" alt="Screen Shot" /></p>
+
+<p>Some <a href="http://appcloud.brightcove.com">App Cloud</a> developers have asked me how to change the layout of a
+view depending on the device&#8217;s orientation. The simplest way—and this is
+really very simple—is to use <a href="https://www.google.com/search?q=css3+media+queries+tutorial">Media Queries</a>:</p>
+
+<pre><code>@media all and (orientation: portrait) {
+    /* CSS rules here */
+}
+
+@media all and (orientation: landscape) {
+    /* CSS rules here */
+}
+</code></pre>
+
+<p>For example, let&#8217;s say you want to change the body color from red to green
+when the user rotates the device from portrait to landscape:</p>
+
+<pre><code>@media all and (orientation: portrait) {
+    body {
+        color: red;
+    }
+}
+@media all and (orientation: landscape) {
+    body {
+        color: green;
+    }
+}
+</code></pre>
+
+<p>Add the above code to your stylesheet and see what happens. (You can test it
+in your Webbrowser by resizing the window.)</p>
+
+<p>It&#8217;s not necessary to put all your styles inside the media queries—just the
+styles that are specific to portrait or landscape mode.</p>
+
+<p>Combine Media Queries with the <a href="http://www.html5rocks.com/en/tutorials/flexbox/quick/">Flexible Box Model</a> and now you&#8217;re cooking
+with gas!</p>
+
+<p>Two notes: First, you must allow for orientation changes in the SDK by calling
+<code>bc.device.setAutoRotateDirections(["all"])</code>. Second, CSS rules can only
+affect the layout, not the behavior, of your app. You can listen for a
+<code>vieworientationchange</code> event if you need to perform some action when the user
+rotates the device.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/14/making-better-markup-with-markup-dot-js/">Making Better Markup With Markup.js</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-14T17:40:00-04:00" pubdate data-updated="true">May 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Unlike traditional web sites, <a href="http://appcloud.brightcove.com">App Cloud</a> apps compose HTML strings in the
+client using JavaScript. There are two ways to go about this: a <em>good way</em> and
+a <em>bad way</em>.</p>
+
+<p>First, the <em>bad way</em>. Consider the following code, in which an array of articles
+is manually formatted into a chunk of HTML code:</p>
+
+<pre><code>var html = "&lt;ul&gt;";
+
+for (var i = articles.length - 1; i &gt;= 0; i--) {
+    html += "&lt;li&gt;";
+    html += "&lt;div&gt;" + articles[i].title.toUpperCase() + "&lt;/div&gt;";
+    html += "&lt;small&gt;";
+    html += articles[i].description.substr(0, 50);
+    if (articles[i].description.length &gt; 50) { 
+        html += "...";
+    }
+    html += "&lt;/small&gt;";
+    html += "&lt;/li&gt;";
+}
+
+html += "&lt;/ul&gt;";
+</code></pre>
+
+<p>Notice how even simple tasks, like adding an ellipsis to descriptions longer
+than 50 words, can force you to write a lot of code. This gets messy fast!</p>
+
+<p>Now, the <em>good way</em>: Take the same array of articles and generate the
+equivalent HTML using <a href="https://github.com/adammark/Markup.js">Markup.js</a>:</p>
+
+<pre><code>&lt;ul&gt;
+    {{articles|reverse}}
+        &lt;li&gt;
+            &lt;div&gt;{{title|upcase}}&lt;/div&gt;
+            &lt;small&gt;{{description|chop&gt;50}}&lt;/small&gt;
+        &lt;/li&gt;
+    {{/articles}}
+&lt;/ul&gt;
+</code></pre>
+
+<p>Much nicer! As you can see, Markup.js takes the pain out of converting
+structured data (like an array of articles) into HTML or another text format.
+And since it&#8217;s part of the App Cloud SDK, you can quickly and easily separate
+your <em>presentation logic</em> from your <em>business logic</em>. Let&#8217;s say you&#8217;re
+handling the results of a data request:</p>
+
+<pre><code>function handleData(data) {
+    var template = bc.templates["articles-list-template"];
+    var context = { articles: data };
+    var markup = Mark.up(template, context);
+
+    document.getElementById("results").innerHTML = markup;
+}
+</code></pre>
+
+<p>In the above code, Markup.js takes a template string, injects it with a
+<code>context</code> object, and returns a new string. The new string is then inserted into
+the document. There&#8217;s no HTML at all in your JavaScript code! (You could
+easily modify this code to select one of several templates based on a runtime
+condition or device characteristic.)</p>
+
+<p>Notice the object <code>bc.templates</code>? It&#8217;s populated automatically with strings
+from an external text file (as defined in manifest.json):</p>
+
+<pre><code>===== hello-template
+&lt;p&gt;Hello, &lt;span class="username"&gt;!&lt;/span&gt;&lt;/p&gt;
+
+===== goodbye-template
+&lt;p&gt;Goodbye, &lt;span class="username"&gt;!&lt;/span&gt;&lt;/p&gt;
+</code></pre>
+
+<p>In this example, the text file contains two Markup templates: <code>hello-template</code>
+and <code>goodbye-template</code>. You can call them by name, as shown above.</p>
+
+<p>Markup.js comes with more than 40 built-in &#8220;pipes&#8221; for transforming data, and
+it&#8217;s easy to write your own. Check out the <a href="https://github.com/adammark/Markup.js">complete docs</a> on GitHub.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/09/where-in-the-world-is-app-cloud/">Where in the World Is App Cloud?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-09T16:03:00-04:00" pubdate data-updated="true">May 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The App Cloud team circled the globe <em>twice</em> in the last month to run developer
+kitchens in Seoul, Tokyo and Sydney. We trained more than 70 developers and
+racked up thousands of frequent flier miles to boot! Here are some shots from
+the events:</p>
+
+<h4>Seoul, South Korea</h4>
+
+<p><img src="/images/blog/app-cloud-dev-kitchen-seoul-1.jpg" alt="Seoul" /></p>
+
+<p><img src="/images/blog/app-cloud-dev-kitchen-seoul-2.jpg" alt="Seoul" /></p>
+
+<h4>Tokyo, Japan</h4>
+
+<p><img src="/images/blog/app-cloud-dev-kitchen-tokyo-1.jpg" alt="Tokyo" /></p>
+
+<p><img src="/images/blog/app-cloud-dev-kitchen-tokyo-2.jpg" alt="Tokyo" /></p>
+
+<h4>Sydney, Australia</h4>
+
+<p><img src="/images/blog/app-cloud-dev-kitchen-sydney-1.jpg" alt="Sydney" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/09/three-ways-to-use-text-blocks-in-app-cloud/">Three Ways to Use Text Blocks in App Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-09T11:17:00-04:00" pubdate data-updated="true">May 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>With <a href="http://appcloud.brightcove.com">App Cloud</a> text blocks, you can store arbitrary blocks of text in the
+cloud and retrieve them for any purpose you desire. Now you can bypass your
+CMS (and your IT department!) when you need to manage certain types of
+lightweight data in your apps.</p>
+
+<p>To create a text block, go to the Content section of App Cloud Studio, then
+click &#8220;New Content Source&#8221;, then click &#8220;Text Content&#8221;:</p>
+
+<p><img src="/images/blog/app-cloud-text-new.png" alt="Screen shot" /></p>
+
+<p>Then enter a name and some text. That&#8217;s it! Whenever you want to change the
+text, just click &#8220;Edit&#8221; and App Cloud will save a new version. (You can revert
+to an old version at any time.)</p>
+
+<p>At the code layer, you can request a text block with <code>bc.core.getData()</code>, just
+like a content feed:</p>
+
+<pre><code>bc.core.getData("my-text-block", function (data) {
+    var myText = data.text;
+    // do stuff
+});
+</code></pre>
+
+<p>Here are three ways to use text blocks inside your app:</p>
+
+<h2>1. HTML text</h2>
+
+<p>Use a text block as a flexible messaging area:</p>
+
+<p><img src="/images/blog/app-cloud-text-html.png" alt="Screen shot" /></p>
+
+<p>Then insert the text into DOM using jQuery or the method of your choice:</p>
+
+<pre><code>bc.core.getData("welcome-message", function (data) {
+    $("#welcome-message").html(data.text);
+});
+</code></pre>
+
+<h2>2. JSON text</h2>
+
+<p>Use a text block to store structured data in JSON format:</p>
+
+<p><img src="/images/blog/app-cloud-text-json.png" alt="Screen shot" /></p>
+
+<p>When you load the text, make sure to parse it using JSON.parse():</p>
+
+<pre><code>bc.core.getData("produce", function (data) {
+    var produce = JSON.parse(data.text);
+    ...
+});
+</code></pre>
+
+<h2>3. CSV text</h2>
+
+<p>Store a table of information as CSV:</p>
+
+<p><img src="/images/blog/app-cloud-text-csv.png" alt="Screen shot" /></p>
+
+<p>After you load the data, split the lines, then split each line on the comma
+characters:</p>
+
+<pre><code>bc.core.getData("directory", function (data) {
+    var people = [];
+    var rows = data.text.trim().split("\n");
+
+    for (var i in rows) {
+        var row = rows[i].split(",");
+
+        people.push({
+            "firstName": row[0],
+            "lastName": row[1],
+            "phone": row[2],
+            "title": row[3],
+            "email": row[4]
+        });
+    }
+});
+</code></pre>
+
+<p>These are just a few ways to use text blocks. As you can see, you can save any
+kind of text format you want—it&#8217;s flexible by design!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/02/using-dropbox-to-host-your-app-cloud-app/">Using Dropbox to Host Your App Cloud App in Development Mode</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-02T17:07:00-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you can&#8217;t create a local web server for any reason—too lazy, too many
+network restrictions, what&#8217;s a web server?—you can use a public <a href="http://www.dropbox.com/">Dropbox</a>
+folder instead.</p>
+
+<p>Just drop your template into the &#8220;Public&#8221; folder inside your Dropbox
+directory. Then right-click on your manifest file (manifest.json) and select
+<em>Dropbox > Copy Public Link</em>. You should get a URL like this:</p>
+
+<pre><code>http://dl.dropbox.com/u/12345678/mytemplate/manifest.json
+</code></pre>
+
+<p>Enter this URL in the <a href="http://bit.ly/iworkshop">Workshop app</a> and you&#8217;re off to the races! You can also
+view your HTML pages in Chrome and debug them with the Developer Tools.</p>
+
+<p><em>Warning! Your files will be accessible to anyone who knows the URL, so share wisely.</em></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/app-cloud-vs-phonegap/">App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud/">Opening a modal email window in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud/">Monitoring the connection state in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/">Markup.js: Custom pipes for your piping pleasure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric/">App Cloud and Kinvey: A one-two punch for content-centric, data-driven apps</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform/">Getting to the promised land of cross-platform, device-independent displays</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/06/launching-external-apps-in-app-cloud/">Launching external apps in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/inside-the-app-cloud-workshop/">Inside the App Cloud Workshop: Understanding your apps in development mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/">A font of icons for your App Cloud app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging deeper into App Cloud data feeds</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adam Mark -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

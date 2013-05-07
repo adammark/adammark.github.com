@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jQuery | Adam Mark]]></title>
+  <link href="http://www.adammark.net/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://www.adammark.net/"/>
+  <updated>2013-05-07T16:40:56-04:00</updated>
+  <id>http://www.adammark.net/</id>
+  <author>
+    <name><![CDATA[Adam Mark]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using 'on' and 'off' events in App Cloud]]></title>
+    <link href="http://www.adammark.net/blog/2012/06/27/using-on-and-off-events-in-app-cloud/"/>
+    <updated>2012-06-27T11:04:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/06/27/using-on-and-off-events-in-app-cloud</id>
+    <content type="html"><![CDATA[<p>The latest version of the <a href="http://appcloud.brightcove.com">App Cloud</a> SDK includes jQuery 1.7, which
+introduces new methods for handling events.</p>
+
+<h2>Background</h2>
+
+<p>Prior to version 1.7, jQuery gave us a handful of ways to handle events.
+You're probably familiar with the <code>bind</code> method:</p>
+
+<pre><code>$("li").bind("click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>Above, we're <em>binding</em> an anonymous callback function to every <em>li</em> element in
+the document. The callback function has one argument (an object) that contains
+all the properties of the captured event. It's simply a shorthand for the
+following:</p>
+
+<pre><code>var elems = document.querySelectorAll("li");
+
+for (var i = 0; i &lt; elems.length; i++) {
+    elems[i].addEventListener("click", function (evt) {
+        // do stuff
+    });
+}
+</code></pre>
+
+<p>The jQuery version is nicer, don't you think?</p>
+
+<p>The <code>bind</code> method works on elements that already exist in the document. But what
+if the elements don't exist yet? Enter the <code>live</code> method:</p>
+
+<pre><code>$("li").live("click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>The <code>live</code> method works on matched elements now or in the future by attaching
+a single event listener to the document root element and then inspecting the
+event data to determine which specific handlers to trigger. Pretty handy. The
+<code>delegate</code> method works in a similar fashion, although you can specify a scope:</p>
+
+<pre><code>$("ul").delegate("li", "click", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>Each of these methods has a corresponding function to remove event listeners:
+<em>bind</em> and <em>unbind</em>, <em>live</em> and <em>die</em>, <em>delegate</em> and <em>undelegate</em>.</p>
+
+<h2>New in jQuery 1.7</h2>
+
+<p>In jQuery 1.7, all the above methods are replaced with <code>on</code> and <code>off</code>. There
+are two ways to use <code>on</code>:</p>
+
+<pre><code>$("#dataTable tbody tr").on("tap", function (evt) {
+    // do stuff
+});
+
+$("#dataTable tbody").on("tap", "tr", function (evt) {
+    // do stuff
+});
+</code></pre>
+
+<p>The first technique is like using <code>bind</code>; the second technique is like using
+<code>delegate</code> and is more efficient when working with large DOM trees.</p>
+
+<p>See the <a href="http://docs.jquery.com">jQuery docs</a> for a complete rundown.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Caching data feeds in App Cloud - Adam Mark</title>
+  <meta name="author" content="Adam Mark">
+
+  
+  <meta name="description" content="Caching data with bc.core.cache() will improve the performance and
+&#8220;stickiness&#8221; of your app. Here are three reasons to do it: Speed up &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.adammark.net/blog/2012/01/31/caching-data-feeds-in-app-cloud/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Adam Mark" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Adam Mark</a></h1>
+  
+    <h2>Web design and development</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.adammark.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/work">My Work</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Caching Data Feeds in App Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-31T16:17:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Caching data with <code>bc.core.cache()</code> will improve the performance and
+&#8220;stickiness&#8221; of your app. Here are three reasons to do it:</p>
+
+<h2>Speed up your app</h2>
+
+<p>Seconds matter, especially in mobile phone apps. While you&#8217;re waiting for new
+data to load from the server, you can display cached data. Often, the data
+will be the same. In any case, you&#8217;re giving the user something to process
+instead of just a spinning wheel.</p>
+
+<h2>Save bandwidth</h2>
+
+<p>Bandwidth isn&#8217;t free. It costs time and money—especially for users without
+unlimited data plans. Lend a hand and don&#8217;t load data more frequently than is
+absolutely necessary. If the data is relatively permanent, load it once and
+cache it for a length of time (a day, a week, or more) before requesting it
+again. You can use timestamps (in the cache!) for this purpose. Let&#8217;s say
+you&#8217;re pulling down a list of instructional videos that rarely changes:</p>
+
+<pre><code>var loaded_at = bc.core.cache("video_feed_loaded_at") || 0; // defaults to 0
+var time_now = new Date().getTime();
+var interval = 1000 * 60 * 60 * 24 * 3; // 3 days
+
+// if the cached data is older than 3 days
+if (time_now - loaded_at &gt; interval) {
+    // load new data from server and overwrite the cached data
+    bc.core.getData("videos",
+        function (data) {
+            bc.core.cache("video_feed", data);
+            bc.core.cache("video_feed_loaded_at", new Date().getTime());
+            displayVideos();
+        },
+        function (error) {
+            // oops
+        }
+    );
+}
+// else show cached data
+else {
+    displayVideos();
+}
+
+function displayVideos() {
+    var feed = bc.core.cache("video_feed");
+    // do stuff
+}
+</code></pre>
+
+<p>Above, we&#8217;re loading new data only if the cached data is empty (i.e. it has
+never been loaded) or if the cached data is more than three days old.</p>
+
+<p>Note, you can always provide a &#8220;refresh&#8221; button for users to update data on
+their own. And sometimes it&#8217;s a good idea to display a &#8220;last updated&#8221; date
+alongside the results.</p>
+
+<h2>Save user preferences and other metadata</h2>
+
+<p>The cache is a great way to store preferences and other values that are
+specific to a particular user on a particular device. For example, you can
+save the user&#8217;s preferred display mode:</p>
+
+<pre><code>bc.core.cache("user_pref_display_mode", "grid");
+</code></pre>
+
+<p>Or, you can store a list of recently viewed articles, or favorites, by ID. I
+wrote some helper functions for this purpose:</p>
+
+<pre><code>// cache a "favorite" value in an array with the given key
+// e.g. saveFavorite("fruits", "apple")
+function saveFavorite(key, val) {
+    var favorites = bc.core.cache(key) || [];
+
+    if (favorites.indexOf(val) === -1) {
+        favorites.push(val);
+    }
+
+    bc.core.cache(key, favorites);
+};
+
+// delete a "favorite" value from a cached array with the given key
+// e.g. deleteFavorite("fruits", "apple")
+function deleteFavorite(key, val) {
+    var favorites = bc.core.cache(key) || [];
+    var idx = favorites.indexOf(val);
+
+    if (idx &gt; -1) {
+        favorites.splice(idx, 1);
+        bc.core.cache(key, favorites);
+    }
+};
+
+// determine if a value is contained in a list of favorites
+// e.g. isFavorite("fruits", "apple")
+function isFavorite(key, val) {
+    var favorites = bc.core.cache(key) || [];
+
+    return favorites.indexOf(val) &gt; -1;
+};
+</code></pre>
+
+<p>The function <code>bc.core.cache()</code> is actually a wrapper for
+<a href="http://coding.smashingmagazine.com/2010/10/11/local-storage-and-how-to-use-it/">Local Storage</a>—sometimes called &#8220;cookies on steroids.&#8221; As you&#8217;ve seen,
+it&#8217;s a simple yet invaluable way to add state to your applications.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adam Mark</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-31T16:17:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/app-cloud/'>App Cloud</a>, <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2012/01/31/caching-data-feeds-in-app-cloud/" data-via="" data-counturl="http://www.adammark.net/blog/2012/01/31/caching-data-feeds-in-app-cloud/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/01/26/understanding-tap-events-in-app-cloud/" title="Previous Post: Understanding tap events in App Cloud">&laquo; Understanding tap events in App Cloud</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/01/31/app-cloud-content-feeds-getting-to-green/" title="Next Post: App Cloud content feeds: Getting to green">App Cloud content feeds: Getting to green &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/app-cloud-vs-phonegap/">App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud/">Opening a modal email window in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud/">Monitoring the connection state in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/">Markup.js: Custom pipes for your piping pleasure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric/">App Cloud and Kinvey: A one-two punch for content-centric, data-driven apps</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform/">Getting to the promised land of cross-platform, device-independent displays</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/06/launching-external-apps-in-app-cloud/">Launching external apps in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/inside-the-app-cloud-workshop/">Inside the App Cloud Workshop: Understanding your apps in development mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/">A font of icons for your App Cloud app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging deeper into App Cloud data feeds</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adam Mark -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

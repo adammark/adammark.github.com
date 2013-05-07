@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Working with arrays in App Cloud - Adam Mark</title>
+  <meta name="author" content="Adam Mark">
+
+  
+  <meta name="description" content="App Cloud apps are voracious consumers of JavaScript arrays, which carry
+all kinds of data from server to client: news articles, photo gallery &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.adammark.net/blog/2012/02/16/working-with-arrays-in-app-cloud/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Adam Mark" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Adam Mark</a></h1>
+  
+    <h2>Web design and development</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.adammark.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/work">My Work</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Working With Arrays in App Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-16T16:46:00-05:00" pubdate data-updated="true">Feb 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://appcloud.brightcove.com">App Cloud</a> apps are voracious consumers of JavaScript arrays, which carry
+all kinds of data from server to client: news articles, photo gallery
+metadata, a list of places near a user&#8217;s location, and even tweets. You&#8217;re
+probably familiar with the two basic techniques for iterating over arrays:</p>
+
+<pre><code>for (var i = 0; i &lt; stuff.length; i++) {
+    ...
+}
+</code></pre>
+
+<p>and</p>
+
+<pre><code>for (var i in stuff) {
+    ...
+}
+</code></pre>
+
+<p>Now comes another:</p>
+
+<pre><code>stuff.forEach(function (value, index, array) {
+    ...
+});
+</code></pre>
+
+<p>Yeah, you read that right. And it doesn&#8217;t use jQuery or any other syntactic
+sugar. Here&#8217;s a fuller example:</p>
+
+<pre><code>var fruits = ["apple", "banana", "cherry"];
+
+fruits.forEach(function (value, index, array) {
+    console.log(value, index, arr);
+});
+</code></pre>
+
+<p>Run the above code in your browser to see the output—then feel free to use
+this technique in your App Cloud app.</p>
+
+<p>There are some other native JavaScript methods that might look new to you:
+<code>every()</code>, <code>filter()</code>, <code>map()</code> and <code>some()</code>. Read all about them in the
+<a href="https://developer.mozilla.org/en/New_in_JavaScript_1.6">MDN docs</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adam Mark</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-16T16:46:00-05:00" pubdate data-updated="true">Feb 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/app-cloud/'>App Cloud</a>, <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2012/02/16/working-with-arrays-in-app-cloud/" data-via="" data-counturl="http://www.adammark.net/blog/2012/02/16/working-with-arrays-in-app-cloud/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/10/creating-a-reading-list-in-app-cloud/" title="Previous Post: Creating a reading list in App Cloud">&laquo; Creating a reading list in App Cloud</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/02/using-content-analytics-in-app-cloud/" title="Next Post: Using content analytics in App Cloud">Using content analytics in App Cloud &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/app-cloud-vs-phonegap/">App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud/">Opening a modal email window in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud/">Monitoring the connection state in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/">Markup.js: Custom pipes for your piping pleasure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric/">App Cloud and Kinvey: A one-two punch for content-centric, data-driven apps</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform/">Getting to the promised land of cross-platform, device-independent displays</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/06/launching-external-apps-in-app-cloud/">Launching external apps in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/inside-the-app-cloud-workshop/">Inside the App Cloud Workshop: Understanding your apps in development mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/">A font of icons for your App Cloud app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging deeper into App Cloud data feeds</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adam Mark -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

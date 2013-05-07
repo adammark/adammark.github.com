@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JavaScript | Adam Mark]]></title>
+  <link href="http://www.adammark.net/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://www.adammark.net/"/>
+  <updated>2013-05-07T16:40:56-04:00</updated>
+  <id>http://www.adammark.net/</id>
+  <author>
+    <name><![CDATA[Adam Mark]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Opening a modal email window in App Cloud]]></title>
+    <link href="http://www.adammark.net/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud/"/>
+    <updated>2012-11-15T14:56:00-05:00</updated>
+    <id>http://www.adammark.net/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud</id>
+    <content type="html"><![CDATA[<p>The latest version of the <a href="http://appcloud.brightcove.com">App Cloud</a> SDK (1.12) introduces a new device
+method for launching a modal email window inside an app. (Previously, the only
+way to launch a native email client was through a "mailto" link, which bounced
+users out of the app. Boo.) Here's how to do it:</p>
+
+<pre><code>// all properties optional
+var options = {
+    toRecipients: "john@example.com, jane@example.com",
+    subject: "Check it out!",
+    body: "I found this interesting: http://www.example.com/"
+};
+
+// fired when the email is sent
+var successCallback = function () {
+    // yay!
+};
+
+// fired if the user cancels
+var errorCallback = function (error) {
+    // boo!
+};
+
+// open the modal
+bc.device.modalEmail.composeEmail(successCallback, errorCallback, options);
+</code></pre>
+
+<p>Of course, in your own code you'd have to pass some real data into the options
+object. Check out the <a href="http://docs.brightcove.com/en/app-cloud-api/core/symbols/bc.device.modalEmail.html">API docs</a> for a full rundown.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Monitoring the connection state in App Cloud]]></title>
+    <link href="http://www.adammark.net/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud/"/>
+    <updated>2012-09-20T12:00:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud</id>
+    <content type="html"><![CDATA[<p>The latest version of the <a href="http://appcloud.brightcove.com">App Cloud</a> SDK (1.11) introduces a new type of
+event for monitoring whether the user is online or offline. It's a snap to
+use:</p>
+
+<pre><code>$(bc).on("connectionstatechange", function(evt, data) {
+    if (data.online) {
+        // do something
+    }
+    else {
+        // do something else
+    }
+});
+</code></pre>
+
+<p>Now you can take appropriate action when a user's connection goes in or out.
+For example, say you want to show a status indicator:</p>
+
+<pre><code>function displayStatusIndicator(online) {
+    // show or hide the indicator
+}
+
+$(bc).on("connectionstatechange", function(evt, data) {
+    displayStatusIndicator(data.online);
+});
+</code></pre>
+
+<p>Sometimes it's necessary to check the connection status before performing a
+particular action. For this you can look to the <code>bc.context</code> object:</p>
+
+<pre><code>$(bc).on("init", function (evt) {
+    if (bc.context.online) {
+        loadNews();
+    }
+    else {
+        displayCachedNews();
+        showOfflineMessage();
+    }
+});
+</code></pre>
+
+<p>Together, the <code>connectionstatechange</code> event and <code>bc.context.online</code> property
+can help you handle network failures gracefully.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markup.js: Custom pipes for your piping pleasure]]></title>
+    <link href="http://www.adammark.net/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/"/>
+    <updated>2012-09-19T15:13:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure</id>
+    <content type="html"><![CDATA[<p>While <a href="https://github.com/adammark/Markup.js">Markup.js</a> comes with more than 40 built-in pipes for everyday use,
+I always write a few custom pipes whenever I build an <a href="http://appcloud.brightcove.com">App Cloud</a> app. Here
+are some of my favorites.</p>
+
+<h3>highlight</h3>
+
+<p>Use this pipe to highlight a search term or other pattern in a string. Note
+the use of backticks in the example to denote a context variable on the right
+side of the expression.</p>
+
+<p></p>
+
+<pre><code>// Example: {{article|highlight&gt;`searchTerm`}}
+
+Mark.pipes.highlight = function (str, pattern) {
+    return str.replace(new RegExp("(" + pattern + ")", "g"), "&lt;em&gt;$1&lt;/em&gt;");
+};
+</code></pre>
+
+<p></p>
+
+<h3>address</h3>
+
+<p>Use this pipe to wrap an address in a Google Maps link.</p>
+
+<p></p>
+
+<pre><code>// Example: {{home_addr|address}}
+
+Mark.pipes.address = function (addr) {
+    return "&lt;a href=\"http://maps.google.com/maps?q=" + encodeURI(addr) + "&gt;" + addr + "&lt;/a&gt;";
+};
+</code></pre>
+
+<p></p>
+
+<h3>links</h3>
+
+<p>Use this pipe to convert all URLs in a string to links.</p>
+
+<p></p>
+
+<pre><code>// Example: {{story|links}}
+
+Mark.pipes.links = function (str) {
+    return str.replace(/\b(https?:[^\b\s]+)\b/g, "&lt;a href=\"$1\"&gt;$1&lt;/a&gt;");
+};
+</code></pre>
+
+<p></p>
+
+<h3>repeat</h3>
+
+<p>Use this pipe to repeat a string. Note <code>count</code> defaults to 2 and <code>separator</code>
+defaults to "".</p>
+
+<p></p>
+
+<pre><code>// Example: {{chorus|repeat&gt;5}}
+
+Mark.pipes.repeat = function (str, count, separator) {
+    return new Array(+count || 2).join(str + (separator || "")) + str;
+};
+</code></pre>
+
+<p></p>
+
+<h3>moment</h3>
+
+<p>Use this pipe to format a date with <a href="http://momentjs.com/">Moment.js</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{created_at|moment&gt;M/D/YYYY}}
+
+Mark.pipes.moment = function (date, format) {
+    return moment(new Date(+date || date)).format(format);
+};
+</code></pre>
+
+<p></p>
+
+<h3>dollars</h3>
+
+<p>Use this pipe to format a number in dollars with <a href="http://josscrowcroft.github.com/accounting.js/">Accounting.js</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{price|dollars}}
+
+Mark.pipes.dollars = function (num) {
+    return accounting.formatMoney(+num);
+};
+</code></pre>
+
+<p></p>
+
+<h3>phone</h3>
+
+<p>Use this pipe to format a U.S. phone number.</p>
+
+<p></p>
+
+<pre><code>// Example: {{mobile_phone|phone}}
+
+Mark.pipes.phone = function (str) {
+    var s = str.replace(/[^\d]/g, "");
+    return "(" + s.substr(0, 3) + ") " + s.substr(3, 3) + "-" + s.substr(6, 4);
+};
+</code></pre>
+
+<p></p>
+
+<h3>ordinal</h3>
+
+<p>Use this pipe to express a number as an ordinal, e.g. "10th".</p>
+
+<p></p>
+
+<pre><code>// Example: {{contestant.standing|ordinal}}
+
+Mark.pipes.ordinal = function (num) {
+    if (num &gt; 10 &amp;&amp; num &lt; 20) {
+        return num + "th";
+    }
+    return num + ["th","st","nd","rd","th","th","th","th","th","th"][num % 10];
+};
+</code></pre>
+
+<p></p>
+
+<h3>runtime</h3>
+
+<p>Use this pipe to express a number in stopwatch notation ("mm:ss") given a
+factor of 1 (seconds) or 1000 (milliseconds). Note <code>factor</code> defaults to 1.</p>
+
+<p></p>
+
+<pre><code>// Example: {{duration|runtime}}
+
+Mark.pipes.runtime = function (time, factor) {
+    var m = Math.floor(time / (60 * (factor || 1)));
+    var s = Math.floor((time / (factor || 1)) % 60);
+    return m + ":" + ("00" + s).substr(-2);
+};
+</code></pre>
+
+<p></p>
+
+<h3>has</h3>
+
+<p>Use this pipe to determine if an array contains an object with the given
+property value.</p>
+
+<p></p>
+
+<pre><code>// Example: {{if fruits|has&gt;color&gt;red}} ... {{/if}}
+
+Mark.pipes.has = function (arr, prop, val) {
+    return arr.some(function (item) {
+        return item[prop] == val;
+    });
+};
+</code></pre>
+
+<p></p>
+
+<h3>sift</h3>
+
+<p>Use this pipe to filter an array of objects to only those having the given
+property value.</p>
+
+<p></p>
+
+<pre><code>// Example: &lt;ul&gt; {{fruits|sift&gt;color&gt;red}} &lt;li&gt;{{fruit.name}}&lt;/li&gt; {{/fruits}} &lt;/ul&gt;
+
+Mark.pipes.sift = function (arr, prop, val) {
+    return arr.filter(function (item) {
+        return item[prop] == val;
+    });
+};
+</code></pre>
+
+<p></p>
+
+<h3>stars</h3>
+
+<p>Use this pipe to print star and half-star characters given a decimal input.
+Note this requires <a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{rating|stars}}
+
+Mark.pipes.stars = function (rating) {
+    var n = Math.round(+rating * 2) / 2;
+
+    return new Array(Math.floor(n) + 1).join("&amp;#xf005;") + (n % 1 ? "&amp;#xf089;" : "");
+};
+</code></pre>
+
+<p></p>
+
+<p>Get more pipes in the <a href="https://github.com/adammark/Markup.js">Markup.js</a> repository on GitHub.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Launching external apps in App Cloud]]></title>
+    <link href="http://www.adammark.net/blog/2012/08/06/launching-external-apps-in-app-cloud/"/>
+    <updated>2012-08-06T15:44:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/08/06/launching-external-apps-in-app-cloud</id>
+    <content type="html"><![CDATA[<p>Sometimes it's necessary to launch an external app from within your own app.
+<em>After all, your app can't do everything!</em> In <a href="http://appcloud.brightcove.com">App Cloud</a>, it's easy to do
+with the device method <code>bc.device.openURI()</code>.</p>
+
+<p>Say you want to open an external web browser whenever a user taps a button:</p>
+
+<pre><code>$("#exampleButton").on("tap", function (evt) {
+    // both callback functions are optional
+    bc.device.openURI("http://www.example.com", onSuccess, onError);
+});
+</code></pre>
+
+<p>Easy enough! But what if you have many buttons, each leading to a different
+URI? Consider embedding each URI in a data attribute:</p>
+
+<pre><code>&lt;button data-href="http://www.example.com"&gt;Open me&lt;/button&gt;
+&lt;button data-href="http://www.example.net"&gt;Me too!&lt;/button&gt;
+</code></pre>
+
+<p>Then you can listen for a tap event on any element having a "data-href"
+attribute and extract the URI from that element:</p>
+
+<pre><code>$("[data-href]").on("tap", function (evt) {
+    var uri = this.getAttribute("data-href");
+    bc.device.openURI(uri, onSuccess, onError);
+});
+</code></pre>
+
+<h2>Special cases</h2>
+
+<p>In some cases, iOS uses specific apps to handle special types of URLs. For
+example, any URL beginning with "http://maps.google.com" opens in the Maps
+app:</p>
+
+<p><img src="/images/blog/app-cloud-open-uri-ios.jpg" alt="iOS screen shot" /></p>
+
+<p>Android may present the user with several options in order to determine the
+"intent" of the action:</p>
+
+<p><img src="/images/blog/app-cloud-open-uri-android.jpg" alt="Android screen shot" /></p>
+
+<h2>Using modal windows</h2>
+
+<p>If you're simply opening a web page, you might want to open it modally instead
+of bouncing the user out of your app. Just set "modalWebBrowser" to true in
+the device call:</p>
+
+<pre><code>bc.device.openURI(url, onSuccess, onError, { modalWebBrowser: true });
+</code></pre>
+
+<p>You can also use links to accomplish the same thing without JavaScript:</p>
+
+<pre><code>&lt;a href="http://www.example.com"&gt;For example ...&lt;/a&gt;
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Digging deeper into App Cloud data feeds]]></title>
+    <link href="http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/"/>
+    <updated>2012-07-30T10:39:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds</id>
+    <content type="html"><![CDATA[<p>Smart Content Sources are a quick and easy way to load data into your
+<a href="http://appcloud.brightcove.com">App Cloud</a> apps. Let's take a look at what happens under the hood when
+you load a content source with <code>bc.core.getData()</code>:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-new.png" alt="Screen shot" /></p>
+
+<p>First, no matter what kind of data you're loading from App Cloud—a Video Cloud
+playlist, a content feed, or a text block—you can call it the same way in your
+code:</p>
+
+<pre><code>bc.core.getData("1234567890", handleData, handleError);
+</code></pre>
+
+<p>Above, "1234567890" is the ID provided by App Cloud Studio. You can also
+declare the feed in your manifest file and call it by name:</p>
+
+<pre><code>bc.core.getData("blog", handleData, handleError);
+</code></pre>
+
+<p>The function <code>getData()</code> is asynchronous. When it runs successfully, the SDK
+calls <code>handleData</code>; otherwise, it calls <code>handleError</code>. The success handler
+takes a single argument:</p>
+
+<pre><code>function handleData(data) {
+    console.log(data);
+}
+</code></pre>
+
+<p>If you log the data to the console, as shown above, you might see an object
+like this one, which comes from a Video Cloud playlist:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-inspect.png" alt="Screen shot" /></p>
+
+<p>So what's happening under the hood?</p>
+
+<p>The App Cloud SDK injects a <code>&lt;script&gt;</code> tag into the document and sets the <code>src</code>
+attribute to the URL of a content feed:</p>
+
+<pre><code>&lt;script src="http://read.appcloud.brightcove.com/content/50019dfcec8e60277d00fdb8/
+fetch?callback=jQuery17207518197379540652_1343651580663&amp;_=1343651580663"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>This process has the curious name <a href="http://en.wikipedia.org/wiki/JSONP">JSON-P</a>, or "JSON with padding." Notice
+the URL contains the name of a callback function to execute when the script is
+loaded.</p>
+
+<p>When the script is loaded, it executes a function that wraps (or "pads") a
+JSON object. Here's what it looks like inside the Network panel of the Chrome
+Developer Tools:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-response.png" alt="Screen shot" /></p>
+
+<p>This function, in turn, hands off the data to the callback function specified
+in <code>bc.core.getData()</code>.</p>
+
+<p>As you can see, it's easy to inspect your data using the Chrome Developer
+Tools. And if you want to dig even deeper, consider using an HTTP monitor like
+<a href="http://www.charlesproxy.com/">Charles</a>.</p>
+
+<p>Finally, keep in mind that <code>bc.core.getData()</code> is just one way to load data
+into your app. You can also use the device functions <code>fetchContentsOfURL()</code>,
+<code>postDataToURL()</code>, and <code>requestDownload()</code>.</p>
+]]></content>
+  </entry>
+  
+</feed>

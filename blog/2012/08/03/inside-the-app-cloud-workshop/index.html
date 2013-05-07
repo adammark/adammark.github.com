@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Inside the App Cloud Workshop: Understanding your apps in development mode - Adam Mark</title>
+  <meta name="author" content="Adam Mark">
+
+  
+  <meta name="description" content="The App Cloud Workshop app for iOS and Android is an amazing
+tool for app developers. It lets you preview your apps in the palm of your
+hand without &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.adammark.net/blog/2012/08/03/inside-the-app-cloud-workshop/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Adam Mark" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Adam Mark</a></h1>
+  
+    <h2>Web design and development</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.adammark.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/work">My Work</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Inside the App Cloud Workshop: Understanding Your Apps in Development Mode</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-03T15:55:00-04:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The <a href="http://appcloud.brightcove.com">App Cloud</a> Workshop app for <a href="http://bit.ly/iworkshop">iOS</a> and <a href="http://bit.ly/aworkshop">Android</a> is an amazing
+tool for app developers. It lets you preview your apps in the palm of your
+hand without the need for complex toolchains like XCode or the Android
+Developer Tools, and it mimics the web development workflow: <em>Code, Refresh,
+Repeat</em>.</p>
+
+<p><img src="/images/blog/app-cloud-workshop.jpg" alt="App Cloud Workshop" /></p>
+
+<p>But there are some subtle differences between how an App Cloud app behaves in
+<em>development mode</em> and how it behaves in <em>production mode</em> as a compiled
+binary. Here’s what you should keep in mind:</p>
+
+<ul>
+<li><p>Your app will load a bit more slowly in development mode because all of its
+assets—HTML files, scripts, stylesheets, images, etc.—are fetched from an
+external server. In a compiled app, most or all of these assets will be baked
+into the binary package and loaded from disk.</p></li>
+<li><p>In development mode, your app will open without a launch icon or splash
+screen. These assets are added during the <a href="http://support.brightcove.com/en/docs/publishing-app">publishing process</a>. When a user
+opens your published app, they’ll see the launch screen for a few seconds as
+the app loads.</p></li>
+<li><p>You might see a blank white screen in the Workshop as you load and refresh
+each View. In a compiled app, you might only see this happen if a View is
+“torn down” by the app container in order to reclaim memory, or if your app
+has Views that live deep inside the “More &#8230;” menu.</p></li>
+<li><p>In the Workshop, a developer can refresh individual Views and even restart an
+app when it behaves poorly or strangely, but these options aren’t available to
+users in a published app. (Developers should “stress test” their finished apps
+for extended periods of time in order to identify issues that might only
+surface after heavy use.)</p></li>
+<li><p>Some device functions behave differently in the Workshop. For example, when
+downloading a file with the <a href="http://blog.brightcove.com/en/2012/07/get-download-app-clouds-file-download-api">File Download API</a>, the downloaded file is
+inaccessible in the Workshop. This particular quirk and others are explained
+in the App Cloud <a href="http://docs.brightcove.com/en/app-cloud-api/core/index.html">API docs</a>.</p></li>
+<li><p>A few App Cloud services don’t work in development mode, including push
+notifications and analytics.</p></li>
+</ul>
+
+
+<p>The only way to truly test the behavior of your finished app is to publish it
+and install it on your device before deploying it to the app stores. On iOS,
+you can create a development certificate or <a href="http://stackoverflow.com/questions/4955605/what-is-an-adhoc-certificate"><em>ad hoc</em></a> certificate for this
+purpose. On Android, you can <a href="http://www.techrepublic.com/blog/smartphones/how-to-side-load-apps-on-your-android-device/3114">side-load</a> your app onto a phone or tablet.</p>
+
+<p>When used properly and in tandem with rigorous testing practices, the Workshop
+is an invaluable part of the App Cloud experience. Pretty soon you’ll wonder
+how you ever got by without it!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adam Mark</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-03T15:55:00-04:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/app-cloud/'>App Cloud</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2012/08/03/inside-the-app-cloud-workshop/" data-via="" data-counturl="http://www.adammark.net/blog/2012/08/03/inside-the-app-cloud-workshop/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/" title="Previous Post: A font of icons for your App Cloud app">&laquo; A font of icons for your App Cloud app</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/06/launching-external-apps-in-app-cloud/" title="Next Post: Launching external apps in App Cloud">Launching external apps in App Cloud &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/app-cloud-vs-phonegap/">App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/15/opening-a-modal-email-window-in-app-cloud/">Opening a modal email window in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/monitoring-the-connection-state-in-app-cloud/">Monitoring the connection state in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/">Markup.js: Custom pipes for your piping pleasure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric/">App Cloud and Kinvey: A one-two punch for content-centric, data-driven apps</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform/">Getting to the promised land of cross-platform, device-independent displays</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/06/launching-external-apps-in-app-cloud/">Launching external apps in App Cloud</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/inside-the-app-cloud-workshop/">Inside the App Cloud Workshop: Understanding your apps in development mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/">A font of icons for your App Cloud app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging deeper into App Cloud data feeds</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adam Mark -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

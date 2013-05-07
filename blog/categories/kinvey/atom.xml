@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Kinvey | Adam Mark]]></title>
+  <link href="http://www.adammark.net/blog/categories/kinvey/atom.xml" rel="self"/>
+  <link href="http://www.adammark.net/"/>
+  <updated>2013-05-07T16:40:56-04:00</updated>
+  <id>http://www.adammark.net/</id>
+  <author>
+    <name><![CDATA[Adam Mark]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[App Cloud and Kinvey: A one-two punch for content-centric, data-driven apps]]></title>
+    <link href="http://www.adammark.net/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric/"/>
+    <updated>2012-09-15T15:17:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/09/15/app-cloud-and-kinvey-a-one-two-punch-for-content-centric</id>
+    <content type="html"><![CDATA[<p>For many developers, <a href="http://appcloud.brightcove.com">App Cloud</a> is a one-stop shop for all their
+application needs. It's got a robust SDK and a <em>sweet suite</em> of runtime cloud
+services like image transcoding, data feed optimization, and cross-platform
+push notifications. But no platform can do everything. While App Cloud is
+primarily concerned with delivering content to apps, services like <a href="http://www.kinvey.com">Kinvey</a>
+can help you manage the river of data that users might generate from inside
+those apps.</p>
+
+<p>Kinvey is remarkably easy to use. In just a few minutes, I created an account,
+set up an "app" in the Kinvey console, created a "collection" of friends, and
+started populating the collection from a few lines of JavaScript in my App
+Cloud app.</p>
+
+<p><img src="/images/blog/app-cloud-kinvey.jpg" alt="Kinvey Console" /></p>
+
+<p>Adding a friend to my "friends" collection was a snap:</p>
+
+<pre><code>function saveFriend(firstName, lastName) {
+    var entity = new Kinvey.Entity({
+        firstName: firstName,
+        lastName: lastName
+    }, "friends");
+
+    entity.save({
+        success: function(friend) {
+            console.log(friend);
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+</code></pre>
+
+<p>Querying the collection was just as straightforward:</p>
+
+<pre><code>function findFriendsByLastName(lastName) {
+    var query = new Kinvey.Query();
+    query.on("lastName").equal(lastName);
+
+    var collection = new Kinvey.Collection("friends");
+    collection.setQuery(query);
+
+    collection.fetch({
+        success: function (list) {
+            list.forEach(function (item) {
+                console.log(item.attr.firstName, item.attr.lastName);
+            });
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    });
+}
+</code></pre>
+
+<p>It was also a cinch to create new user accounts for permissioning purposes:</p>
+
+<pre><code>var user = {
+    username: "AdamBomb",
+    password: "k@b00m!",
+    name: "Adam Mark"
+};
+
+Kinvey.User.create(user,
+    success: function(user) {
+        console.log(user);
+    },
+    error: function(err) {
+        console.log(err);
+    }
+});
+</code></pre>
+
+<p>Together, App Cloud and Kinvey are a one-two punch for making high-performing,
+cross-platform apps backed by powerful content and data services. To make it
+easy for developers to get started with both platforms, App Cloud and Kinvey
+collaborated on a <a href="http://docs.kinvey.com/js-app-cloud-tutorial.html">simple demo app</a> that shows how to create users and
+store user data in the cloud.</p>
+
+<p>Want to dive deeper? Check out the <a href="http://docs.kinvey.com/js-developers-guide.html">Kinvey JavaScript Developer's Guide</a>
+and the <a href="http://support.brightcove.com/en/docs/tutorial-creating-simple-app">Quick Start to App Cloud</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

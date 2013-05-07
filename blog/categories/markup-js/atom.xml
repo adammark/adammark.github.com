@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Markup.js | Adam Mark]]></title>
+  <link href="http://www.adammark.net/blog/categories/markup-js/atom.xml" rel="self"/>
+  <link href="http://www.adammark.net/"/>
+  <updated>2013-05-07T16:40:56-04:00</updated>
+  <id>http://www.adammark.net/</id>
+  <author>
+    <name><![CDATA[Adam Mark]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Markup.js: Custom pipes for your piping pleasure]]></title>
+    <link href="http://www.adammark.net/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure/"/>
+    <updated>2012-09-19T15:13:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/09/19/markup-dot-js-custom-pipes-for-your-piping-pleasure</id>
+    <content type="html"><![CDATA[<p>While <a href="https://github.com/adammark/Markup.js">Markup.js</a> comes with more than 40 built-in pipes for everyday use,
+I always write a few custom pipes whenever I build an <a href="http://appcloud.brightcove.com">App Cloud</a> app. Here
+are some of my favorites.</p>
+
+<h3>highlight</h3>
+
+<p>Use this pipe to highlight a search term or other pattern in a string. Note
+the use of backticks in the example to denote a context variable on the right
+side of the expression.</p>
+
+<p></p>
+
+<pre><code>// Example: {{article|highlight&gt;`searchTerm`}}
+
+Mark.pipes.highlight = function (str, pattern) {
+    return str.replace(new RegExp("(" + pattern + ")", "g"), "&lt;em&gt;$1&lt;/em&gt;");
+};
+</code></pre>
+
+<p></p>
+
+<h3>address</h3>
+
+<p>Use this pipe to wrap an address in a Google Maps link.</p>
+
+<p></p>
+
+<pre><code>// Example: {{home_addr|address}}
+
+Mark.pipes.address = function (addr) {
+    return "&lt;a href=\"http://maps.google.com/maps?q=" + encodeURI(addr) + "&gt;" + addr + "&lt;/a&gt;";
+};
+</code></pre>
+
+<p></p>
+
+<h3>links</h3>
+
+<p>Use this pipe to convert all URLs in a string to links.</p>
+
+<p></p>
+
+<pre><code>// Example: {{story|links}}
+
+Mark.pipes.links = function (str) {
+    return str.replace(/\b(https?:[^\b\s]+)\b/g, "&lt;a href=\"$1\"&gt;$1&lt;/a&gt;");
+};
+</code></pre>
+
+<p></p>
+
+<h3>repeat</h3>
+
+<p>Use this pipe to repeat a string. Note <code>count</code> defaults to 2 and <code>separator</code>
+defaults to "".</p>
+
+<p></p>
+
+<pre><code>// Example: {{chorus|repeat&gt;5}}
+
+Mark.pipes.repeat = function (str, count, separator) {
+    return new Array(+count || 2).join(str + (separator || "")) + str;
+};
+</code></pre>
+
+<p></p>
+
+<h3>moment</h3>
+
+<p>Use this pipe to format a date with <a href="http://momentjs.com/">Moment.js</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{created_at|moment&gt;M/D/YYYY}}
+
+Mark.pipes.moment = function (date, format) {
+    return moment(new Date(+date || date)).format(format);
+};
+</code></pre>
+
+<p></p>
+
+<h3>dollars</h3>
+
+<p>Use this pipe to format a number in dollars with <a href="http://josscrowcroft.github.com/accounting.js/">Accounting.js</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{price|dollars}}
+
+Mark.pipes.dollars = function (num) {
+    return accounting.formatMoney(+num);
+};
+</code></pre>
+
+<p></p>
+
+<h3>phone</h3>
+
+<p>Use this pipe to format a U.S. phone number.</p>
+
+<p></p>
+
+<pre><code>// Example: {{mobile_phone|phone}}
+
+Mark.pipes.phone = function (str) {
+    var s = str.replace(/[^\d]/g, "");
+    return "(" + s.substr(0, 3) + ") " + s.substr(3, 3) + "-" + s.substr(6, 4);
+};
+</code></pre>
+
+<p></p>
+
+<h3>ordinal</h3>
+
+<p>Use this pipe to express a number as an ordinal, e.g. "10th".</p>
+
+<p></p>
+
+<pre><code>// Example: {{contestant.standing|ordinal}}
+
+Mark.pipes.ordinal = function (num) {
+    if (num &gt; 10 &amp;&amp; num &lt; 20) {
+        return num + "th";
+    }
+    return num + ["th","st","nd","rd","th","th","th","th","th","th"][num % 10];
+};
+</code></pre>
+
+<p></p>
+
+<h3>runtime</h3>
+
+<p>Use this pipe to express a number in stopwatch notation ("mm:ss") given a
+factor of 1 (seconds) or 1000 (milliseconds). Note <code>factor</code> defaults to 1.</p>
+
+<p></p>
+
+<pre><code>// Example: {{duration|runtime}}
+
+Mark.pipes.runtime = function (time, factor) {
+    var m = Math.floor(time / (60 * (factor || 1)));
+    var s = Math.floor((time / (factor || 1)) % 60);
+    return m + ":" + ("00" + s).substr(-2);
+};
+</code></pre>
+
+<p></p>
+
+<h3>has</h3>
+
+<p>Use this pipe to determine if an array contains an object with the given
+property value.</p>
+
+<p></p>
+
+<pre><code>// Example: {{if fruits|has&gt;color&gt;red}} ... {{/if}}
+
+Mark.pipes.has = function (arr, prop, val) {
+    return arr.some(function (item) {
+        return item[prop] == val;
+    });
+};
+</code></pre>
+
+<p></p>
+
+<h3>sift</h3>
+
+<p>Use this pipe to filter an array of objects to only those having the given
+property value.</p>
+
+<p></p>
+
+<pre><code>// Example: &lt;ul&gt; {{fruits|sift&gt;color&gt;red}} &lt;li&gt;{{fruit.name}}&lt;/li&gt; {{/fruits}} &lt;/ul&gt;
+
+Mark.pipes.sift = function (arr, prop, val) {
+    return arr.filter(function (item) {
+        return item[prop] == val;
+    });
+};
+</code></pre>
+
+<p></p>
+
+<h3>stars</h3>
+
+<p>Use this pipe to print star and half-star characters given a decimal input.
+Note this requires <a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>.</p>
+
+<p></p>
+
+<pre><code>// Example: {{rating|stars}}
+
+Mark.pipes.stars = function (rating) {
+    var n = Math.round(+rating * 2) / 2;
+
+    return new Array(Math.floor(n) + 1).join("&amp;#xf005;") + (n % 1 ? "&amp;#xf089;" : "");
+};
+</code></pre>
+
+<p></p>
+
+<p>Get more pipes in the <a href="https://github.com/adammark/Markup.js">Markup.js</a> repository on GitHub.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Making better markup with Markup.js]]></title>
+    <link href="http://www.adammark.net/blog/2012/05/14/making-better-markup-with-markup-dot-js/"/>
+    <updated>2012-05-14T17:40:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/05/14/making-better-markup-with-markup-dot-js</id>
+    <content type="html"><![CDATA[<p>Unlike traditional web sites, <a href="http://appcloud.brightcove.com">App Cloud</a> apps compose HTML strings in the
+client using JavaScript. There are two ways to go about this: a <em>good way</em> and
+a <em>bad way</em>.</p>
+
+<p>First, the <em>bad way</em>. Consider the following code, in which an array of articles
+is manually formatted into a chunk of HTML code:</p>
+
+<pre><code>var html = "&lt;ul&gt;";
+
+for (var i = articles.length - 1; i &gt;= 0; i--) {
+    html += "&lt;li&gt;";
+    html += "&lt;div&gt;" + articles[i].title.toUpperCase() + "&lt;/div&gt;";
+    html += "&lt;small&gt;";
+    html += articles[i].description.substr(0, 50);
+    if (articles[i].description.length &gt; 50) { 
+        html += "...";
+    }
+    html += "&lt;/small&gt;";
+    html += "&lt;/li&gt;";
+}
+
+html += "&lt;/ul&gt;";
+</code></pre>
+
+<p>Notice how even simple tasks, like adding an ellipsis to descriptions longer
+than 50 words, can force you to write a lot of code. This gets messy fast!</p>
+
+<p>Now, the <em>good way</em>: Take the same array of articles and generate the
+equivalent HTML using <a href="https://github.com/adammark/Markup.js">Markup.js</a>:</p>
+
+<p></p>
+
+<pre><code>&lt;ul&gt;
+    {{articles|reverse}}
+        &lt;li&gt;
+            &lt;div&gt;{{title|upcase}}&lt;/div&gt;
+            &lt;small&gt;{{description|chop&gt;50}}&lt;/small&gt;
+        &lt;/li&gt;
+    {{/articles}}
+&lt;/ul&gt;
+</code></pre>
+
+<p></p>
+
+<p>Much nicer! As you can see, Markup.js takes the pain out of converting
+structured data (like an array of articles) into HTML or another text format.
+And since it's part of the App Cloud SDK, you can quickly and easily separate
+your <em>presentation logic</em> from your <em>business logic</em>. Let's say you're
+handling the results of a data request:</p>
+
+<pre><code>function handleData(data) {
+    var template = bc.templates["articles-list-template"];
+    var context = { articles: data };
+    var markup = Mark.up(template, context);
+
+    document.getElementById("results").innerHTML = markup;
+}
+</code></pre>
+
+<p>In the above code, Markup.js takes a template string, injects it with a
+<code>context</code> object, and returns a new string. The new string is then inserted into
+the document. There's no HTML at all in your JavaScript code! (You could
+easily modify this code to select one of several templates based on a runtime
+condition or device characteristic.)</p>
+
+<p>Notice the object <code>bc.templates</code>? It's populated automatically with strings
+from an external text file (as defined in manifest.json):</p>
+
+<pre><code>===== hello-template
+&lt;p&gt;Hello, &lt;span class="username"&gt;!&lt;/span&gt;&lt;/p&gt;
+
+===== goodbye-template
+&lt;p&gt;Goodbye, &lt;span class="username"&gt;!&lt;/span&gt;&lt;/p&gt;
+</code></pre>
+
+<p>In this example, the text file contains two Markup templates: <code>hello-template</code>
+and <code>goodbye-template</code>. You can call them by name, as shown above.</p>
+
+<p>Markup.js comes with more than 40 built-in "pipes" for transforming data, and
+it's easy to write your own. Check out the <a href="https://github.com/adammark/Markup.js">complete docs</a> on GitHub.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Using a JavaScript templating system in App Cloud]]></title>
+    <link href="http://www.adammark.net/blog/2012/01/25/using-a-javascript-templating-system-in-app-cloud/"/>
+    <updated>2012-01-25T17:24:00-05:00</updated>
+    <id>http://www.adammark.net/blog/2012/01/25/using-a-javascript-templating-system-in-app-cloud</id>
+    <content type="html"><![CDATA[<p>In a typical web application, a web server is largely responsible for
+compiling HTML code before sending it to the client. This can be done with
+languages like PHP, Java and Ruby. But in an <a href="http://appcloud.brightcove.com">App Cloud</a> app, HTML is
+compiled in the client with the help of JavaScript. For example, building up a
+list of blog entries:</p>
+
+<pre><code>var html = "&lt;ul&gt;";
+for (var i = 0; i &lt; results.length; i++) {
+    html += "&lt;li&gt;&lt;b&gt;" + results[i].title.toUpperCase() + ":&lt;/b&gt; "
+         + results[i].desc + "&lt;/li&gt;";
+}
+html += "&lt;/ul&gt;";
+</code></pre>
+
+<p>This can get ugly fast. Enter JavaScript templating systems. A <em>templating
+system</em> compiles HTML code for you—all it needs is a template (string) and some
+context data (a JavaScript object). Here's what a template might look like:</p>
+
+<p></p>
+
+<pre><code>&lt;ul&gt;
+    {{articles}}
+        &lt;li&gt;&lt;b&gt;{{title|upcase}}:&lt;/b&gt; {{desc}}&lt;/li&gt;
+    {{/articles}}
+&lt;/ul&gt;
+</code></pre>
+
+<p></p>
+
+<p>Easier to read, right? And definitely easier to write!</p>
+
+<p>There are plenty of JavaScript templating systems, including Mustache, jQuery
+Templates, and <a href="https://github.com/adammark/Markup.js">Markup.js</a>, which I created with App Cloud in mind. The
+above example is from Markup.js. So how do we actually populate a template
+with context data?</p>
+
+<pre><code>var context = {
+    name: {
+        first: "John",
+        last: "Doe"
+    }
+};
+var template = "Hi, !";
+var markup = Mark.up(template, context); // "Hi, John!"
+</code></pre>
+
+<p>The resulting string can then be injected into your HTML document.</p>
+
+<p>In an App Cloud app, the context data is likely to come from a content feed.
+For example:</p>
+
+<pre><code>bc.core.getData("blog",
+    function (data) {
+        var template = bc.templates["article-index"];
+        var context = { articles: data };
+        var markup = Mark.up(template, context);
+
+        document.getElementById("blog-results").innerHTML = markup;
+    },
+    function (error) {
+        bc.device.alert("Oops! " + error.errorMessage);
+    }
+);
+</code></pre>
+
+<p>Markup.js also supports control logic (if/else), loops, and "pipes" for
+transforming variables. Check out the <a href="https://github.com/adammark/Markup.js">full documentation</a> on GitHub.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing Markup.js: Powerful JavaScript templates]]></title>
+    <link href="http://www.adammark.net/blog/2011/08/24/introducing-markup-dot-js-powerful-javascript-templates/"/>
+    <updated>2011-08-24T16:01:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2011/08/24/introducing-markup-dot-js-powerful-javascript-templates</id>
+    <content type="html"><![CDATA[<p>When I started making <a href="http://appcloud.brightcove.com">App Cloud</a> apps, I thought I could benefit from
+using a JavaScript templating system. So I toyed around with two popular
+frameworks, <a href="https://github.com/adammark/Markup.js">Mustache</a> and <a href="https://github.com/adammark/Markup.js">jQuery Templates</a>. Unfortunately I didn't
+like either. I found Mustache to be too simplistic (it prides itself on being
+<em>logicless</em>), while jQuery Templates required me to use jQuery.</p>
+
+<p>So I decided to write my own templating system with the following goals:</p>
+
+<ul>
+<li>It should have an elegant syntax with minimal punctuation</li>
+<li>It should be fast and lightweight</li>
+<li>It should have no library dependencies</li>
+<li>It should not require a browser or DOM</li>
+<li>It should be flexible enough to support internationalization (i18n) tasks</li>
+</ul>
+
+
+<p>The result: <a href="https://github.com/adammark/Markup.js">Markup.js</a>. Weighing in at only 1.7KB after minification and
+gzipping, it includes a simple yet powerful expression language for
+transforming structured data into HTML and other text formats. So far, I'm
+loving it.</p>
+]]></content>
+  </entry>
+  
+</feed>

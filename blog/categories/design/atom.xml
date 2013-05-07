@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Design | Adam Mark]]></title>
+  <link href="http://www.adammark.net/blog/categories/design/atom.xml" rel="self"/>
+  <link href="http://www.adammark.net/"/>
+  <updated>2013-05-07T16:40:56-04:00</updated>
+  <id>http://www.adammark.net/</id>
+  <author>
+    <name><![CDATA[Adam Mark]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting to the promised land of cross-platform, device-independent displays]]></title>
+    <link href="http://www.adammark.net/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform/"/>
+    <updated>2012-08-24T15:33:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/08/24/getting-to-the-promised-land-of-cross-platform</id>
+    <content type="html"><![CDATA[<p>I've been leaning heavily on <a href="http://www.w3.org/TR/css3-mediaqueries/">CSS Media Queries</a> and <a href="http://www.html5rocks.com/en/tutorials/flexbox/quick/">Flexbox</a> to build
+<a href="http://appcloud.brightcove.com">App Cloud</a> apps that adapt to both portrait and landscape modes. For
+example, I made a video playlist that flows from top to bottom in portrait
+mode and left to right in landscape mode:</p>
+
+<p><img src="/images/blog/app-cloud-orientation.jpg" alt="Portrait and landscape orientations" /></p>
+
+<p>I also use CSS to build “universal” apps that adapt intelligently to different
+form factors. The properties <code>min-device-width</code> and <code>max-device-width</code> can
+help detect whether an app is running on something the size of a phone or
+something the size of a tablet. Smashing Magazine has a <a href="http://mobile.smashingmagazine.com/2010/07/19/how-to-use-css3-media-queries-to-create-a-mobile-version-of-your-website/">good tutorial</a> on
+this subject.</p>
+
+<p>But CSS alone can't get me to the promised land of cross-platform,
+device-independent displays. Here's where it comes up short:</p>
+
+<ul>
+<li><p><strong>CSS can't change the behavior of an app.</strong> It can only affect presentation
+characteristics. Except for toggling the visiblity of certain page elements or
+adjusting their metrics, it's nearly impossible to apply device-specific or
+orientation-based functionality without the help of JavaScript.</p></li>
+<li><p><strong>CSS can't resize images.</strong> Yeah, you heard me. CSS can scale down an
+image, but it can't resize an image. A 250KB image is still 250KB whether you
+display it at 100% or 50% of its intrinsic size. To properly scale images for
+all kinds of devices, you'll need the help of a transcoding service.</p></li>
+</ul>
+
+
+<p>Getting to the promised land—we're talking about apps that adapt to portrait
+and landscape modes and work across a variety of devices and perform really
+well—is easy with App Cloud. Here's how.</p>
+
+<h2>Responding to orientation changes</h2>
+
+<p>If you know the current orientation—and if you know when it changes—you can
+make intelligent decisions about the user experience. For example, you might
+want to load some extra data or transform the UI entirely when the user
+switches into landscape mode:</p>
+
+<pre><code>// get the current orientation ("landscape" or "portrait")
+var orientation = bc.context.viewOrientation;
+
+// listen for an orientation change
+$(bc).on("vieworientationchange", function (evt, result) {
+    orientation = result.orientation;
+
+    if (result.orientation === "landscape") {
+        // do something!
+    }
+    else {
+        // do something else!
+    }
+});
+</code></pre>
+
+<h2>Distinguishing between phones and tablets</h2>
+
+<p>If you know whether your app is running on a phone or tablet, you can deliver
+specific functionality to each form factor from a single codebase. For
+example, here's a factory method that instantiates one type of BlogView if
+running on a phone, another if running on a tablet:</p>
+
+<pre><code>BlogView.factory = function () {
+    return getDeviceType() === "phone" ? new PhoneBlogView() : new TabletBlogView();
+};
+</code></pre>
+
+<p>There are a few ways to determine the device type. A simple method is to look
+at the width and height of the window, multiply them together, and evaluate
+the result:</p>
+
+<pre><code>function getDeviceType() {
+    return innerWidth * innerHeight &lt;= 320 * 480 ? "phone" : "tablet";
+}
+</code></pre>
+
+<p>Here's a similar technique from <a href="http://www.html5rocks.com/en/mobile/cross-device/">HTML5rocks.com</a>:</p>
+
+<pre><code>function getDeviceType() {
+    return window.matchMedia("(max-width: 650px)").matches ? "phone" : "tablet";
+}
+</code></pre>
+
+<p>These methods are great if your definition of a phone is somewhat fast and
+loose (some Android phones are as big as tablets). Instead, consider
+categorizing your target devices as "big" and "small":</p>
+
+<pre><code>function getDeviceType() {
+    return window.matchMedia("(max-width: 650px)").matches ? "small" : "big";
+}
+</code></pre>
+
+<h2>Distinguishing between operating systems</h2>
+
+<p>Sometimes it's necessary to know which operating system you're running on. App
+Cloud makes this easy:</p>
+
+<pre><code>var os = bc.context.os;
+
+if (os === "ios") {
+    // do something
+} else if (os === "android") {
+    // do something else
+}
+</code></pre>
+
+<p>In the above example, "doing something" might mean loading different
+stylesheets or disabling a certain feature that isn't available on Android.</p>
+
+<h2>Resizing images</h2>
+
+<p>The pièce de résistance of responsive design is being able to resize and crop
+images on the fly based on runtime conditions such as screen size and pixel
+density. You can do this with App Cloud's <a href="http://support.brightcove.com/en/docs/transcoding-images">image transcoding API</a>.</p>
+
+<p><img src="/images/blog/app-cloud-transcode-before-after.jpg" alt="Before and after images" /></p>
+
+<p>It's easy to use JavaScript to compose service URLs based on screen metrics or
+other layout constraints. Here's a simple example:</p>
+
+<pre><code>function transcode(src, width, height) {
+    return "http://transcode.appcloud.brightcove.com?image=" + src +
+        "&amp;width=" + width + "&amp;height=" + height;
+}
+</code></pre>
+
+<p>If you want to support retina displays, just double the width and height if
+<code>window.devicePixelRatio</code> equals 2:</p>
+
+<pre><code>function transcode(src, width, height) {
+    if (window.devicePixelRatio === 2) {
+        width *= 2;
+        height *= 2;
+    }
+
+    return "http://transcode.appcloud.brightcove.com?image=" + src +
+        "&amp;width=" + width + "&amp;height=" + height;
+}
+</code></pre>
+
+<p>Retina images are typically four times as big as normal images (double the
+width times double the height), so consider using a multiplier between 1 and 2
+to lighten the load a bit while still improving quality.</p>
+
+<p>You can also crop images with the image transcoding API rather than rely on
+CSS tricks. Remember, every bit counts in a mobile app. Load only what you
+need when you need it.</p>
+
+<h2>Learn more</h2>
+
+<p>You can see all of these techniques at work in the <a href="https://github.com/BrightcoveOS/App-Cloud-Demos">App Cloud Demos</a>
+repo on GitHub. The promised land is closer than you think!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A font of icons for your App Cloud app]]></title>
+    <link href="http://www.adammark.net/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/"/>
+    <updated>2012-08-03T15:52:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app</id>
+    <content type="html"><![CDATA[<p>I recently came across an awesome <a href="http://www.html5rocks.com/en/tutorials/webfonts/quick/">web font</a> called <em>Font Awesome</em>. How
+appropriate! Each character in the font is a graphical icon instead of a
+number of letter. Here's what it looks like in my <a href="http://appcloud.brightcove.com">App Cloud</a> demo app
+(I've circled each use):</p>
+
+<p><img src="/images/blog/app-cloud-fonts.jpg" alt="Screen shots" /></p>
+
+<p>There are a ton of great <a href="http://css-tricks.com/flat-icons-icon-fonts/">icon fonts</a> that you can drop into your App Cloud
+app without much fuss—just be sure the font is a TTF font so it can work on
+both iOS and Android. Not only will you save a ton of time in the design
+stages, these icons will look great at any size and resolution. Just adjust
+the <code>font-size</code> property in your CSS!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Get two layouts for the price of one with CSS Media Queries]]></title>
+    <link href="http://www.adammark.net/blog/2012/05/24/get-two-layouts-for-the-price-of-one-with-css-media-queries/"/>
+    <updated>2012-05-24T11:25:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2012/05/24/get-two-layouts-for-the-price-of-one-with-css-media-queries</id>
+    <content type="html"><![CDATA[<p><img src="/images/blog/app-cloud-orientation.jpg" alt="Screen Shot" /></p>
+
+<p>Some <a href="http://appcloud.brightcove.com">App Cloud</a> developers have asked me how to change the layout of a
+view depending on the device's orientation. The simplest way—and this is
+really very simple—is to use <a href="https://www.google.com/search?q=css3+media+queries+tutorial">Media Queries</a>:</p>
+
+<pre><code>@media all and (orientation: portrait) {
+    /* CSS rules here */
+}
+
+@media all and (orientation: landscape) {
+    /* CSS rules here */
+}
+</code></pre>
+
+<p>For example, let's say you want to change the body color from red to green
+when the user rotates the device from portrait to landscape:</p>
+
+<pre><code>@media all and (orientation: portrait) {
+    body {
+        color: red;
+    }
+}
+@media all and (orientation: landscape) {
+    body {
+        color: green;
+    }
+}
+</code></pre>
+
+<p>Add the above code to your stylesheet and see what happens. (You can test it
+in your Webbrowser by resizing the window.)</p>
+
+<p>It's not necessary to put all your styles inside the media queries—just the
+styles that are specific to portrait or landscape mode.</p>
+
+<p>Combine Media Queries with the <a href="http://www.html5rocks.com/en/tutorials/flexbox/quick/">Flexible Box Model</a> and now you're cooking
+with gas!</p>
+
+<p>Two notes: First, you must allow for orientation changes in the SDK by calling
+<code>bc.device.setAutoRotateDirections(["all"])</code>. Second, CSS rules can only
+affect the layout, not the behavior, of your app. You can listen for a
+<code>vieworientationchange</code> event if you need to perform some action when the user
+rotates the device.</p>
+]]></content>
+  </entry>
+  
+</feed>
