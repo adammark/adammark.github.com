@@ -24,7 +24,7 @@
 //$base01:          #586e75; //darkest gray
 //$base00:          #657b83; //dark gray
 //$base0:           #839496; //medium gray
-//$base1:           #93a1a1; //medium light gray
+$base1:             rgb(206, 231, 231);
 //$base2:           #eee8d5; //cream
 //$base3:           #fdf6e3; //white
 //$solar-yellow:    #b58900;
@@ -40,4 +40,4 @@
 /* Non highlighted code colors */
 //$pre-bg: $base03;
 //$pre-border: darken($base02, 5);
-//$pre-color: $base1;
+$pre-color: $base1;
