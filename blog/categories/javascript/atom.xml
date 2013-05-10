@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Adam Mark]]></title>
   <link href="http://www.adammark.net/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://www.adammark.net/"/>
-  <updated>2013-05-07T16:40:56-04:00</updated>
+  <updated>2013-05-10T14:58:18-04:00</updated>
   <id>http://www.adammark.net/</id>
   <author>
     <name><![CDATA[Adam Mark]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing Chartlets: Tiny charts for tablet and mobile web apps]]></title>
+    <link href="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/"/>
+    <updated>2013-05-10T14:03:00-04:00</updated>
+    <id>http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps</id>
+    <content type="html"><![CDATA[<p>Choosing the right tool (or <em>tools</em>) for data visualization suddenly got complicated.
+Flash is out, <a href="https://developer.mozilla.org/en-US/docs/SVG">SVG</a> and <a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial">Canvas</a> are in, and a <a href="http://selection.datavisualization.ch/">mess of libraries</a> have
+made it possible to offload expensive rendering tasks from the server to the client.</p>
+
+<p>My favorite libraries are <a href="http://d3js.org/">D3.js</a> for SVG and <a href="http://chartjs.org">Chart.js</a> for Canvas. D3.js is
+particularly sophisticated and makes few assumptions about how to render data; its
+primary goal is to bind data to DOM elements and help manipulate elements. Chart.js
+is great for rendering simple, static charts.</p>
+
+<p>Most libraries are biased toward <em>big</em> presentations. I went the other way when I
+created <a href="http://chartlets.com">Chartlets</a>, a library for making minimalist charts for mobile and tablet
+web apps:</p>
+
+<p><img src="/images/work/chartlets-samples-640x480.png" alt="" /></p>
+
+<p>Not only are Chartlets small, the library itself weighs in at under 3K. And the API
+is simple by design, requiring no programming knowledge to render a basic chart.
+Chartlets can be defined entirely in HTML:</p>
+
+<pre><code>&lt;canvas class="chartlet" width="65" height="65" 
+  data-type="pie" data-sets="[1 2 3 4 5]" data-opts="theme:money"&gt;&lt;/canvas&gt;
+</code></pre>
+
+<p>Check out the full docs and examples at <a href="http://chartlets.com">chartlets.com</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Opening a modal email window in App Cloud]]></title>
@@ -370,76 +402,6 @@ the device call:</p>
 
 <pre><code>&lt;a href="http://www.example.com"&gt;For example ...&lt;/a&gt;
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Digging deeper into App Cloud data feeds]]></title>
-    <link href="http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/"/>
-    <updated>2012-07-30T10:39:00-04:00</updated>
-    <id>http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds</id>
-    <content type="html"><![CDATA[<p>Smart Content Sources are a quick and easy way to load data into your
-<a href="http://appcloud.brightcove.com">App Cloud</a> apps. Let's take a look at what happens under the hood when
-you load a content source with <code>bc.core.getData()</code>:</p>
-
-<p><img src="/images/blog/app-cloud-feeds-new.png" alt="Screen shot" /></p>
-
-<p>First, no matter what kind of data you're loading from App Cloud—a Video Cloud
-playlist, a content feed, or a text block—you can call it the same way in your
-code:</p>
-
-<pre><code>bc.core.getData("1234567890", handleData, handleError);
-</code></pre>
-
-<p>Above, "1234567890" is the ID provided by App Cloud Studio. You can also
-declare the feed in your manifest file and call it by name:</p>
-
-<pre><code>bc.core.getData("blog", handleData, handleError);
-</code></pre>
-
-<p>The function <code>getData()</code> is asynchronous. When it runs successfully, the SDK
-calls <code>handleData</code>; otherwise, it calls <code>handleError</code>. The success handler
-takes a single argument:</p>
-
-<pre><code>function handleData(data) {
-    console.log(data);
-}
-</code></pre>
-
-<p>If you log the data to the console, as shown above, you might see an object
-like this one, which comes from a Video Cloud playlist:</p>
-
-<p><img src="/images/blog/app-cloud-feeds-inspect.png" alt="Screen shot" /></p>
-
-<p>So what's happening under the hood?</p>
-
-<p>The App Cloud SDK injects a <code>&lt;script&gt;</code> tag into the document and sets the <code>src</code>
-attribute to the URL of a content feed:</p>
-
-<pre><code>&lt;script src="http://read.appcloud.brightcove.com/content/50019dfcec8e60277d00fdb8/
-fetch?callback=jQuery17207518197379540652_1343651580663&amp;_=1343651580663"&gt;&lt;/script&gt;
-</code></pre>
-
-<p>This process has the curious name <a href="http://en.wikipedia.org/wiki/JSONP">JSON-P</a>, or "JSON with padding." Notice
-the URL contains the name of a callback function to execute when the script is
-loaded.</p>
-
-<p>When the script is loaded, it executes a function that wraps (or "pads") a
-JSON object. Here's what it looks like inside the Network panel of the Chrome
-Developer Tools:</p>
-
-<p><img src="/images/blog/app-cloud-feeds-response.png" alt="Screen shot" /></p>
-
-<p>This function, in turn, hands off the data to the callback function specified
-in <code>bc.core.getData()</code>.</p>
-
-<p>As you can see, it's easy to inspect your data using the Chrome Developer
-Tools. And if you want to dig even deeper, consider using an HTTP monitor like
-<a href="http://www.charlesproxy.com/">Charles</a>.</p>
-
-<p>Finally, keep in mind that <code>bc.core.getData()</code> is just one way to load data
-into your app. You can also use the device functions <code>fetchContentsOfURL()</code>,
-<code>postDataToURL()</code>, and <code>requestDownload()</code>.</p>
 ]]></content>
   </entry>
   

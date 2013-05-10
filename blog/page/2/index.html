@@ -9,8 +9,9 @@
   <meta name="author" content="Adam Mark">
 
   
-  <meta name="description" content="Bugs are a way of life in both the physical and virtual worlds. In the
-physical world, we can “debug” with fly swatters and bug spray. In the virtual &hellip;">
+  <meta name="description" content="Smart Content Sources are a quick and easy way to load data into your
+App Cloud apps. Let&#8217;s take a look at what happens under the hood when
+you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +68,103 @@ physical world, we can “debug” with fly swatters and bug spray. In the virtu
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging Deeper Into App Cloud Data Feeds</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-30T10:39:00-04:00" pubdate data-updated="true">Jul 30<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Smart Content Sources are a quick and easy way to load data into your
+<a href="http://appcloud.brightcove.com">App Cloud</a> apps. Let&#8217;s take a look at what happens under the hood when
+you load a content source with <code>bc.core.getData()</code>:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-new.png" alt="Screen shot" /></p>
+
+<p>First, no matter what kind of data you&#8217;re loading from App Cloud—a Video Cloud
+playlist, a content feed, or a text block—you can call it the same way in your
+code:</p>
+
+<pre><code>bc.core.getData("1234567890", handleData, handleError);
+</code></pre>
+
+<p>Above, &#8220;1234567890&#8221; is the ID provided by App Cloud Studio. You can also
+declare the feed in your manifest file and call it by name:</p>
+
+<pre><code>bc.core.getData("blog", handleData, handleError);
+</code></pre>
+
+<p>The function <code>getData()</code> is asynchronous. When it runs successfully, the SDK
+calls <code>handleData</code>; otherwise, it calls <code>handleError</code>. The success handler
+takes a single argument:</p>
+
+<pre><code>function handleData(data) {
+    console.log(data);
+}
+</code></pre>
+
+<p>If you log the data to the console, as shown above, you might see an object
+like this one, which comes from a Video Cloud playlist:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-inspect.png" alt="Screen shot" /></p>
+
+<p>So what&#8217;s happening under the hood?</p>
+
+<p>The App Cloud SDK injects a <code>&lt;script&gt;</code> tag into the document and sets the <code>src</code>
+attribute to the URL of a content feed:</p>
+
+<pre><code>&lt;script src="http://read.appcloud.brightcove.com/content/50019dfcec8e60277d00fdb8/
+fetch?callback=jQuery17207518197379540652_1343651580663&amp;_=1343651580663"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>This process has the curious name <a href="http://en.wikipedia.org/wiki/JSONP">JSON-P</a>, or &#8220;JSON with padding.&#8221; Notice
+the URL contains the name of a callback function to execute when the script is
+loaded.</p>
+
+<p>When the script is loaded, it executes a function that wraps (or &#8220;pads&#8221;) a
+JSON object. Here&#8217;s what it looks like inside the Network panel of the Chrome
+Developer Tools:</p>
+
+<p><img src="/images/blog/app-cloud-feeds-response.png" alt="Screen shot" /></p>
+
+<p>This function, in turn, hands off the data to the callback function specified
+in <code>bc.core.getData()</code>.</p>
+
+<p>As you can see, it&#8217;s easy to inspect your data using the Chrome Developer
+Tools. And if you want to dig even deeper, consider using an HTTP monitor like
+<a href="http://www.charlesproxy.com/">Charles</a>.</p>
+
+<p>Finally, keep in mind that <code>bc.core.getData()</code> is just one way to load data
+into your app. You can also use the device functions <code>fetchContentsOfURL()</code>,
+<code>postDataToURL()</code>, and <code>requestDownload()</code>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -820,56 +918,6 @@ kind of text format you want—it&#8217;s flexible by design!</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/02/using-dropbox-to-host-your-app-cloud-app/">Using Dropbox to Host Your App Cloud App in Development Mode</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-02T17:07:00-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you can&#8217;t create a local web server for any reason—too lazy, too many
-network restrictions, what&#8217;s a web server?—you can use a public <a href="http://www.dropbox.com/">Dropbox</a>
-folder instead.</p>
-
-<p>Just drop your template into the &#8220;Public&#8221; folder inside your Dropbox
-directory. Then right-click on your manifest file (manifest.json) and select
-<em>Dropbox > Copy Public Link</em>. You should get a URL like this:</p>
-
-<pre><code>http://dl.dropbox.com/u/12345678/mytemplate/manifest.json
-</code></pre>
-
-<p>Enter this URL in the <a href="http://bit.ly/iworkshop">Workshop app</a> and you&#8217;re off to the races! You can also
-view your HTML pages in Chrome and debug them with the Developer Tools.</p>
-
-<p><em>Warning! Your files will be accessible to anyone who knows the URL, so share wisely.</em></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -885,6 +933,10 @@ view your HTML pages in Chrome and debug them with the Developer Tools.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/">Introducing Chartlets: Tiny charts for tablet and mobile web apps</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/16/app-cloud-vs-phonegap/">App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
@@ -920,10 +972,6 @@ view your HTML pages in Chrome and debug them with the Developer Tools.</p>
     
       <li class="post">
         <a href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/">A font of icons for your App Cloud app</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">Digging deeper into App Cloud data feeds</a>
       </li>
     
   </ul>

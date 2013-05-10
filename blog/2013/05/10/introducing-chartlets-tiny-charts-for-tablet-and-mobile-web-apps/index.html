@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Digging deeper into App Cloud data feeds - Adam Mark</title>
+  <title>Introducing Chartlets: Tiny charts for tablet and mobile web apps - Adam Mark</title>
   <meta name="author" content="Adam Mark">
 
   
-  <meta name="description" content="Smart Content Sources are a quick and easy way to load data into your
-App Cloud apps. Let&#8217;s take a look at what happens under the hood when
-you &hellip;">
+  <meta name="description" content="Choosing the right tool (or tools) for data visualization suddenly got complicated.
+Flash is out, SVG and Canvas are in, and a mess of libraries have &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@ you &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/">
+  <link rel="canonical" href="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -71,7 +70,7 @@ you &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Digging Deeper Into App Cloud Data Feeds</h1>
+      <h1 class="entry-title">Introducing Chartlets: Tiny Charts for Tablet and Mobile Web Apps</h1>
     
     
       <p class="meta">
@@ -87,75 +86,37 @@ you &hellip;">
   
 
 
-<time datetime="2012-07-30T10:39:00-04:00" pubdate data-updated="true">Jul 30<span>th</span>, 2012</time>
+<time datetime="2013-05-10T14:03:00-04:00" pubdate data-updated="true">May 10<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Smart Content Sources are a quick and easy way to load data into your
-<a href="http://appcloud.brightcove.com">App Cloud</a> apps. Let&#8217;s take a look at what happens under the hood when
-you load a content source with <code>bc.core.getData()</code>:</p>
+<div class="entry-content"><p>Choosing the right tool (or <em>tools</em>) for data visualization suddenly got complicated.
+Flash is out, <a href="https://developer.mozilla.org/en-US/docs/SVG">SVG</a> and <a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial">Canvas</a> are in, and a <a href="http://selection.datavisualization.ch/">mess of libraries</a> have
+made it possible to offload expensive rendering tasks from the server to the client.</p>
 
-<p><img src="/images/blog/app-cloud-feeds-new.png" alt="Screen shot" /></p>
+<p>My favorite libraries are <a href="http://d3js.org/">D3.js</a> for SVG and <a href="http://chartjs.org">Chart.js</a> for Canvas. D3.js is
+particularly sophisticated and makes few assumptions about how to render data; its
+primary goal is to bind data to DOM elements and help manipulate elements. Chart.js
+is great for rendering simple, static charts.</p>
 
-<p>First, no matter what kind of data you&#8217;re loading from App Cloud—a Video Cloud
-playlist, a content feed, or a text block—you can call it the same way in your
-code:</p>
+<p>Most libraries are biased toward <em>big</em> presentations. I went the other way when I
+created <a href="http://chartlets.com">Chartlets</a>, a library for making minimalist charts for mobile and tablet
+web apps:</p>
 
-<pre><code>bc.core.getData("1234567890", handleData, handleError);
+<p><img src="/images/work/chartlets-samples-640x480.png" alt="" /></p>
+
+<p>Not only are Chartlets small, the library itself weighs in at under 3K. And the API
+is simple by design, requiring no programming knowledge to render a basic chart.
+Chartlets can be defined entirely in HTML:</p>
+
+<pre><code>&lt;canvas class="chartlet" width="65" height="65" 
+  data-type="pie" data-sets="[1 2 3 4 5]" data-opts="theme:money"&gt;&lt;/canvas&gt;
 </code></pre>
 
-<p>Above, &#8220;1234567890&#8221; is the ID provided by App Cloud Studio. You can also
-declare the feed in your manifest file and call it by name:</p>
-
-<pre><code>bc.core.getData("blog", handleData, handleError);
-</code></pre>
-
-<p>The function <code>getData()</code> is asynchronous. When it runs successfully, the SDK
-calls <code>handleData</code>; otherwise, it calls <code>handleError</code>. The success handler
-takes a single argument:</p>
-
-<pre><code>function handleData(data) {
-    console.log(data);
-}
-</code></pre>
-
-<p>If you log the data to the console, as shown above, you might see an object
-like this one, which comes from a Video Cloud playlist:</p>
-
-<p><img src="/images/blog/app-cloud-feeds-inspect.png" alt="Screen shot" /></p>
-
-<p>So what&#8217;s happening under the hood?</p>
-
-<p>The App Cloud SDK injects a <code>&lt;script&gt;</code> tag into the document and sets the <code>src</code>
-attribute to the URL of a content feed:</p>
-
-<pre><code>&lt;script src="http://read.appcloud.brightcove.com/content/50019dfcec8e60277d00fdb8/
-fetch?callback=jQuery17207518197379540652_1343651580663&amp;_=1343651580663"&gt;&lt;/script&gt;
-</code></pre>
-
-<p>This process has the curious name <a href="http://en.wikipedia.org/wiki/JSONP">JSON-P</a>, or &#8220;JSON with padding.&#8221; Notice
-the URL contains the name of a callback function to execute when the script is
-loaded.</p>
-
-<p>When the script is loaded, it executes a function that wraps (or &#8220;pads&#8221;) a
-JSON object. Here&#8217;s what it looks like inside the Network panel of the Chrome
-Developer Tools:</p>
-
-<p><img src="/images/blog/app-cloud-feeds-response.png" alt="Screen shot" /></p>
-
-<p>This function, in turn, hands off the data to the callback function specified
-in <code>bc.core.getData()</code>.</p>
-
-<p>As you can see, it&#8217;s easy to inspect your data using the Chrome Developer
-Tools. And if you want to dig even deeper, consider using an HTTP monitor like
-<a href="http://www.charlesproxy.com/">Charles</a>.</p>
-
-<p>Finally, keep in mind that <code>bc.core.getData()</code> is just one way to load data
-into your app. You can also use the device functions <code>fetchContentsOfURL()</code>,
-<code>postDataToURL()</code>, and <code>requestDownload()</code>.</p>
+<p>Check out the full docs and examples at <a href="http://chartlets.com">chartlets.com</a>.</p>
 </div>
 
 
@@ -178,12 +139,12 @@ into your app. You can also use the device functions <code>fetchContentsOfURL()<
   
 
 
-<time datetime="2012-07-30T10:39:00-04:00" pubdate data-updated="true">Jul 30<span>th</span>, 2012</time>
+<time datetime="2013-05-10T14:03:00-04:00" pubdate data-updated="true">May 10<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/app-cloud/'>App Cloud</a>, <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+    <a class='category' href='/blog/categories/chartlets/'>Chartlets</a>, <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
   
 </span>
 
@@ -192,7 +153,7 @@ into your app. You can also use the device functions <code>fetchContentsOfURL()<
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/" data-via="" data-counturl="http://www.adammark.net/blog/2012/07/30/digging-deeper-into-app-cloud-data-feeds/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/" data-via="" data-counturl="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/" >Tweet</a>
   
   
   
@@ -201,10 +162,8 @@ into your app. You can also use the device functions <code>fetchContentsOfURL()<
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/07/12/bug-off-app-cloud-introduces-on-device-debugging/" title="Previous Post: Bug off! App Cloud introduces on-device debugging">&laquo; Bug off! App Cloud introduces on-device debugging</a>
+        <a class="basic-alignment left" href="/blog/2012/11/16/app-cloud-vs-phonegap/" title="Previous Post: App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?">&laquo; App Cloud vs. PhoneGap: Which hybrid-native platform is right for you?</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/08/03/a-font-of-icons-for-your-app-cloud-app/" title="Next Post: A font of icons for your App Cloud app">A font of icons for your App Cloud app &raquo;</a>
       
     </p>
   </footer>
