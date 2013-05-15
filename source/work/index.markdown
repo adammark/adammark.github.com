@@ -26,7 +26,7 @@ that _other_ popular crossword game, but with a few twists. [**More ...**](/work
 
 ## [2010 Census](/work/census.html)
 
-I developed a series of data-intensive graphics for the U.S. Census Bureau.
+I developed a series of interactive maps for the U.S. Census Bureau.
 [**More ...**](/work/census.html)
 
 [![](/images/work/census-change-640x400.png)](/work/census.html)
@@ -40,8 +40,8 @@ management (BSM) applications. [**More ...**](/work/netuitive.html)
 
 ## [Freight Rail Works](/work/railroads.html)
 
-I developed this jigsaw puzzle of a website for the Association of American
-Railroads. [**More ...**](/work/railroads.html)
+I developed this microsite for the Association of American Railroads. 
+[**More ...**](/work/railroads.html)
 
 [![](/images/work/freight-home-640x416.jpg)](/work/railroads.html)
 

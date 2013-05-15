@@ -7,9 +7,9 @@ sharing: false
 footer: true
 ---
 
-I developed a series of graphics for the [U.S. Census Bureau][1] while working
-at [Home Front Communications][2]. These were built with Flash, XML and SVG.
-**Click any thumbnail for a larger view:**
+I developed a series of interactive maps for the [U.S. Census Bureau][1] while 
+working at [Home Front Communications][2]. These were built with Flash, XML and 
+SVG. **Click any thumbnail for a larger view:**
 
 [![](/images/work/census-apportionment-300x187.png)](/images/work/census-apportionment.png)
 [![](/images/work/census-change-300x187.png)](/images/work/census-change.png)
