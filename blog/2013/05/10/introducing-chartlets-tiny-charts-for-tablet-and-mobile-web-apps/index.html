@@ -9,8 +9,8 @@
   <meta name="author" content="Adam Mark">
 
   
-  <meta name="description" content="Choosing the right tool (or tools) for data visualization suddenly got complicated.
-Flash is out, SVG and Canvas are in, and a mess of libraries have &hellip;">
+  <meta name="description" content="I just put the finishing touches on Chartlets, a library for making
+tiny charts for mobile and tablet web apps: While most data visualization &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,10 +26,7 @@ Flash is out, SVG and Canvas are in, and a mess of libraries have &hellip;">
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Adam Mark" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic" rel="stylesheet" type="text/css">
   
 
 </head>
@@ -93,24 +90,16 @@ Flash is out, SVG and Canvas are in, and a mess of libraries have &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Choosing the right tool (or <em>tools</em>) for data visualization suddenly got complicated.
-Flash is out, <a href="https://developer.mozilla.org/en-US/docs/SVG">SVG</a> and <a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial">Canvas</a> are in, and a <a href="http://selection.datavisualization.ch/">mess of libraries</a> have
-made it possible to offload expensive rendering tasks from the server to the client.</p>
-
-<p>My favorite libraries are <a href="http://d3js.org/">D3.js</a> for SVG and <a href="http://chartjs.org">Chart.js</a> for Canvas. D3.js is
-particularly sophisticated and makes few assumptions about how to render data; its
-primary goal is to bind data to DOM elements and help manipulate elements. Chart.js
-is great for rendering simple, static charts.</p>
-
-<p>Most libraries are biased toward <em>big</em> presentations. I went the other way when I
-created <a href="http://chartlets.com">Chartlets</a>, a library for making minimalist charts for mobile and tablet
-web apps:</p>
+<div class="entry-content"><p>I just put the finishing touches on <a href="http://chartlets.com">Chartlets</a>, a library for making
+tiny charts for mobile and tablet web apps:</p>
 
 <p><img src="/images/work/chartlets-samples-640x480.png" alt="" /></p>
 
-<p>Not only are Chartlets small, the library itself weighs in at under 3K. And the API
-is simple by design, requiring no programming knowledge to render a basic chart.
-Chartlets can be defined entirely in HTML:</p>
+<p>While most data visualization libraries are biased toward <em>big</em> displays,
+Chartlets assumes the opposite. Not only are Chartlets small, the library
+itself weighs in at under 3K. And the API is drop-dead simple, requiring
+no programming knowledge to render a basic chart. Chartlets can be defined
+entirely in HTML:</p>
 
 <pre><code>&lt;canvas class="chartlet" width="65" height="65" 
   data-type="pie" data-sets="[1 2 3 4 5]" data-opts="theme:money"&gt;&lt;/canvas&gt;
@@ -152,8 +141,6 @@ Chartlets can be defined entirely in HTML:</p>
     </p>
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/" data-via="" data-counturl="http://www.adammark.net/blog/2013/05/10/introducing-chartlets-tiny-charts-for-tablet-and-mobile-web-apps/" >Tweet</a>
   
   
   
