@@ -20,6 +20,8 @@ view:**
 [![](/images/work/netuitive-service-graph-2-300x205.png)](/images/work/netuitive-service-graph-2.png)
 [![](/images/work/netuitive-service-table-300x286.png)](/images/work/netuitive-service-table.png)
 [![](/images/work/netuitive-tree-300x224.png)](/images/work/netuitive-tree.png)
+[![](/images/work/netuitive-dashboard-3-300x221.png)](/images/work/netuitive-dashboard-3.png)
+[![](/images/work/netuitive-correlation-300x216.png)](/images/work/netuitive-correlation.png)
 
 [Back to My Work](./index.html)
 
