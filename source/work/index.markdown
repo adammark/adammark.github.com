@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "My Work"
-date: 2013-04-30 17:22
+date: 2013-10-01 17:22
 comments: true
 sharing: true
 footer: true
@@ -46,10 +46,18 @@ I created user interfaces for a suite of business service management (BSM) appli
 
 ** Roles: Development**
 
-I developed this microsite for the Association of American Railroads. 
-[**More ...**](/work/railroads.html)
+I developed this microsite for the Association of American Railroads.  [**More ...**](/work/railroads.html)
 
 [![](/images/work/freight-home-640x416.jpg)](/work/railroads.html)
 
+## [Markup.js][3]
+
+** Roles: API design, Development**
+
+I developed Markup.js, a handy-dandy JavaScript templating system.  [**More ...**][3]
+
+[![](/images/work/markup-400x400.png)][3]
+
 [1]: http://www.linkedin.com/in/adammark/
 [2]: http://chartlets.com/
+[3]: https://github.com/adammark/Markup.js
