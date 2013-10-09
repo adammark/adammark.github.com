@@ -44,7 +44,8 @@ Use the unary plus operator to cast a Date object to milliseconds since the Unix
 
     // ninja way
     +date; // 1313074057920
-    Testing for a substring with bitwise NOT
+
+### Testing for a substring with bitwise NOT
 
 Use the bitwise NOT operator to test for the presence of a substring:
 
