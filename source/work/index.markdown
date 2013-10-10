@@ -30,7 +30,7 @@ I created Wordico, a multi-player crossword game similar to that _other_ popular
 
 ** Roles: Information design, Development**
 
-I developed a series of interactive maps for the 2010 U.S. Census Bureau. [**More...**](/work/census.html)
+I developed a series of interactive graphics for the U.S. Census Bureau. [**More...**](/work/census.html)
 
 [![](/images/work/census-change-640x400.png)](/work/census.html)
 
@@ -38,7 +38,7 @@ I developed a series of interactive maps for the 2010 U.S. Census Bureau. [**Mor
 
 ** Roles: Visual design, Interaction design, Information architecture, Development**
 
-I created user interfaces for a suite of business service management (BSM) applications. [**More...**](/work/netuitive.html)
+I created user interfaces for systems management applications. [**More...**](/work/netuitive.html)
 
 [![](/images/work/netuitive-dashboard-1-640x485.png)](/work/netuitive.html)
 
@@ -57,6 +57,14 @@ I developed a microsite for the Association of American Railroads.  [**More...**
 I developed user interfaces for the first web-based facility access control system.
 
 ![](/images/work/brivo-bio.png)
+
+## Knight-Ridder/Tribune Interactive (1999-2000)
+
+** Roles: Visual design, Development**
+
+I designed multimedia web packages for distribution to news web sites.
+
+![](/images/work/krti.png)
 
 ## [Markup.js][3] (2012)
 

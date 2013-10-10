@@ -7,8 +7,7 @@ sharing: false
 footer: true
 ---
 
-I created [Chartlets][1], a handy-dandy charting library for tablet and mobile
-web apps. It uses the HTML5 &lt;canvas&gt; element.
+I created [Chartlets][1], a nifty HTML5 charting library for tablet and mobile web apps.
 
 [![](/images/work/chartlets-samples-640x480.png)][1]
 
