@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "2010 Census"
+title: "U.S. Census"
 date: 2013-01-31 13:34
 comments: true
 sharing: false

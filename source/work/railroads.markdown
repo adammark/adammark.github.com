@@ -7,9 +7,9 @@ sharing: false
 footer: true
 ---
 
-I developed this [data bomb][1] for the Association of American Railroads
-while working at [Home Front Communications][2]. **Click any thumbnail for a
-larger view:**
+I developed this microsite for the Association of American Railroads while 
+working at [Home Front Communications][2]. **Click any thumbnail for a larger 
+view:**
 
 [![](/images/work/freight-home-300x195.jpg)](/images/work/freight-home.jpg)
 [![](/images/work/freight-chart-300x225.jpg)](/images/work/freight-chart.jpg)
