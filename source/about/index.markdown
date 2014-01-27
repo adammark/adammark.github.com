@@ -10,8 +10,8 @@ footer: true
 ![Adam Mark](/images/about/adammark.jpg)
 
 First, I’m no relation to the Adam’s Mark Hotel. But I get that a lot.
-Otherwise, I’m a web developer at [Brightcove][1], a fantastic company full 
-of smart, passionate people.
+Otherwise, I’m a software engineer at [Brightcove][1], a fantastic company 
+full of smart, passionate people.
 
 Before joining Brightcove, I was technical director in the interactive
 department at [Home Front Communications][2], where I developed web sites for

@@ -50,30 +50,5 @@ I developed a microsite for the Association of American Railroads.  [**More...**
 
 [![](/images/work/freight-home-640x416.jpg)](/work/railroads.html)
 
-## Brivo Systems (2000-2004)
-
-** Roles: Visual design, Interaction design, Information architecture, Development**
-
-I developed user interfaces for the first web-based facility access control system.
-
-![](/images/work/brivo-bio.png)
-
-## Knight-Ridder/Tribune Interactive (1999-2000)
-
-** Roles: Visual design, Development**
-
-I designed multimedia web packages for distribution to news web sites.
-
-![](/images/work/krti.png)
-
-## [Markup.js][3] (2012)
-
-** Roles: API design, Development**
-
-I developed Markup.js, a handy-dandy JavaScript templating system.  [**More...**][3]
-
-[![](/images/work/markup-400x400.png)][3]
-
 [1]: http://www.linkedin.com/in/adammark/
 [2]: http://chartlets.com/
-[3]: https://github.com/adammark/Markup.js
