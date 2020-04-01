@@ -22,7 +22,7 @@ body {
 #ribbon {
   background: linear-gradient(90deg, #173d71, #79E1AB);
   height: 12px;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
 }
@@ -66,6 +66,9 @@ p {
   line-height: 1.5em;
 }
 @media print {
+  #ribbon {
+    display: none;
+  }
   section {
     margin: 0;
     max-width: 100%;
@@ -77,7 +80,7 @@ p {
 
 <body>
 
-<div id="ribbon"/>
+<div id="ribbon"></div>
 
 <section>
   <img width="120" height="120" src="assets/me.png"/>
@@ -94,7 +97,7 @@ p {
     <li><a href="https://www.linkedin.com/in/adammark/">Resume (LinkedIn)</a></li>
     <li><a href="assets/Adam_Mark_UI.pdf">Resume (PDF)</a></li>
     <li><a href="https://github.com/MC10Inc/biostamp-js">Recent code (GitHub)</a></li>
-    <li><a href="#">Recent screenshots (Dropbox)</a></li>
+    <li><a href="https://www.dropbox.com/sh/4st7wefy9hd2nqu/AADTFRXqJekBnYVEHIFbfNA0a?dl=0">Recent screenshots (Dropbox)</a></li>
   </ul>
 
 </section>
