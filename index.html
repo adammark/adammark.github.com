@@ -20,6 +20,12 @@ body {
   color: #222;
 }
 
+main {
+  margin: 5em auto;
+  text-align: left;
+  max-width: 50%;
+}
+
 #ribbon {
   background: linear-gradient(270deg, #173d71, #79E1AB);
   background-size: 200% 100%;
@@ -51,12 +57,6 @@ h2 {
 
 h1, h2 {
   font-weight: normal;
-}
-
-main {
-  margin: 5em auto;
-  text-align: left;
-  max-width: 50%;
 }
 
 a, a:visited {
@@ -92,6 +92,12 @@ p {
   main {
     margin: 0;
     max-width: 100%;
+  }
+}
+
+@media only screen and (max-device-width: 667px) {
+  main {
+    max-width: 80%;
   }
 }
 </style>
