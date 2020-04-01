@@ -21,11 +21,19 @@ body {
 }
 
 #ribbon {
-  background: linear-gradient(90deg, #173d71, #79E1AB);
+  background: linear-gradient(270deg, #173d71, #79E1AB);
+  background-size: 200% 100%;
   height: 12px;
   position: absolute;
   top: 0;
   width: 100%;
+  animation: TotallyUselessEffect 7s ease infinite;
+}
+
+@keyframes TotallyUselessEffect {
+  0% { background-position: 0% 0% }
+  50% { background-position: 100% 0% }
+  100% { background-position: 0% 0% }
 }
 
 h1 {
