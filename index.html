@@ -2,13 +2,11 @@
 
 <head>
 
-<title>Adam Mark - Front-end Architecture, Engineering and Design</title>
+<title>Adam Mark - Full-stack engineer / UI architect</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-<meta name="title" content="Adam Mark - Front-end Architecture, Engineering and Design"/>
+<meta name="title" content="Adam Mark - Full-stack engineer / UI architect"/>
 <meta name="description" content="Personal web site of Adam Mark"/>
-
-<link rel="shortcut icon" href="assets/me.png"/>
 
 <style>
 body {
@@ -18,7 +16,7 @@ body {
   text-align: center;
   font-family: Helvetica Neue, Helvetica, sans-serif;
   letter-spacing: 0em;
-  color: #222;
+  color: #111;
 }
 
 main {
@@ -27,14 +25,8 @@ main {
   max-width: 50%;
 }
 
-#ribbon {
-  background: linear-gradient(270deg, #173d71, #79E1AB);
-  background-size: 200% 100%;
-  height: 12px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  animation: TotallyUselessEffect 7s ease infinite;
+#me {
+  background: #79e1ab;
 }
 
 @keyframes TotallyUselessEffect {
@@ -43,13 +35,17 @@ main {
   100% { background-position: 0% 0% }
 }
 
-h1, h2 {
+section {
+  margin: 2em 0;
+}
+
+h1, h2, h3 {
   font-weight: normal;
+  color: #173d71;
 }
 
 h1 {
   font-size: 3em;
-  color: #173d71;
   margin-bottom: 0.1em;
 }
 
@@ -60,9 +56,16 @@ h2 {
   line-height: 1.3em;
 }
 
+h3 {
+  font-size: 0.95em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
 a, a:visited {
-  color: #1487d0;
+  color: #008bdb;
   text-decoration: none;
+  font-weight: bold;
 }
 
 a:hover {
@@ -81,15 +84,11 @@ li {
 }
 
 p {
-  font-style: italic;
-  line-height: 1.5em;
+  line-height: 1.35em;
+  margin-bottom: 1.4em;
 }
 
 @media print {
-  #ribbon {
-    display: none;
-  }
-
   main {
     margin: 0;
     max-width: 100%;
@@ -107,40 +106,31 @@ p {
 
 <body>
 
-<div id="ribbon"></div>
-
 <main>
-  <img width="120" height="120" src="assets/me.png" alt="Me"/>
 
-  <h1>Adam Mark</h1>
+<img id="me" width="120" height="120" src="assets/me.png" alt="Me"/>
 
-  <h2>Front-end Architecture, Engineering and Design</h2>
+<h1>Adam Mark</h1>
 
-  <p>
-    Front-end engineer and designer with extensive experience developing
-    enterprise-grade web applications for startup companies. Currently building
-    UIs and SDKs for medical-grade, wearable biometric sensors.
-  </p>
+<h2>Full-stack engineer / UI architect</h2>
 
-  <p>
-    Expert in JavaScript (ES6+), React, Redux, D3 and other advanced web
-    technologies.
-  </p>
+<section>
+  <h3>About me</h3>
+  <p>I'm a full-stack engineer and UI architect with extensive experience developing elegant, enterprise-grade web applications in a variety of industries, from clinical research to logistics. I specialize in building high-performance data visualization tools and dashboards. <a href="assets/Adam_Mark_Resume.pdf">Download resume</a></p>
+</section>
 
-  <ul>
-    <li>
-      <a href="https://www.linkedin.com/in/adammark/">Resume (LinkedIn)</a>
-    </li>
-    <li>
-      <a href="assets/Adam_Mark_Resume.pdf">Resume (PDF)</a>
-    </li>
-    <li>
-      <a href="https://github.com/MC10Inc/biostamp-js">Code sample (GitHub)</a>
-    </li>
-    <li>
-      <a href="https://www.dropbox.com/sh/4st7wefy9hd2nqu/AADTFRXqJekBnYVEHIFbfNA0a?dl=0">Screenshots (Dropbox)</a>
-    </li>
-  </ul>
+<section>
+  <h3>Recent work</h3>
+  <p>From 2015 to 2020, I designed and developed a suite of web applications for a medical-grade wearable device, using React, Redux and D3. <a href="https://www.dropbox.com/sh/4st7wefy9hd2nqu/AADTFRXqJekBnYVEHIFbfNA0a?dl=0">See screenshots</a></p>
+  <p>In 2020, I built a JavaScript SDK for the same wearable device, using Web Bluetooth, Protocol Buffers, SQLite and IndexedDB. <a href="https://github.com/MC10Inc/biostamp-js">See code</a>
+  <p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse management system, using TypeScript, React, GraphQL and WebSockets. <a href="https://www.dropbox.com/sh/m6uxy3rz85rk4j4/AAC8_sD1tLGixEqB5Kx8FT4ra?dl=0">See screenshots</a></p>
+</section>
+
+<section>
+  <h3>Connect with me</h3>
+  <p>Find me on <a href="https://www.linkedin.com/in/adammark/">LinkedIn</a></p>
+</section>
+
 </main>
 
 </body>
