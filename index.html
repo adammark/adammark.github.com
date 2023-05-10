@@ -149,21 +149,15 @@ let hue = 135;
 const cycle = () => {
   const [width, height, d] = patterns[idx % patterns.length];
 
-  const svg = document.createElement("svg");
-  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  svg.setAttribute("width", width);
-  svg.setAttribute("height", height);
-
-  const path = document.createElement("path");
-  path.setAttribute("fill", `hsl(${hue} 75% 60%)`);
-  path.setAttribute("fill-rule", "evenodd");
-  path.setAttribute("d", d);
-
-  svg.appendChild(path);
+  const svg = `\
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\
+      <path fill="hsl(${hue} 75% 60%)" fill-rule="evenodd" d="${d}"/>\
+    </svg>\
+  `;
 
   const img = document.querySelector("#me");
   img.style.backgroundColor = `hsl(${hue} 75% 80%)`;
-  img.style.backgroundImage = `url('data:image/svg+xml, ${svg.outerHTML}')`;
+  img.style.backgroundImage = `url('data:image/svg+xml, ${svg}')`;
 
   idx += 1;
   hue += 15;
