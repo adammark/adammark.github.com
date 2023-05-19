@@ -191,12 +191,14 @@ export function MapDemo() {
 </pre>
 
 <section>
-  <h3>Possible enhancements</h3>
-  <ol>
+  <h3>Notes</h3>
+  <ul>
     <li><p>The clustering function makes no attempt to evenly distribute <b>inputs</b>, thus it might generate two neighboring <b>outputs</b> as 3 + 1 instead of 2 + 2.</p></li>
   
     <li><p>The clustering function assumes all <b>inputs</b> are of the same type. But what if we want to show clusters of apples and clusters of oranges at the same time?</p></li>
-  </ol>
+
+    <li><p>The clustering function has O(n²) complexity and would degrade if given thousands of <b>inputs</b>. A grid-based algorithm would be more performant.</p></li>
+  </ul>
 </section>
 
 </main>
