@@ -1,0 +1,214 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Case Study</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Case Study"/>
+
+<link href="../main.css?1684521987163" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Clustering data on a map</h1>
+
+<h2>Adam Mark, May 2023</h2>
+
+<section>
+<h3>Problem</h3>
+
+<p>Annotating a warehouse map with "pins" can get messy when there are too many pins to fit on the screen:</p>
+
+<p><img src="https://user-images.githubusercontent.com/28193/214857037-b0d11683-4458-4440-8edd-2691b927aa4d.png" width="100%"/></p>
+
+<p>We need a way to consolidate, or pack together, pins that overlap each other. How can this be done in a generic way?</p>
+
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>Let's create a simple clustering function that takes <b>inputs</b>, each having a <i>coordinate</i> and <i>count</i>, packs them together, and returns a set of <b>outputs</b>, each having a <i>coordinate</i> and <i>count</i>. Then we can render one pin per output, as shown here:</p>
+
+<p><img src="https://user-images.githubusercontent.com/28193/214858499-f3bda57d-5dbb-4b3e-a6a7-16e88c4db2d4.png" width="100%"/></p>
+
+<p>The function should account for the <b>scale</b> of the map (the map can zoom in and out but the pin maintains a fixed size) and a <b>radius</b> to observe when clustering data, which should be at least the size of the pin itself.</p>
+
+<p>With these goals in mind, the number of pins will change as we zoom in and out of the map, as shown here:</p>
+
+<p><video src="https://github.com/adammark/adammark.github.com/assets/28193/2ce66869-790f-4492-add9-90d81585ab49" width="100%" controls/></p>
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>The following clustering function transforms a set of <b>inputs</b> into a smaller set of <b>outputs</b>:</p>
+
+<pre>
+<code class="language-typescript">
+export type Input = {
+  key: string;
+  point: Point;
+  count: number;
+  metadata?: unknown;
+};
+
+export type Output = Input & {
+  inputs: Input[];
+};
+
+/**
+* This is a simple data clustering algorithm. It takes a set of inputs and
+* packs them together into a smaller set of outputs according to their 
+* coordinates. Each output contains a reference to all its inputs and can be 
+* used to render a "pin" on the map.
+*
+* The value of `scale` comes from the `&lt;Map&gt;` element. The value of `radius`
+* (in meters) is defined by you and is essentially a measure of how
+* aggressively you want to pack data points. A larger radius generates fewer
+* clusters. As a rule, the radius should roughly correspond to the size of
+* the graphic you intend to display. For example, if you're dropping pins on
+* the map, and each pin is 5x5, a reasonable radius to ensure breathing room
+* between pins would be 7.5, or about 150% of the width or height of the
+* graphic, whichever is greater.
+*/
+export function cluster(inputs: Input[], scale: number, radius: number): Output[] {
+  const outputs: Output[] = [];
+  const keys = new Set&lt;string&gt;();
+  
+  const grouped: Output[] = inputs.map((a, i) => {
+    return {
+      ...a,
+      inputs: inputs.slice(i).filter((b) => {
+        return distance(a.point, b.point) < radius / (scale / 3);
+      }),
+    };
+  });
+  
+  while (grouped.length) {
+    const [output] = grouped.splice(0, 1);
+  
+    if (!keys.has(output.key)) {
+      outputs.push(output);
+      output.inputs = output.inputs.filter((s) => {
+        return !keys.has(s.key);
+      });
+  
+      keys.add(output.key);
+      output.inputs.forEach((input) => {
+        keys.add(input.key);
+      });
+    }
+  }
+  
+  return outputs.map((output) => {
+    const inputs = output.inputs;
+    const key = inputs.map((d) => d.key).join(',');
+    const count = sum(inputs, 'count');
+  
+    const points = inputs.map((d) => d.point);
+    const x = extent(points, 'x');
+    const y = extent(points, 'y');
+    const point: Point = {
+      x: (x[0] + x[1]) / 2,
+      y: (y[0] + y[1]) / 2,
+    };
+  
+    return {
+      key,
+      point,
+      count,
+      inputs,
+    };
+  });
+}
+</code>
+</pre>
+
+<p>The clustering function depends on a few basic math operations, such as computing the distance between two points and determining the midpoint of a cluster.</p>
+
+<p>Now we can render pins on a map. Below, we'll create 300 random <b>inputs</b>, each with a count of 1, and render color-coded pins from the resulting <b>outputs</b>:</p>
+
+<pre>
+<code class="language-jsx">
+export function MapDemo() {
+  ... 
+
+  // scale of the map
+  const [scale, setScale] = useState(3);
+
+  // random input data
+  const inputs: Input[] = new Array(300).fill(0).map((_, i) => {
+    const x = 50 + Math.random() * 100;
+    const y = 5 + Math.random() * 50;
+  
+    return {
+      key: i.toString(),
+      point: { x, y },
+      count: 1,
+    };
+  });
+
+  // size of a pin
+  const pinSize = 5;
+
+  // cluster radius
+  const radius = pinSize * 1.5;
+
+  // clustered output data
+  const outputs: Output[] = cluster(inputs, scale, radius);
+
+  // pin components
+  const pins = outputs.map((output) => {
+    const color = output.count >= 3 ? Color.Red : Color.Green;
+
+    return (
+      &lt;Annotation key={output.key} x={output.point.x} y={output.point.y} scale="ignore"&gt;
+        &lt;Pin color={color} value={output.count} size={pinSize} /&gt;
+      &lt;/Annotation&gt;
+    );
+  });
+
+  return (
+    &lt;Dashboard&gt;
+      &lt;Map onZoom={(evt) => setScale(evt.scale)} ...&gt;
+        &lt;g&gt;{pins}&lt;/g&gt;
+      &lt;/Map&gt;
+    &lt;/Dashboard&gt;
+  );
+}
+</code>
+</pre>
+
+<section>
+  <h3>Possible enhancements</h3>
+  <ol>
+    <li><p>The clustering function makes no attempt to evenly distribute <b>inputs</b>, thus it might generate two neighboring <b>outputs</b> as 3 + 1 instead of 2 + 2.</p></li>
+  
+    <li><p>The clustering function assumes all <b>inputs</b> are of the same type. But what if we want to show clusters of apples and clusters of oranges at the same time?</p></li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+Array.from(document.querySelectorAll("code")).forEach((elem) => {
+  elem.innerHTML = elem.innerHTML.trim();
+});
+
+hljs.highlightAll();
+</script>
+
+</body>
+
+</html>
