@@ -1,0 +1,82 @@
+body {
+  background: white;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
+  letter-spacing: 0em;
+  color: #111;
+}
+
+main {
+  margin: 5em auto;
+  text-align: left;
+  max-width: 50%;
+}
+
+#me {
+  background-color: #79e1ab;
+  background-position: center center;
+  transition: all 500ms linear;
+}
+
+section {
+  margin: 2em 0;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  color: #173d71;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 0.1em;
+}
+
+h2 {
+  font-size: 1.3em;
+  margin-top: 0;
+  margin-bottom: 1em;
+  line-height: 1.3em;
+}
+
+h3 {
+  font-size: 0.95em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+a, a:visited {
+  color: #008bdb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p, dd {
+  line-height: 1.35em;
+  margin: 0 0 1.4em 0;
+}
+
+dt {
+  font-weight: 600;
+  margin-bottom: 0.25em;
+  color: #173d71;
+}
+
+@media print {
+  main {
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-device-width: 667px) {
+  main {
+    max-width: 80%;
+  }
+}
