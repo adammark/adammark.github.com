@@ -8,10 +8,15 @@ body {
   color: #111;
 }
 
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.75em;
+}
+
 main {
   margin: 5em auto;
   text-align: left;
-  max-width: 50%;
+  max-width: 55%;
 }
 
 #me {

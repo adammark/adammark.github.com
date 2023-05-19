@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="title" content="Adam Mark - Case Study"/>
 
-<link href="../main.css?1684521987163" rel="stylesheet">
+<link href="../main.css?1684525053608" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -68,20 +68,20 @@ export type Output = Input & {
 };
 
 /**
-* This is a simple data clustering algorithm. It takes a set of inputs and
-* packs them together into a smaller set of outputs according to their 
-* coordinates. Each output contains a reference to all its inputs and can be 
-* used to render a "pin" on the map.
-*
-* The value of `scale` comes from the `&lt;Map&gt;` element. The value of `radius`
-* (in meters) is defined by you and is essentially a measure of how
-* aggressively you want to pack data points. A larger radius generates fewer
-* clusters. As a rule, the radius should roughly correspond to the size of
-* the graphic you intend to display. For example, if you're dropping pins on
-* the map, and each pin is 5x5, a reasonable radius to ensure breathing room
-* between pins would be 7.5, or about 150% of the width or height of the
-* graphic, whichever is greater.
-*/
+ * This is a simple data clustering algorithm. It takes a set of inputs and
+ * packs them together into a smaller set of outputs according to their 
+ * coordinates. Each output contains a reference to all its inputs and can be 
+ * used to render a "pin" on the map.
+ *
+ * The value of `scale` comes from the `&lt;Map&gt;` element. The value of `radius`
+ * (in meters) is defined by you and is essentially a measure of how
+ * aggressively you want to pack data points. A larger radius generates fewer
+ * clusters. As a rule, the radius should roughly correspond to the size of
+ * the graphic you intend to display. For example, if you're dropping pins on
+ * the map, and each pin is 5x5, a reasonable radius to ensure breathing room
+ * between pins would be 7.5, or about 150% of the width or height of the
+ * graphic, whichever is greater.
+ */
 export function cluster(inputs: Input[], scale: number, radius: number): Output[] {
   const outputs: Output[] = [];
   const keys = new Set&lt;string&gt;();
@@ -140,7 +140,7 @@ export function cluster(inputs: Input[], scale: number, radius: number): Output[
 <p>Now we can render pins on a map. Below, we'll create 300 random <b>inputs</b>, each with a count of 1, and render color-coded pins from the resulting <b>outputs</b>:</p>
 
 <pre>
-<code class="language-jsx">
+<code class="language-typescript">
 export function MapDemo() {
   ... 
 
