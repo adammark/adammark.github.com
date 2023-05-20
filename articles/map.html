@@ -22,7 +22,7 @@
 
 <h1>Marker clustering</h1>
 
-<h2>Adam Mark, May 2023</h2>
+<h2>Adam Mark</h2>
 
 <section>
 <h3>Background</h3>
@@ -192,17 +192,18 @@ function MarkerDemo() {
 }
 </code>
 </pre>
+</section>
 
 <section>
-  <h3>Conclusion</h3>
+<h3>Conclusion</h3>
 
-  <p>My code served a specific purpose: clustering a limited number of data points of the same type. Here's where it could be improved:</p>
+<p>My code served a specific purpose: clustering a limited number of data points of the same type. Here's where it could be improved:</p>
 
-  <ul>
-    <li><p>It could handle different <i>types</i> of inputs such that the map could display <i>apple</i> clusters and <i>orange</i> clusters at the same time.</p></li>
+<ul>
+<li><p>It could handle different <i>types</i> of inputs such that the map could display <i>apple</i> clusters and <i>orange</i> clusters at the same time.</p></li>
 
-    <li><p>It could use a grid-based algorithm for performance. Currently it has O(n²) complexity and would degrade if given thousands of inputs.</p></li>
-  </ul>
+<li><p>It could use a grid-based algorithm for performance. Currently it has O(n²) complexity and would degrade if given thousands of inputs.</p></li>
+</ul>
 </section>
 
 </main>
