@@ -19,10 +19,15 @@ main {
   max-width: 55%;
 }
 
+img {
+  border: 1px solid #ddd;
+}
+
 #me {
   background-color: #79e1ab;
   background-position: center center;
   transition: all 500ms linear;
+  border: none;
 }
 
 section {

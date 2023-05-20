@@ -1,0 +1,144 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Sensor configuration UI</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Sensor configuration UI"/>
+
+<link href="../main.css?1684589078126" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Sensor configuration UI</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2015 to 2020, I designed and developed web applications for a medical-grade wearable device, using React, Redux and SVG.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our system supported placing small biometric sensors on more than 30 body locations. But these locations could be mistaken for each another (e.g. "Flexor Digitorum" for "Extensor Digitorum"), plus each location required a specific sensor orientation. <i>Customers needed an elegant, foolproof way to configure sensors.</i></p>
+
+</section>
+
+<section>
+<h3>Solution</h3> 
+
+<p>I created an interactive, two-dimensional map of the body that displayed all the possible sensor locations and orientations:</p>
+
+<p><img width="100%" src="https://github.com/adammark/adammark.github.com/assets/28193/9f1dafee-c7f6-436e-918b-534917a15e2c"/></p>
+<p><img width="100%" src="https://github.com/adammark/adammark.github.com/assets/28193/c799d382-939c-4c34-b770-3f0e75883b50"/></p>
+<p><img width="100%" src="https://github.com/adammark/adammark.github.com/assets/28193/7cac3b20-ae13-4f84-b606-466440b414df"/></p>
+
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>I defined each sensor location by its type and position in the coordinate space relative to one of four background images:</p>
+
+<pre>
+<code class="language-typescript">
+const locations = [
+  {
+    id: "FLEXOR_DIGITORUM",
+    type: "muscle",
+    x: 178,
+    y: 167,
+    orientation: 75,
+    scale: 1
+  },
+  {
+    id: "EXTENSOR_DIGITORUM",
+    type: "muscle",
+    x: 278,
+    y: 167,
+    orientation: 106,
+    scale: 1
+  },
+  ...
+];
+</code>
+</pre>
+
+<p>Then I generated an icon for each sensor location:</p>
+
+<pre>
+<code class="language-typescript">
+const icons = locations.filter((loc) => {
+  return loc.type === selectedType;
+}).map((loc) => {
+  return (
+    &lt;g
+      key={loc.id}
+      className="sensor-location"
+      aria-pressed={loc.id === selectedId}
+      transform={`translate(${loc.x},${loc.y}) scale(${loc.scale})`}
+      onClick={...}>
+      {loc.id === selected ? (
+        &lt;circle
+          cx="15"
+          cy="15"
+          r="15"
+          data-tooltip={tx(loc.id)}/&gt;
+      ) : null}
+      &lt;g transform={`translate(15 15) rotate(${loc.orientation})`}&gt;
+        &lt;image
+          xlinkHref="location.svg"
+          width="20"
+          height="10"
+          transform="translate(-10 -5)"/&gt;
+      &lt;/g&gt;
+    &lt;/g&gt;
+  );
+});
+</code>
+</pre>
+
+<p>Finally, I combined the background image and the icons:</p>
+
+<pre>
+<code class="language-typescript">
+&lt;svg width="600" height="450"&gt;
+  &lt;image xlinkHref={`body.${selectedType}.svg`} width="600" height="450"/&gt;
+  {icons}
+&lt;/svg&gt;
+</code>
+</pre>    
+</section>
+
+<section>
+  <h3>Conclusion</h3>
+
+  <p>This exercise tapped my creative and technical skills at the same time. The solution was fast and cheap to implement, and the visualizations were reused in marketing materials and technical documentation. Next time I'd like to do it in 3D!</p>
+</section>
+
+</main>
+
+<script>
+Array.from(document.querySelectorAll("code")).forEach((elem) => {
+  elem.innerHTML = elem.innerHTML.trim();
+});
+
+hljs.highlightAll();
+</script>
+
+</body>
+
+</html>
