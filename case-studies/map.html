@@ -2,10 +2,10 @@
 
 <head>
 
-<title>Adam Mark - Case Study</title>
+<title>Adam Mark - rMarker clustering</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-<meta name="title" content="Adam Mark - Case Study"/>
+<meta name="title" content="Adam Mark - rMarker clustering"/>
 
 <link href="../main.css?1684525053608" rel="stylesheet">
 
@@ -20,39 +20,47 @@
 
 <a href="../">Home</a>
 
-<h1>Clustering data on a map</h1>
+<h1>Marker clustering</h1>
 
 <h2>Adam Mark, May 2023</h2>
 
 <section>
+<h3>Background</h3>
+
+<p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system using TypeScript, React, SVG and Canvas.</p>
+</section>
+
+<section>
 <h3>Problem</h3>
 
-<p>Annotating a warehouse map with "pins" can get messy when there are too many pins to fit on the screen:</p>
+<p>I was building a feature that allowed map makers to decorate maps with various types of "markers." Sometimes these markers would overlap, obscuring their values, as shown in the following example:</p>
 
 <p><img src="https://user-images.githubusercontent.com/28193/214857037-b0d11683-4458-4440-8edd-2691b927aa4d.png" width="100%"/></p>
 
-<p>We need a way to consolidate, or pack together, pins that overlap each other. How can this be done in a generic way?</p>
+<p>So I needed a way to <i>cluster</i> markers together.</p>
 
 </section>
 
 <section>
 <h3>Solution</h3>
 
-<p>Let's create a simple clustering function that takes <b>inputs</b>, each having a <i>coordinate</i> and <i>count</i>, packs them together, and returns a set of <b>outputs</b>, each having a <i>coordinate</i> and <i>count</i>. Then we can render one pin per output, as shown here:</p>
+<p>I created a simple clustering function that takes a set of <b>inputs</b>, each having a <i>coordinate</i> and <i>count</i>, and returns a set of <b>outputs</b>, each having a <i>coordinate</i> and <i>count</i>. Then I could render exactly one marker (a Pin component) per output:</p>
 
 <p><img src="https://user-images.githubusercontent.com/28193/214858499-f3bda57d-5dbb-4b3e-a6a7-16e88c4db2d4.png" width="100%"/></p>
 
-<p>The function should account for the <b>scale</b> of the map (the map can zoom in and out but the pin maintains a fixed size) and a <b>radius</b> to observe when clustering data, which should be at least twice the radius of the pin itself.</p>
+<p>The function also accepts the <b>scale</b> of the map (the map can zoom in and out but the marker maintains a fixed size) and a search <b>radius</b> (the acceptable distance from one marker to another).</p>
 
-<p>With these goals in mind, the number of pins will change as we zoom in and out of the map, as shown here:</p>
+<p>Here's the effect:</p>
 
 <p><video src="https://github.com/adammark/adammark.github.com/assets/28193/2ce66869-790f-4492-add9-90d81585ab49" width="100%" controls/></p>
 </section>
 
+<p>Finally, each <b>output</b> holds a reference to its corresponding <b>inputs</b> in case the marker should reveal more detail when the user selects it.</p>
+
 <section>
 <h3>The code</h3>
 
-<p>The following clustering function transforms a set of <b>inputs</b> into a smaller set of <b>outputs</b>:</p>
+<p>The following code transforms a set of <b>inputs</b> into a smaller set of <b>outputs</b>:</p>
 
 <pre>
 <code class="language-typescript">
@@ -69,9 +77,8 @@ export type Output = Input & {
 
 /**
  * This is a simple data clustering algorithm. It takes a set of inputs and
- * packs them together into a smaller set of outputs according to their 
- * coordinates. Each output contains a reference to all its inputs and can be 
- * used to render a "pin" on the map.
+ * packs them together into a smaller set of outputs. Each output contains a
+ * reference to all its inputs and can be used to render a "pin" on the map.
  *
  * The value of `scale` comes from the `&lt;Map&gt;` element. The value of `radius`
  * (in meters) is defined by you and is essentially a measure of how
@@ -105,6 +112,7 @@ export function cluster(inputs: Input[], scale: number, radius: number): Output[
       });
   
       keys.add(output.key);
+
       output.inputs.forEach((input) => {
         keys.add(input.key);
       });
@@ -119,6 +127,8 @@ export function cluster(inputs: Input[], scale: number, radius: number): Output[
     const points = inputs.map((d) => d.point);
     const x = extent(points, 'x');
     const y = extent(points, 'y');
+
+    // the center point of the cluster
     const point: Point = {
       x: (x[0] + x[1]) / 2,
       y: (y[0] + y[1]) / 2,
@@ -135,9 +145,7 @@ export function cluster(inputs: Input[], scale: number, radius: number): Output[
 </code>
 </pre>
 
-<p>The clustering function depends on a few basic math operations, such as computing the distance between two points and determining the midpoint of a cluster.</p>
-
-<p>Now we can render pins on a map. Below, we'll create 300 random <b>inputs</b>, each with a count of 1, and render color-coded pins from the resulting <b>outputs</b>:</p>
+<p>Now to put it together. The following code passes 300 random <b>inputs</b> into the clustering function, then renders pins from the resulting <b>outputs</b>:</p>
 
 <pre>
 <code class="language-typescript">
@@ -162,7 +170,7 @@ export function MapDemo() {
   // size of a pin
   const pinSize = 5;
 
-  // cluster radius
+  // search radius
   const radius = pinSize * 1.5;
 
   // clustered output data
@@ -170,11 +178,9 @@ export function MapDemo() {
 
   // pin components
   const pins = outputs.map((output) => {
-    const color = output.count >= 3 ? Color.Red : Color.Green;
-
     return (
       &lt;Annotation key={output.key} x={output.point.x} y={output.point.y} scale="ignore"&gt;
-        &lt;Pin color={color} value={output.count} size={pinSize} /&gt;
+        &lt;Pin color={Color.Blue} value={output.count} size={pinSize} /&gt;
       &lt;/Annotation&gt;
     );
   });
@@ -191,13 +197,14 @@ export function MapDemo() {
 </pre>
 
 <section>
-  <h3>Notes</h3>
-  <ul>
-    <li><p>The clustering function makes no attempt to evenly distribute <b>inputs</b>, thus it might generate two neighboring <b>outputs</b> as 3 + 1 instead of 2 + 2.</p></li>
-  
-    <li><p>The clustering function assumes all <b>inputs</b> are of the same type. But what if we want to show clusters of apples and clusters of oranges at the same time?</p></li>
+  <h3>Conclusion</h3>
 
-    <li><p>The clustering function has O(n²) complexity and would degrade if given thousands of <b>inputs</b>. A grid-based algorithm would be more performant.</p></li>
+  <p>My code served a specific purpose: clustering a limited number of data points of the same type. Here's where it could be improved:</p>
+
+  <ul>
+    <li><p>It could handle different <i>types</i> of inputs such that the map could display <i>apple</i> clusters and <i>orange</i> clusters at the same time.</p></li>
+
+    <li><p>It could use a grid-based algorithm for performance. Currently it has O(n²) complexity and would degrade if given thousands of inputs.</p></li>
   </ul>
 </section>
 
