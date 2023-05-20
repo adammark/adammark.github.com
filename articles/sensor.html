@@ -91,13 +91,11 @@ const icons = locations.filter((loc) => {
       aria-pressed={loc.id === selectedId}
       transform={`translate(${loc.x},${loc.y}) scale(${loc.scale})`}
       onClick={...}>
-      {loc.id === selected ? (
-        &lt;circle
-          cx="15"
-          cy="15"
-          r="15"
-          data-tooltip={tx(loc.id)}/&gt;
-      ) : null}
+      &lt;circle
+        cx="15"
+        cy="15"
+        r="15"
+        data-tooltip={tx(loc.id)}/&gt;
       &lt;g transform={`translate(15 15) rotate(${loc.orientation})`}&gt;
         &lt;image
           xlinkHref="location.svg"
