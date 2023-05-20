@@ -116,7 +116,7 @@ function cluster(inputs: Input[], scale: number, radius: number): Output[] {
   }
  
   return results.map((output) => {
-    const inputs = output.inputs;
+    const { inputs } = output;
 
     // a new, unique key
     const key = inputs.map((d) => d.key).join(',');
@@ -148,9 +148,7 @@ function cluster(inputs: Input[], scale: number, radius: number): Output[] {
 
 <pre>
 <code class="language-typescript">
-export function MarkerDemo() {
-  ... 
-
+function MarkerDemo() {
   // scale of the map
   const [scale, setScale] = useState(3);
 
