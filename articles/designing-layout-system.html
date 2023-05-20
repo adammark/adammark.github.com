@@ -1,0 +1,153 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Designing a layout system for big-screen dashboards</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Designing a layout system for big-screen dashboards"/>
+
+<link href="../main.css?1684601839395" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Designing a layout system for big-screen dashboards</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system using TypeScript and React.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our customers wanted to display system dashboards on large monitors. <i>We needed to build a variety of dashboards using a simple but highly flexible layout system.</i></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/86ebe97f-36b1-4811-b4ba-6b89d7efa1e8" width="100%"/></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/df766405-f78e-4bfb-afaf-7ad6af8e24c1" width="100%"/></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/7600cc52-f9e9-4292-ae60-9d20aeda18bf" width="100%"/></p>
+
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I created a system of layout "strategies" that could handle any conceivable configuration of one to four panels:</p>
+
+<p><img src="https://user-images.githubusercontent.com/28193/211091084-859b7edd-c42b-49e1-a024-86f2421a8872.png" width="100%"/></p>
+
+<p>A single strategy could take on multiple forms by moving the "breakpoints" between panels:</p>
+
+<p><img src="https://user-images.githubusercontent.com/28193/211103417-6cb195c5-480c-431c-9249-9c9c59403eb9.png" width="100%"/></p>
+
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>First, I defined eight basic strategies:</p>
+
+<pre>
+<code class="language-typescript">
+type LayoutStrategy =
+  | 'one'
+  | 'one-by-one'
+  | 'one-by-two'
+  | 'two-by-one'
+  | 'two-by-two'
+  | 'one-over-one'
+  | 'one-over-two'
+  | 'two-over-one';
+</code>
+</pre>
+    
+<p>Then I used CSS Grid Layout to establish the default attributes of each strategy:</p>
+
+<pre>
+<code class="language-css">
+.dashboard {
+  display: grid;
+  ...
+}
+
+.dashboard[data-strategy='one-by-one'] {
+  grid-template-areas: 'a b';
+  grid-template-columns: 1fr 3fr;
+}
+
+.dashboard[data-strategy='one-over-two'] {
+  grid-template-areas: 'a a' 'b c';
+  grid-template-rows: 15vh 85vh;
+  grid-template-columns: 1fr 1fr;
+}
+
+...
+</code>
+</pre>
+
+<p>Then I created a utility method to manually override <b>grid-template-rows</b> and <b>grid-template-columns</b> if given custom breakpoints:</p>
+
+<pre>
+<code class="language-typescript">
+function computeBreakpoints(
+  strategy: LayoutStrategy,
+  breakpoints: number[]
+): React.CSSProperties => {
+    ...
+    return style;
+  }
+}
+</code>
+</pre>
+
+<p>Finally, I created a simple <b>Dashboard</b> component that accepts a <b>strategy</b>, optional <b>breakpoints</b> and child panels:</p>
+<pre>
+<code class="language-typescript">
+&lt;Dashboard strategy="one-over-two" breakpoints={[0.15, 0.65]}&gt;
+  &lt;Panel color={Color.Red}&gt;
+    Top
+  &lt;/Panel&gt;
+  &lt;Panel color={Color.Green}&gt;
+    Left
+  &lt;/Panel&gt;
+  &lt;Panel color={Color.Blue}&gt;
+    Right
+  &lt;/Panel&gt;
+&lt;/Dashboard&gt;
+</code>
+</pre>
+</section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>My solution allowed us to spin up new dashboard designs with no fuss and a <i>light code footprint</i>.</p>
+</section>
+
+</main>
+
+<script>
+Array.from(document.querySelectorAll("code")).forEach((elem) => {
+  elem.innerHTML = elem.innerHTML.trim();
+});
+
+hljs.highlightAll();
+</script>
+
+</body>
+
+</html>
