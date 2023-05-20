@@ -78,6 +78,10 @@ dt {
   color: #173d71;
 }
 
+li {
+  margin-bottom: 0.35em;
+}
+
 @media print {
   main {
     margin: 0;
