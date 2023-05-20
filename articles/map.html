@@ -121,7 +121,7 @@ function cluster(inputs: Input[], scale: number, radius: number): Output[] {
     // a new, unique key
     const key = inputs.map((d) => d.key).join(',');
 
-    // sum of all inputs
+    // sum count
     const count = sum(inputs, 'count');
   
     // center point of the cluster
@@ -144,7 +144,7 @@ function cluster(inputs: Input[], scale: number, radius: number): Output[] {
 </code>
 </pre>
 
-<p>Now to put it together. The following React component passes 300 random <b>inputs</b> into the clustering function and uses the resulting <b>outputs</b> to drop "pins" on the map:</p>
+<p>Now for the UI. The following React component passes 300 random <b>inputs</b> into the clustering function and uses the resulting <b>outputs</b> to drop "pins" on the map:</p>
 
 <pre>
 <code class="language-typescript">
