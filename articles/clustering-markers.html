@@ -67,7 +67,7 @@ type Input = {
 </code>
 </pre>
 
-<p>An <b>Output</b> takes the same shape as an <b>Input</b> yet also retains a reference to its constituent inputs. This way, the presentation layer can render interactive markers that reveal more information when clicked:</p>
+<p>An <b>Output</b> takes the same shape as an <b>Input</b> yet also retains a reference to its constituent inputs:</p>
 
 <pre>
 <code class="language-typescript">
@@ -77,102 +77,31 @@ type Output = Input & {
 </code>
 </pre>
   
-<p>The clustering function itself accepts an array of <b>inputs</b>, the <b>scale</b> of the map (as the map can zoom in and out) and a clustering <b>radius</b> (a larger radius packs more data). It returns an array of <b>outputs</b>:</p>
+<p>The clustering function itself accepts an array of <b>inputs</b>, the current <b>scale</b> of the map, and a search <b>radius</b> (a larger radius packs more data). It returns an array of <b>outputs</b>:</p>
 
 <pre>
 <code class="language-typescript">
 function cluster(inputs: Input[], scale: number, radius: number): Output[] {
-  const results: Output[] = [];
-  const keys = new Set&lt;string&gt;();
-  
-  // start with the maximal set of outputs (one per input)
-  const outputs: Output[] = inputs.map((a, i) => {
-    return {
-      ...a,
-      inputs: inputs.slice(i).filter((b) => {
-        return distance(a.point, b.point) < radius / (scale / 3);
-      }),
-    };
-  });
-  
-  // eliminate duplicates
-  while (outputs.length) {
-    const [output] = outputs.splice(0, 1);
-  
-    if (!keys.has(output.key)) {
-      results.push(output);
-      output.inputs = output.inputs.filter((s) => {
-        return !keys.has(s.key);
-      });
-  
-      keys.add(output.key);
-
-      output.inputs.forEach((input) => {
-        keys.add(input.key);
-      });
-    }
-  }
- 
-  return results.map((output) => {
-    const { inputs } = output;
-
-    // a new, unique key
-    const key = inputs.map((d) => d.key).join(',');
-
-    // sum count
-    const count = sum(inputs, 'count');
-  
-    // center point of the cluster
-    const points = inputs.map((d) => d.point);
-    const x = extent(points, 'x');
-    const y = extent(points, 'y');
-    const point: Point = {
-      x: (x[0] + x[1]) / 2,
-      y: (y[0] + y[1]) / 2,
-    };
-  
-    return {
-      key,
-      point,
-      count,
-      inputs,
-    };
-  });
+  ...
+  return outputs;  
 }
 </code>
 </pre>
 
-<p>Now for the UI. The following React component passes 300 random <b>inputs</b> into the clustering function and uses the resulting <b>outputs</b> to drop "pins" on the map:</p>
+<p>Now we can use the <b>outputs</b> of the cluster function to drop "pins" on the map:</p>
 
 <pre>
 <code class="language-typescript">
-function MarkerDemo() {
-  // scale of the map
-  const [scale, setScale] = useState(3);
+function DemoDashboard() {
+  ...
 
-  // random input data
-  const inputs: Input[] = new Array(300).fill(0).map((_, i) => {
-    const x = 50 + Math.random() * 100;
-    const y = 5 + Math.random() * 50;
-  
-    return {
-      key: i.toString(),
-      point: { x, y },
-      count: 1,
-    };
-  });
-
-  // size of a pin
+  const [scale, setScale] = useState(1);
+  const inputs: Input[] = data;
   const pinSize = 5;
-
-  // search radius
   const radius = pinSize * 1.5;
-
-  // clustered output data
   const outputs: Output[] = cluster(inputs, scale, radius);
 
-  // pin components
-  const pins = outputs.map((output) => {
+  const annotations = outputs.map((output) => {
     return (
       &lt;Annotation key={output.key} x={output.point.x} y={output.point.y} scale="ignore"&gt;
         &lt;Pin color={Color.Blue} value={output.count} size={pinSize} /&gt;
@@ -183,7 +112,7 @@ function MarkerDemo() {
   return (
     &lt;Dashboard&gt;
       &lt;Map onZoom={(evt) => setScale(evt.scale)} ...&gt;
-        &lt;g&gt;{pins}&lt;/g&gt;
+        &lt;g&gt;{annotations}&lt;/g&gt;
       &lt;/Map&gt;
     &lt;/Dashboard&gt;
   );
@@ -195,13 +124,7 @@ function MarkerDemo() {
 <section>
 <h3>Conclusion</h3>
 
-<p>My code served a specific purpose: clustering a limited number of data points of the same type. Here's where it could be improved:</p>
-
-<ul>
-<li><p>It could handle different <i>types</i> of inputs such that the map could display <i>apple</i> clusters and <i>orange</i> clusters at the same time.</p></li>
-
-<li><p>It could use a grid-based algorithm for performance. Currently it has O(n²) complexity and would degrade if given thousands of inputs.</p></li>
-</ul>
+<p>My utility function was a straightforward solution to a sticky problem. In the next version, I'd like to support different <i>types</i> of inputs at the same time.</p>
 </section>
 
 </main>
