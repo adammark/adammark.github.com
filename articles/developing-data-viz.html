@@ -1,0 +1,108 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Developing custom data visualizations for a biometric system</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Developing custom data visualizations for a biometric system"/>
+
+<link href="../main.css?1684601839395" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Developing custom data visualizations for a biometric system</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2015 to 2020, I designed and developed web applications for a medical-grade wearable device, using React, Redux and SVG.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our system captured high-resolution physiological data—up to 1,000 samples <i>per second</i>—and displayed it to users in novel ways. <i>We needed a visualization library that supported unconventional designs.</i></p>
+
+<img src="https://github.com/adammark/adammark.github.com/assets/28193/2c04657e-c3ea-4205-892a-d51a9f7ebf0d" width="100%"/>
+</section>
+
+<section>
+<h3>Solution</h3> 
+
+<p>I selected <a href="https://d3js.org/" target="_blank">D3</a>, a library for manipulating and transforming data into visual components. With D3, I could do things that weren't possible with traditional charting libraries, such as creating irregular scales. And with D3's extensive set of <a href="https://github.com/d3/d3/blob/main/API.md" target="_blank">utilities</a>, I could work with data at all levels of resolution, from <i>daily</i> to <i>hourly</i> to <i>sub-second</i>:</p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/2723ee83-2251-43b7-ae19-dbc6b586079d" width="100%"/></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/77665258-65e0-4cf2-b5ee-0c8366c6b8d8" width="100%"/></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/ca382426-954b-4577-9e32-006f1bfcf785" width="100%"/></p>
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>To visualize resting posture, as shown in the first screenshot above, I plotted 1-minute posture samples across two dimensions, the coronal plane (x) and the sagittal plane (y), and exaggerated the area of interest (+/-45 degrees in both planes) by using an irregular scale:</p>
+
+<pre>
+<code class="language-javascript">
+function PostureChart({ data }) {
+  const domain = [-90, -45, 45, 90];
+
+  // squash outlying samples into a 15-pixel band around the perimeter
+  const range = [0, 15, 235, 250];
+  const scale = d3.scaleLinear().domain(domain).range(range);
+  const node = d3.select(".posture-data");
+  const dots = node.selectAll("circle").data(data, (d) => d.ts);
+
+  dots
+    .enter()
+    .append("circle")
+    .attr("r", 3)
+    .attr("cx", (d) => scale(d.value.ca))
+    .attr("cy", (d) => scale(d.value.sa));
+
+  dots
+    .exit()
+    .remove();
+
+  return (
+    &lt;svg width="250" height="250"&gt;
+      &lt;image xlinkHref="posture.svg" width="250" height="250"/&gt;
+      &lt;g className="posture-data"/&gt;
+    &lt;/svg&gt;
+  );
+};
+</code>
+</pre>
+
+<section>
+  <h3>Conclusion</h3>
+
+  <p>D3 is an excellent choice for creating non-standard, proprietary data visualizations. For conventional charting, I like <a href="https://echarts.apache.org/" target="_blank">ECharts</a>, but for the crazy stuff I'll stick with D3!</p>
+</section>
+
+</main>
+
+<script>
+Array.from(document.querySelectorAll("code")).forEach((elem) => {
+  elem.innerHTML = elem.innerHTML.trim();
+});
+
+hljs.highlightAll();
+</script>
+
+</body>
+
+</html>
