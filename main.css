@@ -1,3 +1,5 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css';
+
 body {
   background: white;
   margin: 0;
@@ -6,6 +8,14 @@ body {
   font-family: Helvetica Neue, Helvetica, sans-serif;
   letter-spacing: 0em;
   color: #111;
+}
+
+pre {
+  line-height: 1.3em;
+}
+
+.hljs {
+  background: #181a1f;
 }
 
 code {

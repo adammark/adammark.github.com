@@ -9,9 +9,6 @@
 
 <link href="../main.css?1684601839395" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-
 </head>
 
 <body>
@@ -56,69 +53,58 @@
 
 <p>An <b>Input</b> represents a single bit of data: its location (point), its value (count), an identifier (key) and some optional metadata:</p>
 
-<pre>
-<code class="language-typescript">
-type Input = {
-  key: string;
-  point: Point;
-  count: number;
-  metadata?: unknown;
-};
-</code>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Input</span> = {
+  <span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">point</span>: <span class="hljs-title class_">Point</span>;
+  <span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">metadata?</span>: <span class="hljs-built_in">unknown</span>;
+};</code>
 </pre>
 
 <p>An <b>Output</b> takes the same shape as an <b>Input</b> yet also retains a reference to its constituent inputs:</p>
 
-<pre>
-<code class="language-typescript">
-type Output = Input & {
-  inputs: Input[];
-};
-</code>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-title class_">Input</span> &amp; {
+  <span class="hljs-attr">inputs</span>: <span class="hljs-title class_">Input</span>[];
+};</code>
 </pre>
-  
+
 <p>The clustering function itself accepts an array of <b>inputs</b>, the current <b>scale</b> of the map, and a search <b>radius</b> (a larger radius packs more data). It returns an array of <b>outputs</b>:</p>
 
-<pre>
-<code class="language-typescript">
-function cluster(inputs: Input[], scale: number, radius: number): Output[] {
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">cluster</span>(<span class="hljs-params">inputs: <span class="hljs-title class_">Input</span>[], scale: <span class="hljs-built_in">number</span>, radius: <span class="hljs-built_in">number</span></span>): <span class="hljs-title class_">Output</span>[] {
   ...
-  return outputs;  
-}
-</code>
+  <span class="hljs-keyword">return</span> outputs;
+}</code>
 </pre>
 
 <p>Now we can use the <b>outputs</b> of the cluster function to drop "pins" on the map:</p>
 
-<pre>
-<code class="language-typescript">
-function DemoDashboard() {
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">DemoDashboard</span>(<span class="hljs-params"></span>) {
   ...
 
-  const [scale, setScale] = useState(1);
-  const inputs: Input[] = data;
-  const pinSize = 5;
-  const radius = pinSize * 1.5;
-  const outputs: Output[] = cluster(inputs, scale, radius);
+  <span class="hljs-keyword">const</span> [scale, setScale] = <span class="hljs-title function_">useState</span>(<span class="hljs-number">1</span>);
+  <span class="hljs-keyword">const</span> pinSize = <span class="hljs-number">5</span>;
+  <span class="hljs-keyword">const</span> radius = pinSize * <span class="hljs-number">1.5</span>;
+  <span class="hljs-keyword">const</span> inputs: <span class="hljs-title class_">Input</span>[] = data;
+  <span class="hljs-keyword">const</span> outputs: <span class="hljs-title class_">Output</span>[] = <span class="hljs-title function_">cluster</span>(inputs, scale, radius);
 
-  const annotations = outputs.map((output) => {
-    return (
-      &lt;Annotation key={output.key} x={output.point.x} y={output.point.y} scale="ignore"&gt;
-        &lt;Pin color={Color.Blue} value={output.count} size={pinSize} /&gt;
-      &lt;/Annotation&gt;
+  <span class="hljs-keyword">const</span> pins = outputs.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">output</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Annotation</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{output.key}</span> <span class="hljs-attr">x</span>=<span class="hljs-string">{output.point.x}</span> <span class="hljs-attr">y</span>=<span class="hljs-string">{output.point.y}</span> <span class="hljs-attr">scale</span>=<span class="hljs-string">"ignore"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Pin</span> <span class="hljs-attr">color</span>=<span class="hljs-string">{Color.Blue}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{output.count}</span> <span class="hljs-attr">size</span>=<span class="hljs-string">{pinSize}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Annotation</span>&gt;</span></span>
     );
   });
 
-  return (
-    &lt;Dashboard&gt;
-      &lt;Map onZoom={(evt) => setScale(evt.scale)} ...&gt;
-        &lt;g&gt;{annotations}&lt;/g&gt;
-      &lt;/Map&gt;
-    &lt;/Dashboard&gt;
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Dashboard</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Map</span> <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; setScale(evt.scale)}</span> ...&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">g</span>&gt;</span>{pins}<span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Map</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Dashboard</span>&gt;</span></span>
   );
-}
-</code>
+}</code>
 </pre>
+
 </section>
 
 <section>
@@ -128,14 +114,6 @@ function DemoDashboard() {
 </section>
 
 </main>
-
-<script>
-Array.from(document.querySelectorAll("code")).forEach((elem) => {
-  elem.innerHTML = elem.innerHTML.trim();
-});
-
-hljs.highlightAll();
-</script>
 
 </body>
 
