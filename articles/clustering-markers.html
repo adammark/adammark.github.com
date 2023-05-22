@@ -76,9 +76,9 @@
 }</code>
 </pre>
 
-<p>Finally, I could drop one "pin" on the map for each <b>output</b>:</p>
+<p>Finally, with just a few lines of code, I was able to eliminate the clutter in a data-intensive map. Below, the map displays one "pin" per <b>output</b>:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">DemoDashboard</span>(<span class="hljs-params"></span>) {
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">DemoMap</span>(<span class="hljs-params"></span>) {
   ...
 
   <span class="hljs-keyword">const</span> [scale, setScale] = <span class="hljs-title function_">useState</span>(<span class="hljs-number">1</span>);
@@ -96,11 +96,9 @@
   });
 
   <span class="hljs-keyword">return</span> (
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Dashboard</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">Map</span> <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; setScale(evt.scale)}</span> ...&gt;
-        <span class="hljs-tag">&lt;<span class="hljs-name">g</span>&gt;</span>{pins}<span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">Map</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Dashboard</span>&gt;</span></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">Map</span> <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; setScale(evt.scale)}</span> ...&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">g</span>&gt;</span>{pins}<span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Map</span>&gt;</span>
   );
 }</code>
 </pre>
