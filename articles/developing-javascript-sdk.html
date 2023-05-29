@@ -1,0 +1,88 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Developing a JavaScript SDK for a biometric sensor</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Developing a JavaScript SDK for a biometric sensor"/>
+
+<link href="../main.css?1684708627937" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Developing a JavaScript SDK for a biometric sensor</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2015 to 2020, I designed and developed web applications for a clinical-grade biometric sensor. In 2020, my company introduced an open-source version of this sensor.</p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/103631ef-f413-4a7c-8b83-4c0fbdb0e2b3" width="100%"/></p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our biometric sensor had no user interface, so it was difficult for developers to see it working in real-time, configure it or debug it. <i>We needed a great out-of-the-box developer experience that included a rich UI and "just worked."</i></p>
+</section>
+
+<section>
+<h3>Solution</h3> 
+
+<p>I developed a <a target="_blank" href="https://github.com/MC10Inc/biostamp-js">JavaScript SDK</a> that powered a browser-based development console:</p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/91b30d09-f561-4f60-afca-aa3d4358aaa8" width="100%"/></p>
+
+<p>The console allowed developers to connect to a sensor right out of the box without provisioning a mobile app. Plus it provided a much bigger screen for viewing data streams in real time.</p>
+
+<p>The web interface also made it a snap to download sensor "recordings" to the desktop and upload new firmware to the sensor.</p>
+
+<p>Finally, the web UI could be updated on a daily basis (without app store review cycles).</p>
+
+</section>
+
+<section>
+<h3>The Code</h3>
+
+<p>I developed <i>three variants</i> of the <a target="_blank" href="https://github.com/MC10Inc/biostamp-js">JavaScript SDK</a>, all sharing the same foundational code:</p>
+
+  <ul>
+    <li><p>A <b>browser</b> version which powered the development console and used the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API" target="_blank"> Web Bluetooth API</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank">IndexedDB API</a></p></li>
+    <li><p>A <b>Node.js</b> version which used a <a href="https://www.npmjs.com/package/@abandonware/noble" target="_blank">Bluetooth Low Energy (BLE) module</a> and <a href="https://www.npmjs.com/package/sqlite3" target="_blank">SQLite</a></p></li>
+    <li><p>A <b>Node.js</b> version for a <a href="https://github.com/NordicSemiconductor/pc-ble-driver-js" target="_blank">BLE driver</a> compatible with the sensor's hardware</p></li>
+  </ul>
+
+<p>I wrote a <i>common API</i> to support all three versions and used <a href="https://lerna.js.org/" target="_blank">Lerna</a> to modularize the code base.</p>
+
+<p>Here's a basic example of how to connect to a sensor from the web browser and blink the LEDs:</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">let</span> { BiostampSensor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@mc10inc/biostamp-js-web"</span>);
+
+BiostampSensor.connect(<span class="hljs-string">"BRC3"</span>).then((sensor) =&gt; {
+  sensor.blinkLeds();
+}).catch((error) =&gt; {
+  <span class="hljs-built_in">console</span>.info(error.message);
+});</code>
+</pre>
+
+
+<section>
+<h3>Conclusion</h3>
+
+<p>The JavaScript SDK and the online development console made it a breeze for developers of all stripes to work with our sensors. What's more, the web UI made it super easy for us to demo the system to prospective customers!</p>
+</section>
+
+</main>
+
+</body>
+
+</html>
