@@ -1,0 +1,111 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Improving map performance with Canvas</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Improving map performance with Canvas"/>
+
+<link href="../main.css?1685368683753" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Improving map performance with Canvas</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system using TypeScript, React and SVG.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our custom mapping system was built with SVG. While SVG was both flexible and easy to use—especially with React—it started to drag when we rendered more than few hundred elements on the map. This prevented us from creating complex data visualizations, such as heat maps.</i></p>
+
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I created a drawing canvas using the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>, along with utility methods for working with the map's coordinate space.</p>
+
+<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here, in which I plotted 1,000 random, color-coded¹ bubbles:</p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/f81b7d41-9206-4ecd-91d7-f45ef7ec111d" width="100%"/></p>
+
+<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/4f716197-72c4-4609-a8d7-61b7a9095330" width="100%"/></p>
+
+<p>As the user pans and zooms, the canvas redraws itself up to 50 times a second with no appreciable impact on performance.</p>
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>First, I created a hook in the map library that allowed clients to access the drawing context:</p>
+
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">const</span> canvas = useMapCanvas();
+<span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);</code></pre>
+
+<p>Then I added a callback function to the map component, allowing clients to respond to zoom and pan events:</p>
+
+<pre><code class="language-typescript hljs">&lt;<span class="hljs-name">Map</span>
+  <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
+  <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; ...}</span>
+/&gt;
+</code></pre>
+
+<p>Finally, for this demo, I created 1,000 random bubbles and a function to render them whenever the map is manipulated. Putting it all together:</p>
+
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { Map, useMapCanvas, resetMapContext } <span class="hljs-keyword">from</span> <span class="hljs-string">'map-element'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DemoMap</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> canvas = useMapCanvas();
+  <span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);
+  <span class="hljs-keyword">const</span> bubbles = ...;
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span>(<span class="hljs-params">context: CanvasRenderingContext2D, scale: number, center: Point, size: Dimensions</span>) </span>{
+    requestAnimationFrame(() =&gt; {
+      resetMapContext(context, scale, center, dimensions, <span class="hljs-literal">true</span>);
+  
+      bubbles.forEach((bubble) =&gt; {
+        context.fillStyle = bubble.color;
+        context.beginPath();
+        context.arc(bubble.x, bubble.y, bubble.radius, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI);
+        context.fill();
+      });
+    });
+  }
+
+  <span class="hljs-keyword">return</span> (
+    <span class="hljs-tag">&lt;<span class="hljs-name">Map</span>
+      <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
+      <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; draw(context, evt.scale, evt.center, evt.size)}</span>
+    /&gt;
+  );
+}</span>
+</code></pre>
+<section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>Adding a low-level drawing layer to the map opened the door to all kinds of interesting (and fast) data visualizations.</p>
+
+<p><small>¹ The rainbow effect is courtesy of ChatGPT. I asked it to create a utility function that accepts an input <i>x</i> on a scale of 0 to 1 and returns a corresponding color of the rainbow (as a hex string) on a scale of red to violet. Its first attempt failed, but it got there with a little coaching.</small></p>
+</section>
+
+</main>
+
+</body>
+
+</html>
