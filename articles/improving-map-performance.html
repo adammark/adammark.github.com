@@ -39,13 +39,16 @@
 
 <p>I created a drawing canvas using the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>, along with utility methods for working with the map's coordinate space.</p>
 
-<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here (for demonstration purposes), in which I plotted 1,000 random, color-coded¹ bubbles:</p>
+<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here (for demonstration purposes), in which I plotted 1,000 random, color-coded bubbles:</p>
 
 <p><img src="https://github.com/adammark/adammark.github.com/assets/28193/67c76222-d56d-4b4a-ac36-8d7087647a5a" width="100%"/></p>
 
 <p><img src="https://github.com/adammark/adammark.github.com/assets/28193/b6a4940a-0e0e-4a0a-8ac9-494e23c3879b" width="100%"/></p>
 
-<p>As the user pans and zooms, the canvas redraws itself up to 50 times per second with no discernible impact on performance.</p>
+<p>As the user manipulates the map, the canvas redraws itself up to 50 times per second with no discernible impact on performance:</p>
+
+<p><video src="https://github.com/adammark/adammark.github.com/assets/28193/05e3d950-a0e4-4500-b170-81129565be58" width="100%" controls/></p>
+
 </section>
 
 <section>
@@ -78,7 +81,7 @@
       resetMapContext(context, scale, center, dimensions, <span class="hljs-literal">true</span>);
   
       data.forEach((d) =&gt; {
-        context.fillStyle = d.color;
+        context.fillStyle = ...;
         context.beginPath();
         context.arc(d.x, d.y, d.radius, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI);
         context.fill();
