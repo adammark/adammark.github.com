@@ -39,24 +39,24 @@
 
 <p>I created a drawing canvas using the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>, along with utility methods for working with the map's coordinate space.</p>
 
-<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here for demonstration purposes, in which I plotted 1,000 random, color-coded¹ bubbles:</p>
+<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here (for demonstration purposes), in which I plotted 1,000 random, color-coded¹ bubbles:</p>
 
 <p><img src="https://github.com/adammark/adammark.github.com/assets/28193/f81b7d41-9206-4ecd-91d7-f45ef7ec111d" width="100%"/></p>
 
 <p><img src="https://github.com/adammark/adammark.github.com/assets/28193/4f716197-72c4-4609-a8d7-61b7a9095330" width="100%"/></p>
 
-<p>As the user pans and zooms, the canvas redraws itself up to 50 times per second with no appreciable impact on performance.</p>
+<p>As the user pans and zooms, the canvas redraws itself up to 50 times per second with no discernible impact on performance.</p>
 </section>
 
 <section>
 <h3>The code</h3>
 
-<p>First, I created a hook in the map library that allows clients to access the drawing context:</p>
+<p>First, I created a hook in the map library that allows client applications to access the drawing context:</p>
 
 <pre><code class="language-typescript hljs"><span class="hljs-keyword">const</span> canvas = useMapCanvas();
 <span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);</code></pre>
 
-<p>Then I added a callback function to the map component that allows clients to respond to zoom and pan events:</p>
+<p>Then I added a callback function to the Map component that allows clients to respond to zoom and pan events:</p>
 
 <pre><code class="language-typescript hljs">&lt;<span class="hljs-name">Map</span>
   <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
@@ -64,23 +64,23 @@
 /&gt;
 </code></pre>
 
-<p>Finally, for this demo, I generated a sample data set and a function to draw bubbles whenever the map is manipulated. Putting it all together:</p>
+<p>Finally, for this demo, I generated a sample data set and a function to render bubbles from that data whenever the map is manipulated. Putting it all together:</p>
 
 <pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { Map, useMapCanvas, resetMapContext } <span class="hljs-keyword">from</span> <span class="hljs-string">'map-element'</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DemoMap</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">const</span> canvas = useMapCanvas();
   <span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);
-  <span class="hljs-keyword">const</span> bubbles = ...;
+  <span class="hljs-keyword">const</span> data = ...;
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span>(<span class="hljs-params">context: CanvasRenderingContext2D, scale: number, center: Point, size: Dimensions</span>) </span>{
     requestAnimationFrame(() =&gt; {
       resetMapContext(context, scale, center, dimensions, <span class="hljs-literal">true</span>);
   
-      bubbles.forEach((bubble) =&gt; {
-        context.fillStyle = bubble.color;
+      data.forEach((d) =&gt; {
+        context.fillStyle = d.color;
         context.beginPath();
-        context.arc(bubble.x, bubble.y, bubble.radius, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI);
+        context.arc(d.x, d.y, d.radius, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI);
         context.fill();
       });
     });
@@ -99,9 +99,9 @@
 <section>
 <h3>Conclusion</h3>
 
-<p>Adding a drawing canvas to the map opened the door to all kinds of interesting (and fast) data visualizations.</p>
+<p>Adding a canvas layer to the map opened the door to all kinds of interesting data visualizations without sacrificing performance. While SVG excelled at rendering basic map features, Canvas allowed us to render almost anything.</p>
 
-<p><small>¹ The rainbow effect is courtesy of ChatGPT. I asked it to create a utility function that maps a number between 0 and 1 (representing the x axis) to a color of the rainbow.</small></p>
+<p><small>¹ The rainbow effect is courtesy of ChatGPT. I asked it to create a utility function that maps a number between 0 and 1 (representing the x axis) to a color of the spectrum.</small></p>
 </section>
 
 </main>
