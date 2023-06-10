@@ -30,22 +30,20 @@
 <section>
 <h3>Problem</h3>
 
-<p>Our custom mapping system was built with SVG. While SVG was versatile and easy to use—especially with React—it started to drag when we rendered more than a few hundred elements on the map. This prevented us from creating complex data visualizations, such as heat maps.</i></p>
+<p>Our custom mapping system was built with SVG. While SVG was versatile and worked nicely with React, it showed strain when we tried to render more than a few hundred elements at once. This prevented us from creating complex data visualizations like heat maps.</i></p>
 
 </section>
 
 <section>
 <h3>Solution</h3>
 
-<p>I created a drawing canvas using the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>, along with utility methods for working with the map's coordinate space.</p>
+<p>I added a drawing layer using the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>, along with utility methods for working with the map's coordinate system. This allowed us to draw thousands of individual elements on the screen without sacrificing performance, as shown in the following examples:</p>
 
-<p>The canvas layer enabled all kinds of arbitrary data visualizations, such as the one shown here (for demonstration purposes), in which I plotted 1,000 random, color-coded bubbles:</p>
+<p><img src="https://user-images.githubusercontent.com/28193/216771249-da851b28-9591-4327-a696-891a3a9414cc.png" width="100%"/></p>
 
-<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/67c76222-d56d-4b4a-ac36-8d7087647a5a" width="100%"/></p>
+<p><img src="https://user-images.githubusercontent.com/28193/216777398-ec513b0e-efa9-4540-9bc2-b93bf8f55a02.png" width="100%"/></p>
 
-<p><img src="https://github.com/adammark/adammark.github.com/assets/28193/b6a4940a-0e0e-4a0a-8ac9-494e23c3879b" width="100%"/></p>
-
-<p>As the user manipulates the map, the canvas redraws itself up to 50 times per second with no discernible impact on performance:</p>
+<p>The following demo illustrates the performance power of Canvas. As the user zooms in and out, the canvas redraws 1,000 circles up to <b>50 times per second</b>:</p>
 
 <p><video src="https://github.com/adammark/adammark.github.com/assets/28193/05e3d950-a0e4-4500-b170-81129565be58" width="100%" controls/></p>
 
@@ -59,7 +57,7 @@
 <pre><code class="language-typescript hljs"><span class="hljs-keyword">const</span> canvas = useMapCanvas();
 <span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);</code></pre>
 
-<p>Then I added a callback function to the Map component that allows clients to respond to zoom and pan events:</p>
+<p>Then I added a callback function to the Map component that allows client applications to respond to zoom and pan events:</p>
 
 <pre><code class="language-typescript hljs">&lt;<span class="hljs-name">Map</span>
   <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
@@ -67,7 +65,7 @@
 /&gt;
 </code></pre>
 
-<p>Finally, for this demo, I generated a sample data set and a function to render bubbles from that data whenever the map is manipulated. Putting it all together:</p>
+<p>Finally, I implemented a drawing function in the client application that runs whenever the user manipulates the map. Putting it all together:</p>
 
 <pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { Map, useMapCanvas, resetMapContext } <span class="hljs-keyword">from</span> <span class="hljs-string">'map-element'</span>;
 
@@ -102,7 +100,7 @@
 <section>
 <h3>Conclusion</h3>
 
-<p>Adding a canvas layer to the map opened the door to all kinds of interesting data visualizations without sacrificing performance. While SVG excelled at rendering basic map features, Canvas allowed us to render almost anything.</p>
+<p>Adding a canvas layer to the map opened the door to all kinds of interesting data visualizations. While SVG excelled at rendering basic map features, Canvas allowed us to render almost anything, and fast!</p>
 </section>
 
 </main>
