@@ -1,0 +1,201 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Selecting the right data visualization library</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Selecting the right data visualization library"/>
+
+<link href="../main.css?1685368683753" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Home</a>
+
+<h1>Selecting the right data visualization library</h1>
+
+<h2>Adam Mark</h2>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system using TypeScript, React and SVG.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our system generated a ton of time-series data but we had no way to visualize it inside our own applications. <i>We needed to find a great data visualization library that was both easy to use and easy to customize.</i></p>
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I tested a half dozen data visualization libraries—including <a href="https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href="https://g2.antv.vision/en/" target="_blank">G2</a>, and <a href="https://d3js.org/" target="_blank">D3</a>—and ultimately picked <a href="https://echarts.apache.org/en/index.html" target="_blank">ECharts</a>, which rendered the time-series charts pictured below:</p>
+
+<p><img width="100%" src="https://github.com/adammark/adammark.github.com/assets/28193/706bdd1b-3c87-4f3b-9ecd-616962d43e98"/></p>
+
+<p><img width="100%" src="https://github.com/adammark/adammark.github.com/assets/28193/65b8ebb9-8ed8-4c1c-84d8-500713a51c40"/></p>
+
+<p>What made Echarts stand out?</p>
+
+<ol>
+  <li>Blazing performance with a canvas renderer</li>
+  <li>Modularity (I could include only the parts I needed)</li>
+  <li>Composability (I could combine different chart types)</li>
+  <li>Declarative API</li>
+  <li>Great <a href="https://echarts.apache.org/examples/en/index.html" target="_blank">examples</a></li>
+  <li>Robust <a href="https://echarts.apache.org/en/option.html" target="_blank">documentation</a></li>
+  <li>Fine control over the look and feel</li>
+  <li>An insane selection of charts and graphs</li>
+  <li>A great price (free)</li>
+  <li><a href="https://github.com/apache/echarts" target="_blank">Open-source</a> code</li>
+</ol>
+
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>First, I wrote a wrapper component in our dashboard library, saving developers the trouble of having to instantiate Echarts themselves:</p>
+
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> <span class="hljs-string">'./EChart.css'</span>;
+
+<span class="hljs-keyword">import</span> { PieChart, BarChart, LineChart } from <span class="hljs-string">'echarts/charts'</span>;
+<span class="hljs-keyword">import</span> { GridComponent } from <span class="hljs-string">'echarts/components'</span>;
+<span class="hljs-keyword">import</span> * as echarts from <span class="hljs-string">'echarts/core'</span>;
+<span class="hljs-keyword">import</span> { EChartsCoreOption } from <span class="hljs-string">'echarts/core'</span>;
+<span class="hljs-keyword">import</span> { CanvasRenderer } from <span class="hljs-string">'echarts/renderers'</span>;
+<span class="hljs-keyword">import</span> { useRef, useEffect } from <span class="hljs-string">'react'</span>;
+
+echarts.use([PieChart, BarChart, LineChart, GridComponent, CanvasRenderer]);
+
+echarts.registerTheme(<span class="hljs-string">'6rs'</span>, {
+  axisLabel: {
+    color: <span class="hljs-string">'rgba(255, 255, 255, 0.75)'</span>,
+  },
+});
+
+<span class="hljs-keyword">interface</span> Props {
+  option: EChartsCoreOption;
+  width?: <span class="hljs-built_in">number</span>;
+  height?: <span class="hljs-built_in">number</span>;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">EChart</span>(<span class="hljs-params">{ option, width = 400, height = 300 }: Props</span>) </span>{
+  <span class="hljs-keyword">const</span> container = useRef&lt;HTMLDivElement&gt;(<span class="hljs-literal">null</span>);
+  <span class="hljs-keyword">const</span> chart = useRef&lt;echarts.ECharts&gt;();
+
+  useEffect(() =&gt; {
+    <span class="hljs-keyword">if</span> (!chart.current) {
+      <span class="hljs-keyword">if</span> (container.current) {
+        chart.current = echarts.init(container.current, <span class="hljs-string">'6rs'</span>);
+      }
+    }
+  }, []);
+
+  useEffect(() =&gt; {
+    <span class="hljs-keyword">if</span> (chart.current) {
+      chart.current.setOption({ ...option, silent: <span class="hljs-literal">true</span> });
+    }
+  }, [option]);
+
+  useEffect(() =&gt; {
+    <span class="hljs-keyword">if</span> (chart.current) {
+      chart.current.resize();
+    }
+  }, [width, height]);
+
+  <span class="hljs-keyword">return</span> &lt;div className=<span class="hljs-string">"echart"</span> ref={container} style={{ width, height }} /&gt;;
+}
+</code></pre>
+
+<p>Then I created a generic TimeSeries component, as this saved developers the trouble of setting up axes and grids when creating time-series charts:</p>
+
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> {
+  BarSeriesOption,
+  LineSeriesOption,
+  XAXisComponentOption,
+  YAXisComponentOption,
+} from <span class="hljs-string">'echarts'</span>;
+
+<span class="hljs-keyword">import</span> { useLocalization } from <span class="hljs-string">'../../hooks/useLocalization'</span>;
+<span class="hljs-keyword">import</span> { EChart } from <span class="hljs-string">'../chart-base/EChart'</span>;
+
+<span class="hljs-keyword">interface</span> Props {
+  series: <span class="hljs-built_in">Array</span>&lt;LineSeriesOption | BarSeriesOption&gt;;
+  range: [<span class="hljs-built_in">Date</span>, <span class="hljs-built_in">Date</span>];
+  width: <span class="hljs-built_in">number</span>;
+  height: <span class="hljs-built_in">number</span>;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TimeSeriesChart</span>(<span class="hljs-params">{ series, range, width, height }: Props</span>) </span>{
+  <span class="hljs-keyword">const</span> { formatNumber, formatTime } = useLocalization();
+
+  <span class="hljs-keyword">const</span> xAxis: XAXisComponentOption = {
+    <span class="hljs-keyword">type</span>: <span class="hljs-string">'time'</span>,
+    min: range[<span class="hljs-number">0</span>],
+    max: range[range.length - <span class="hljs-number">1</span>],
+    animation: <span class="hljs-literal">false</span>,
+    axisLabel: {
+      formatter: formatTime,
+    },
+  };
+
+  <span class="hljs-keyword">const</span> yAxis: YAXisComponentOption = {
+    <span class="hljs-keyword">type</span>: <span class="hljs-string">'value'</span>,
+    axisLabel: {
+      showMinLabel: <span class="hljs-literal">false</span>,
+      formatter: formatNumber,
+    },
+  };
+
+  <span class="hljs-keyword">const</span> option = {
+    grid: {
+      top: <span class="hljs-string">'7%'</span>,
+      right: <span class="hljs-string">'3%'</span>
+    },
+    xAxis,
+    yAxis,
+    series,
+  };
+
+  <span class="hljs-keyword">return</span> &lt;EChart option={option} width={width} height={height} /&gt;;
+}
+</code></pre>
+
+<p>Finally, to create a time-series chart, a developer simply needed to provide the series data and configuration options:</p>
+
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OrderHistoryChart</span>(<span class="hljs-params">...</span>) </span>{
+  ...
+
+  <span class="hljs-keyword">const</span> series: BarSeriesOption[] = categories.map((category) =&gt; {
+    <span class="hljs-keyword">return</span> {
+      type: <span class="hljs-string">'bar'</span>,
+      stack: <span class="hljs-string">'total'</span>,
+      color: colors[category],
+      data: ...,
+    };
+  });
+
+  <span class="hljs-keyword">return</span> &lt;TimeSeriesChart series={series} range={range} width={width} height={height} /&gt;;
+}
+</code></pre>
+<section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>ECharts proved to be extremely powerful yet easy to use—a rare combination!</p>
+</section>
+
+</main>
+
+</body>
+
+</html>
