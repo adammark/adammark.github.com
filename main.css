@@ -77,8 +77,8 @@ a:hover {
   text-decoration: underline;
 }
 
-p, dd {
-  line-height: 1.35em;
+p, dd, li {
+  line-height: 1.45em;
   margin: 0 0 1.4em 0;
 }
 
