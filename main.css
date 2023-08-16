@@ -80,6 +80,11 @@ a:hover img {
   box-shadow: 0 0 0 2px #008bdb;  
 }
 
+em {
+  font-style: unset;
+  font-weight: 600;
+}
+
 p, dd, li {
   line-height: 1.45em;
   margin: 0 0 1.4em 0;
