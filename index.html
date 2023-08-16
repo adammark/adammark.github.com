@@ -8,15 +8,13 @@
 <meta name="title" content="Adam Mark - Frontend lead / UI architect"/>
 <meta name="description" content="Personal web site of Adam Mark"/>
 
-<link href="main.css?1685368683753" rel="stylesheet">
+<link href="main.css?1692153076887" rel="stylesheet">
 
 </head>
 
 <body>
 
-<main>
-
-<img id="me" width="130" height="130" src="assets/me.png" alt="Me"/>
+<main id="landing">
 
 <h1>Adam Mark</h1>
 
@@ -32,26 +30,74 @@
   <p>From 2015 to 2020, I designed and developed web applications for a medical-grade wearable device, using React, Redux and D3.</p>
 
   <ul>
-    <li><a target="_blank" href="https://www.dropbox.com/sh/4st7wefy9hd2nqu/AADTFRXqJekBnYVEHIFbfNA0a?dl=0">Screenshots</a></li>
-    <li><a href="articles/building-config-ui.html">Article: Building a configuration UI for a wearable device</a></li>
-    <li><a href="articles/developing-data-viz.html">Article: Developing custom data visualizations for a biometric system</a></li>
-    <li><a href="articles/creating-ui-framework.html">Article: Creating a foundational UI framework</a></li>
+    <li>
+      <a href="articles/building-config-ui.html">
+        <img src="assets/thumb-config-ui.png"/>
+        <span>Article: Building a configuration UI for a wearable device</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/developing-data-viz.html">
+        <img src="assets/thumb-custom-viz.png"/>
+        <span>Article: Developing custom data visualizations for a biometric system</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/creating-ui-framework.html">
+        <img src="assets/thumb-foundation-ui.png"/>
+        <span>Article: Creating a foundational UI framework</span>
+      </a>
+    </li>
   </ul>
+
+  <hr/>
 
   <p>In 2020, I built a JavaScript SDK for the same wearable device, using Web Bluetooth, Protocol Buffers, SQLite and IndexedDB.</p>
   
   <ul>
-    <li><a target="_blank" href="https://github.com/MC10Inc/biostamp-js">Code: BioStamp3 JavaScript SDK</a></li>
-    <li><a href="articles/developing-javascript-sdk.html">Article: Developing a JavaScript SDK for a biometric sensor</a></li>
+    <li>
+      <a target="_blank" href="https://github.com/MC10Inc/biostamp-js">
+        <img src="assets/thumb-ui-framework.png"/>
+        <span>Code: BioStamp3 JavaScript SDK</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/developing-javascript-sdk.html">
+        <img src="assets/thumb-sdk.png"/>
+        <span>Article: Developing a JavaScript SDK for a biometric sensor</span>
+      </a>
+    </li>
   </ul>
+
+  <hr/>
 
   <p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system, using TypeScript, React, GraphQL and WebSockets.</p>
 
   <ul>
-    <li><a href="articles/designing-layout-system.html">Article: Designing a layout system for big-screen dashboards</a></li>
-    <li><a href="articles/clustering-markers.html">Article: Clustering markers on a warehouse map</a></li>
-    <li><a href="articles/improving-map-performance.html">Article: Improving map performance with Canvas</a></li>
-    <li><a href="articles/selecting-data-viz.html">Article: Selecting the right data visualization library</a></li>
+    <li>
+      <a href="articles/designing-layout-system.html">
+        <img src="assets/thumb-layout.png"/>
+        <span>Article: Designing a layout system for big-screen dashboards</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/clustering-markers.html">
+        <img src="assets/thumb-cluster.png"/>
+        <span>Article: Clustering markers on a warehouse map</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/improving-map-performance.html">
+        <img src="assets/thumb-canvas.png"/>
+        <span>Article: Improving map performance with Canvas</span>
+      </a>
+    </li>
+    <li>
+      <a href="articles/selecting-data-viz.html">
+        <img src="assets/thumb-charts.png"/>
+        <span>Article: Selecting the right data visualization library</span>
+      </a>
+    </li>
   </ul>
 </section>
 
@@ -83,43 +129,5 @@
 </main>
 
 </body>
-
-<script>
-// Patterns from heropatterns.com
-const patterns = [
-  [100, 18, "M61.82 18c3.47-1.45 6.86-3.78 11.3-7.34C78 6.76 80.34 5.1 83.87 3.42 88.56 1.16 93.75 0 100 0v6.16C98.76 6.05 97.43 6 96 6c-9.59 0-14.23 2.23-23.13 9.34-1.28 1.03-2.39 1.9-3.4 2.66h-7.65zm-23.64 0H22.52c-1-.76-2.1-1.63-3.4-2.66C11.57 9.3 7.08 6.78 0 6.16V0c6.25 0 11.44 1.16 16.14 3.42 3.53 1.7 5.87 3.35 10.73 7.24 4.45 3.56 7.84 5.9 11.31 7.34zM61.82 0h7.66a39.57 39.57 0 0 1-7.34 4.58C57.44 6.84 52.25 8 46 8S34.56 6.84 29.86 4.58A39.57 39.57 0 0 1 22.52 0h15.66C41.65 1.44 45.21 2 50 2c4.8 0 8.35-.56 11.82-2z"],
-  [28, 49, "M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z"],
-  [80, 105, "M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z"],
-  [100, 100, "M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"],
-  [40, 40, "M0 40L40 0H20L0 20M40 40V20L20 40z"],
-  [40, 40, "M0 0h20v20H0V0zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm20 0a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM10 37a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm10-17h20v20H20V20zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"],
-  [84, 48, "M0 0h12v6H0V0zm28 8h12v6H28V8zm14-8h12v6H42V0zm14 0h12v6H56V0zm0 8h12v6H56V8zM42 8h12v6H42V8zm0 16h12v6H42v-6zm14-8h12v6H56v-6zm14 0h12v6H70v-6zm0-16h12v6H70V0zM28 32h12v6H28v-6zM14 16h12v6H14v-6zM0 24h12v6H0v-6zm0 8h12v6H0v-6zm14 0h12v6H14v-6zm14 8h12v6H28v-6zm-14 0h12v6H14v-6zm28 0h12v6H42v-6zm14-8h12v6H56v-6zm0-8h12v6H56v-6zm14 8h12v6H70v-6zm0 8h12v6H70v-6zM14 24h12v6H14v-6zm14-8h12v6H28v-6zM14 8h12v6H14V8zM0 8h12v6H0V8z"],
-  [70, 70, "M0 0h35v35H0V0zm5 5h25v25H5V5zm5 5h15v15H10V10zm5 5h5v5h-5v-5zM40 5h25v25H40V5zm5 5h15v15H45V10zm5 5h5v5h-5v-5zM70 35H35v35h35V35zm-5 5H40v25h25V40zm-5 5H45v15h15V45zm-5 5h-5v5h5v-5zM30 40H5v25h25V40zm-5 5H10v15h15V45zm-5 5h-5v5h5v-5z"],
-  [32, 64, "M0 28h20V16h-4v8H4V4h28v28h-4V8H8v12h4v-8h12v20H0v-4zm12 8h20v4H16v24H0v-4h12V36zm16 12h-4v12h8v4H20V44h12v12h-4v-8zM0 36h8v20H0v-4h4V40H0v-4z"]
-];
-
-let idx = 0;
-let hue = 135;
-
-const cycle = () => {
-  const [width, height, d] = patterns[idx % patterns.length];
-
-  const svg = `\
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\
-      <path fill="hsl(${hue} 75% 60%)" fill-rule="evenodd" d="${d}"/>\
-    </svg>\
-  `;
-
-  const img = document.querySelector("#me");
-  img.style.backgroundColor = `hsl(${hue} 75% 80%)`;
-  img.style.backgroundImage = `url('data:image/svg+xml, ${svg}')`;
-
-  idx += 1;
-  hue += 15;
-}
-
-cycle();
-setInterval(cycle, 2000);
-</script>
-
+ 
 </html>
