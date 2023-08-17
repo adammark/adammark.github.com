@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="title" content="Adam Mark - Selecting the right data visualization library"/>
 
-<link href="../main.css?1692153076887" rel="stylesheet">
+<link href="../main.css?1692290986647" rel="stylesheet">
 
 </head>
 
@@ -68,15 +68,15 @@
 <section>
 <h3>The code</h3>
 
-<p>First, I wrote a wrapper component in our dashboard library, saving developers the trouble of having to instantiate ECharts themselves:</p>
+<p>First, I wrote a wrapper component to make it easy for developers to instantiate and update a chart in React:</p>
 
 <script src="https://gist.github.com/adammark/53772b639f887fef008e977c7bdbc6c6.js"></script>
 
-<p>Then I created a higher-order TimeSeries component, saving developers the trouble of setting up axes and grids when creating time-series charts:</p>
+<p>Then I created a higher-order TimeSeries component, enapsulating all the axis logic:</p>
 
 <script src="https://gist.github.com/adammark/f762c111f9b94e7f7fbf46dfc491c6e9.js"></script>
 
-<p>Finally, to create a time-series chart, a developer simply needed to provide the series data and configuration options:</p>
+<p>Finally, to render a time-series chart, a developer simply needed to provide the series data and configuration options:</p>
 
 <script src="https://gist.github.com/adammark/a2b49d2dafdbc6c1c1377ecf1a3a298a.js"></script>
 </section>

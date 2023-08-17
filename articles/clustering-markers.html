@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="title" content="Adam Mark - Clustering markers on a warehouse map"/>
 
-<link href="../main.css?1692153076887" rel="stylesheet">
+<link href="../main.css?1692290986647" rel="stylesheet">
 
 </head>
 
@@ -37,11 +37,11 @@
 <section>
 <h3>Solution</h3>
 
-<p>I created a simple clustering function that takes a set of <b>inputs</b>, each having a <i>coordinate</i> and <i>count</i>, and returns a smaller set of <b>outputs</b>, each having a <i>coordinate</i> and <i>count</i>. Then I could render exactly one marker per output:</p>
+<p>I created a simple clustering function that takes a set of <i>inputs</i> and returns a smaller set of <i>outputs</i>:</p>
 
 <p><img src="https://user-images.githubusercontent.com/28193/214858499-f3bda57d-5dbb-4b3e-a6a7-16e88c4db2d4.png" width="100%"/></p>
 
-<p>Here's the effect:</p>
+<p>Here's the effect as the user zooms in and out:</p>
 
 <p>
   <video width="100%" controls>
@@ -54,7 +54,7 @@
 <section>
 <h3>The code</h3>
 
-<p>First, I created <b>Input</b> and <b>Ouput</b> types. An input represent a unit of data on the map. An ouput takes the same shape as an input yet also retains a reference to its constituent inputs:</p>
+<p>First, I created Input and Output types. An input represents a unit of data on the map. An ouput takes the same shape as an input yet also retains a reference to its constituent inputs:</p>
 
 <script src="https://gist.github.com/adammark/61fe48b176bfaf4f9b062a68d08a96ab.js"></script>
 
