@@ -54,65 +54,15 @@
 
 <p>First, I defined eight basic strategies:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">type</span> <span class="hljs-title class_">LayoutStrategy</span> =
-  | <span class="hljs-string">'one'</span>
-  | <span class="hljs-string">'one-by-one'</span>
-  | <span class="hljs-string">'one-by-two'</span>
-  | <span class="hljs-string">'two-by-one'</span>
-  | <span class="hljs-string">'two-by-two'</span>
-  | <span class="hljs-string">'one-over-one'</span>
-  | <span class="hljs-string">'one-over-two'</span>
-  | <span class="hljs-string">'two-over-one'</span>;</code>
-</pre>
+<script src="https://gist.github.com/adammark/96ca0840ab261802ae046259144a4604.js"></script>
 
 <p>Then I used CSS Grid Layout to establish the default attributes of each strategy:</p>
 
-<pre><code class="language-css hljs"><span class="hljs-selector-class">.dashboard</span> {
-  <span class="hljs-attribute">display</span>: grid;
-  ...
-}
+<script src="https://gist.github.com/adammark/d11e4715d4f1dbfe5da9424172af59e0.js"></script>
 
-<span class="hljs-selector-class">.dashboard</span><span class="hljs-selector-attr">[data-strategy=<span class="hljs-string">'one-by-one'</span>]</span> {
-  <span class="hljs-attribute">grid-template-areas</span>: <span class="hljs-string">'a b'</span>;
-  <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-number">1</span>fr <span class="hljs-number">3</span>fr;
-}
+<p>Finally, I created a simple Dashboard component that accepts a strategy (e.g. "one-over-two"), optional breakpoints and child panels. Internally, it computes new values for grid-template-rows and grid-template-columns if given custom breakpoints:</p>
 
-<span class="hljs-selector-class">.dashboard</span><span class="hljs-selector-attr">[data-strategy=<span class="hljs-string">'one-over-two'</span>]</span> {
-  <span class="hljs-attribute">grid-template-areas</span>: <span class="hljs-string">'a a'</span> <span class="hljs-string">'b c'</span>;
-  <span class="hljs-attribute">grid-template-rows</span>: <span class="hljs-number">15vh</span> <span class="hljs-number">85vh</span>;
-  <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-number">1</span>fr <span class="hljs-number">1</span>fr;
-}
-
-...</code>
-</pre>
-
-<p>Then I created a utility method to manually override <b>grid-template-rows</b> and <b>grid-template-columns</b> if given custom breakpoints:</p>
-
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">computeBreakpoints</span>(<span class="hljs-params">
-  strategy: <span class="hljs-built_in">LayoutStrategy</span>,
-  breakpoints: <span class="hljs-built_in">number</span>[]
-</span>): <span class="hljs-title class_">React.CSSProperties</span> =&gt; {
-    ...
-    <span class="hljs-keyword">return</span> style;
-  }
-}</code>
-</pre>
-
-<p>Finally, I created a simple <b>Dashboard</b> component that accepts a <b>strategy</b>, optional <b>breakpoints</b> and child panels:</p>
-
-<pre><code class="language-typescript hljs">&lt;<span class="hljs-name">Dashboard</span> strategy=<span class="hljs-string">"one-over-two"</span> breakpoints={[<span class="hljs-number">0.15</span>, <span class="hljs-number">0.65</span>]}&gt;
-  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Panel</span> <span class="hljs-attr">color</span>=<span class="hljs-string">{Color.Red}</span>&gt;</span>
-    Top
-  <span class="hljs-tag">&lt;/<span class="hljs-name">Panel</span>&gt;</span></span>
-  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Panel</span> <span class="hljs-attr">color</span>=<span class="hljs-string">{Color.Green}</span>&gt;</span>
-    Left
-  <span class="hljs-tag">&lt;/<span class="hljs-name">Panel</span>&gt;</span></span>
-  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Panel</span> <span class="hljs-attr">color</span>=<span class="hljs-string">{Color.Blue}</span>&gt;</span>
-    Right
-  <span class="hljs-tag">&lt;/<span class="hljs-name">Panel</span>&gt;</span></span>
-&lt;/<span class="hljs-name">Dashboard</span>&gt;</code>
-</pre>
-
+<script src="https://gist.github.com/adammark/66af9e686dec714e111787887327d7cb.js"></script>
 </section>
 
 <section>

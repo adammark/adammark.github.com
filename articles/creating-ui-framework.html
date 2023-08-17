@@ -63,69 +63,11 @@
 
 <p>To make the framework easy to use and maintain, I was careful to <a href="https://en.wikipedia.org/wiki/Facade_pattern" target="_blank">hide implementation details</a> whenever practical. For example, I created a <b>cache</b> package on top of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank">Web Storage</a> API. This package enhanced the functionality of Web Storage by automatically serializing and deserializing data, and it also provided the flexibility to replace Web Storage with another technology if necessary:</p>
 
-<pre><code class="language-javascript hljs"><span class="hljs-class"><span class="hljs-keyword">const</span> <span class="hljs-title">cache</span> = </span>{
-  setItem: <span class="hljs-keyword">function</span> (key, val) {
-    <span class="hljs-keyword">try</span> {
-      localStorage.setItem(key, <span class="hljs-built_in">JSON</span>.stringify(val));
-
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-    }
-    <span class="hljs-keyword">catch</span> (e) {
-      <span class="hljs-built_in">console</span>.warn(e);
-      <span>throw(e);</span>
-    }
-  },
-
-  getItem: <span class="hljs-keyword">function</span> (key) {
-    <span class="hljs-keyword">const</span> val = localStorage.getItem(key);
-
-    <span class="hljs-keyword">if</span> (val !== <span class="hljs-literal">null</span>) {
-      <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(val);
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-  },
-
-  removeItem: <span class="hljs-keyword">function</span> (key) {
-    <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> localStorage) {
-      localStorage.removeItem(key);
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  },
-
-  clear: <span class="hljs-keyword">function</span> (pattern) {
-    <span class="hljs-built_in">Object</span>.keys(localStorage).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
-      <span class="hljs-keyword">if</span> (key.match(pattern)) {
-        localStorage.removeItem(key);
-      }
-    });
-  }
-}</code></pre>
+<script src="https://gist.github.com/adammark/5aa6b562165b75b7d25c9b9068c2f7aa.js"></script>
 
 <p>And I created a <b>localization</b> package with the express purpose of hiding <a href="https://momentjs.com/" target="_blank">Moment.js</a>. Today, I could swap out Moment for the widely-supported <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl" target="_blank">Intl</a> API without changing any application-layer code:</p>
 
-<pre><code class="language-javascript hljs"><span class="hljs-class"><span class="hljs-keyword">const</span> localization = </span>{
-  ...
-
-  formatTime: <span class="hljs-keyword">function</span> (date, format = <span class="hljs-string">"medium"</span>) {
-    <span class="hljs-keyword">const</span> opts = {
-      <span class="hljs-string">"short"</span>:   <span class="hljs-string">"h:mm A"</span>,
-      <span class="hljs-string">"medium"</span>:  <span class="hljs-string">"h:mm:ss A"</span>,
-      <span class="hljs-string">"long"</span>:    <span class="hljs-string">"h:mm:ss A z"</span>,
-      <span class="hljs-string">"precise"</span>: <span class="hljs-string">"h:mm:ss.SSS"</span>
-    };
-
-    <span class="hljs-keyword">return</span> moment(date).format(opts[format]);
-  },
-
-  formatDateTime: <span class="hljs-keyword">function</span> (date) {
-    <span class="hljs-keyword">return</span> moment(date).format(<span class="hljs-string">"l, h:mm:ss A z"</span>);
-  },
-
-  ...
-}</code></pre>
+<script src="https://gist.github.com/adammark/363b618f5db7e9d2ecfb0cf2b90c7d14.js"></script>
 
 </section>
 

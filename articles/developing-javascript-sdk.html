@@ -59,15 +59,8 @@
 
 <p>Here's how the sensor says "Hello, World!" by blinking its LEDs:</p>
 
-<pre><code class="language-javascript hljs"><span class="hljs-keyword">const</span> { BiostampSensor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@mc10inc/biostamp-js-web"</span>);
-
-BiostampSensor.connect(<span class="hljs-string">"BRC3"</span>).then((sensor) =&gt; {
-  sensor.blinkLeds();
-}).catch((error) =&gt; {
-  <span class="hljs-built_in">console</span>.info(error.message);
-});</code>
-</pre>
-
+<script src="https://gist.github.com/adammark/126f724f45a0da10aae8e5146edc55e3.js"></script>
+</section>
 
 <section>
 <h3>Conclusion</h3>

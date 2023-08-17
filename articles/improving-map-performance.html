@@ -56,48 +56,16 @@
 
 <p>First, I created a hook in the map library that allows client applications to access the drawing context:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">const</span> canvas = useMapCanvas();
-<span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);</code></pre>
+<script src="https://gist.github.com/adammark/721ab9476b40a61af768341d7587bf73.js"></script>
 
-<p>Then I added a callback function to the Map component that allows client applications to respond to zoom and pan events:</p>
+<p>Then I added a callback function to the Map component that allows clients to respond to zoom and pan events:</p>
 
-<pre><code class="language-typescript hljs">&lt;<span class="hljs-name">Map</span>
-  <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
-  <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; ...}</span>
-/&gt;
-</code></pre>
+<script src="https://gist.github.com/adammark/a6a4d45d268ec04aa3020f4f4e29bd02.js"></script>
 
-<p>Finally, I implemented a drawing function in the client application that runs whenever the user manipulates the map. Putting it all together:</p>
+<p>Finally, I was able to hook into these events and implement a custom drawing routine:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { Map, useMapCanvas, resetMapContext } <span class="hljs-keyword">from</span> <span class="hljs-string">'map-element'</span>;
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DemoMap</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> canvas = useMapCanvas();
-  <span class="hljs-keyword">const</span> context = canvas.getContext(<span class="hljs-string">'2d'</span>);
-  <span class="hljs-keyword">const</span> data = ...;
-
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span>(<span class="hljs-params">context: CanvasRenderingContext2D, scale: number, center: Point, size: Size</span>) </span>{
-    requestAnimationFrame(() =&gt; {
-      resetMapContext(context, scale, center, dimensions, <span class="hljs-literal">true</span>);
-  
-      data.forEach((d) =&gt; {
-        context.fillStyle = ...;
-        context.beginPath();
-        context.arc(d.x, d.y, d.radius, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI);
-        context.fill();
-      });
-    });
-  }
-
-  <span class="hljs-keyword">return</span> (
-    <span class="hljs-tag">&lt;<span class="hljs-name">Map</span>
-      <span class="hljs-attr">mapStack</span>=<span class="hljs-string">{...}</span>
-      <span class="hljs-attr">onZoom</span>=<span class="hljs-string">{(evt) =&gt; draw(context, evt.scale, evt.center, evt.size)}</span>
-    /&gt;
-  );
-}</span>
-</code></pre>
-<section>
+<script src="https://gist.github.com/adammark/95f5cebd5503ca5fe42d10292f90052a.js"></script>
+</section>
 
 <section>
 <h3>Conclusion</h3>

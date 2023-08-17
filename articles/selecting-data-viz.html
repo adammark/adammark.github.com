@@ -70,129 +70,16 @@
 
 <p>First, I wrote a wrapper component in our dashboard library, saving developers the trouble of having to instantiate ECharts themselves:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> <span class="hljs-string">'./EChart.css'</span>;
+<script src="https://gist.github.com/adammark/53772b639f887fef008e977c7bdbc6c6.js"></script>
 
-<span class="hljs-keyword">import</span> { PieChart, BarChart, LineChart } from <span class="hljs-string">'echarts/charts'</span>;
-<span class="hljs-keyword">import</span> { GridComponent } from <span class="hljs-string">'echarts/components'</span>;
-<span class="hljs-keyword">import</span> * as echarts from <span class="hljs-string">'echarts/core'</span>;
-<span class="hljs-keyword">import</span> { EChartsCoreOption } from <span class="hljs-string">'echarts/core'</span>;
-<span class="hljs-keyword">import</span> { CanvasRenderer } from <span class="hljs-string">'echarts/renderers'</span>;
-<span class="hljs-keyword">import</span> { useRef, useEffect } from <span class="hljs-string">'react'</span>;
+<p>Then I created a higher-order TimeSeries component, saving developers the trouble of setting up axes and grids when creating time-series charts:</p>
 
-echarts.use([PieChart, BarChart, LineChart, GridComponent, CanvasRenderer]);
-
-echarts.registerTheme(<span class="hljs-string">'6rs'</span>, {
-  axisLabel: {
-    color: <span class="hljs-string">'rgba(255, 255, 255, 0.75)'</span>,
-  },
-});
-
-<span class="hljs-keyword">interface</span> Props {
-  option: EChartsCoreOption;
-  width?: <span class="hljs-built_in">number</span>;
-  height?: <span class="hljs-built_in">number</span>;
-}
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">EChart</span>(<span class="hljs-params">{ option, width = 400, height = 300 }: Props</span>) </span>{
-  <span class="hljs-keyword">const</span> container = useRef&lt;HTMLDivElement&gt;(<span class="hljs-literal">null</span>);
-  <span class="hljs-keyword">const</span> chart = useRef&lt;echarts.ECharts&gt;();
-
-  useEffect(() =&gt; {
-    <span class="hljs-keyword">if</span> (!chart.current) {
-      <span class="hljs-keyword">if</span> (container.current) {
-        chart.current = echarts.init(container.current, <span class="hljs-string">'6rs'</span>);
-      }
-    }
-  }, []);
-
-  useEffect(() =&gt; {
-    <span class="hljs-keyword">if</span> (chart.current) {
-      chart.current.setOption({ ...option, silent: <span class="hljs-literal">true</span> });
-    }
-  }, [option]);
-
-  useEffect(() =&gt; {
-    <span class="hljs-keyword">if</span> (chart.current) {
-      chart.current.resize();
-    }
-  }, [width, height]);
-
-  <span class="hljs-keyword">return</span> &lt;div className=<span class="hljs-string">"echart"</span> ref={container} style={{ width, height }} /&gt;;
-}
-</code></pre>
-
-<p>Then I created a generic TimeSeries component, as this saved developers the trouble of setting up axes and grids when creating time-series charts:</p>
-
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> {
-  BarSeriesOption,
-  LineSeriesOption,
-  XAXisComponentOption,
-  YAXisComponentOption,
-} from <span class="hljs-string">'echarts'</span>;
-
-<span class="hljs-keyword">import</span> { useLocalization } from <span class="hljs-string">'../../hooks/useLocalization'</span>;
-<span class="hljs-keyword">import</span> { EChart } from <span class="hljs-string">'../chart-base/EChart'</span>;
-
-<span class="hljs-keyword">interface</span> Props {
-  series: <span class="hljs-built_in">Array</span>&lt;LineSeriesOption | BarSeriesOption&gt;;
-  range: [<span class="hljs-built_in">Date</span>, <span class="hljs-built_in">Date</span>];
-  width: <span class="hljs-built_in">number</span>;
-  height: <span class="hljs-built_in">number</span>;
-}
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TimeSeriesChart</span>(<span class="hljs-params">{ series, range, width, height }: Props</span>) </span>{
-  <span class="hljs-keyword">const</span> { formatNumber, formatTime } = useLocalization();
-
-  <span class="hljs-keyword">const</span> xAxis: XAXisComponentOption = {
-    <span class="hljs-keyword">type</span>: <span class="hljs-string">'time'</span>,
-    min: range[<span class="hljs-number">0</span>],
-    max: range[range.length - <span class="hljs-number">1</span>],
-    animation: <span class="hljs-literal">false</span>,
-    axisLabel: {
-      formatter: formatTime,
-    },
-  };
-
-  <span class="hljs-keyword">const</span> yAxis: YAXisComponentOption = {
-    <span class="hljs-keyword">type</span>: <span class="hljs-string">'value'</span>,
-    axisLabel: {
-      showMinLabel: <span class="hljs-literal">false</span>,
-      formatter: formatNumber,
-    },
-  };
-
-  <span class="hljs-keyword">const</span> option = {
-    grid: {
-      top: <span class="hljs-string">'7%'</span>,
-      right: <span class="hljs-string">'3%'</span>
-    },
-    xAxis,
-    yAxis,
-    series,
-  };
-
-  <span class="hljs-keyword">return</span> &lt;EChart option={option} width={width} height={height} /&gt;;
-}
-</code></pre>
+<script src="https://gist.github.com/adammark/f762c111f9b94e7f7fbf46dfc491c6e9.js"></script>
 
 <p>Finally, to create a time-series chart, a developer simply needed to provide the series data and configuration options:</p>
 
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OrderHistoryChart</span>(<span class="hljs-params">...</span>) </span>{
-  ...
-
-  <span class="hljs-keyword">const</span> series: BarSeriesOption[] = categories.map((category) =&gt; {
-    <span class="hljs-keyword">return</span> {
-      type: <span class="hljs-string">'bar'</span>,
-      stack: <span class="hljs-string">'total'</span>,
-      color: colors[category],
-      data: ...,
-    };
-  });
-
-  <span class="hljs-keyword">return</span> &lt;TimeSeriesChart series={series} range={range} width={width} height={height} /&gt;;
-}
-</code></pre>
-<section>
+<script src="https://gist.github.com/adammark/a2b49d2dafdbc6c1c1377ecf1a3a298a.js"></script>
+</section>
 
 <section>
 <h3>Conclusion</h3>

@@ -50,32 +50,7 @@
 
 <p>To visualize resting posture, as shown in the first screenshot above, I plotted 1-minute posture samples across two dimensions, the coronal plane (x) and the sagittal plane (y), and exaggerated the area of interest (+/-45 degrees in both planes) using an irregular scale:</p>
 
-<pre><code class="language-javascript hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">PostureChart</span>(<span class="hljs-params">{ data }</span>) {
-  <span class="hljs-keyword">const</span> domain = [-<span class="hljs-number">90</span>, -<span class="hljs-number">45</span>, <span class="hljs-number">45</span>, <span class="hljs-number">90</span>];
-  <span class="hljs-keyword">const</span> range = [<span class="hljs-number">0</span>, <span class="hljs-number">15</span>, <span class="hljs-number">235</span>, <span class="hljs-number">250</span>];
-  <span class="hljs-keyword">const</span> scale = d3.<span class="hljs-title function_">scaleLinear</span>().<span class="hljs-title function_">domain</span>(domain).<span class="hljs-title function_">range</span>(range);
-  <span class="hljs-keyword">const</span> node = d3.<span class="hljs-title function_">select</span>(<span class="hljs-string">".posture-data"</span>);
-  <span class="hljs-keyword">const</span> dots = node.<span class="hljs-title function_">selectAll</span>(<span class="hljs-string">"circle"</span>).<span class="hljs-title function_">data</span>(data, <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> d.<span class="hljs-property">ts</span>);
-
-  dots
-    .<span class="hljs-title function_">enter</span>()
-    .<span class="hljs-title function_">append</span>(<span class="hljs-string">"circle"</span>)
-    .<span class="hljs-title function_">attr</span>(<span class="hljs-string">"r"</span>, <span class="hljs-number">3</span>)
-    .<span class="hljs-title function_">attr</span>(<span class="hljs-string">"cx"</span>, <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> <span class="hljs-title function_">scale</span>(d.<span class="hljs-property">value</span>.<span class="hljs-property">ca</span>))
-    .<span class="hljs-title function_">attr</span>(<span class="hljs-string">"cy"</span>, <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> <span class="hljs-title function_">scale</span>(d.<span class="hljs-property">value</span>.<span class="hljs-property">sa</span>));
-
-  dots
-    .<span class="hljs-title function_">exit</span>()
-    .<span class="hljs-title function_">remove</span>();
-
-  <span class="hljs-keyword">return</span> (
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"250"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"250"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">image</span> <span class="hljs-attr">xlinkHref</span>=<span class="hljs-string">"posture.svg"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"250"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"250"</span>/&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"posture-data"</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></span>
-  );
-};</code>
-</pre>
+<script src="https://gist.github.com/adammark/fd63bae148f7ec421a2e7f56da30e208.js"></script>
 
 <section>
 <h3>Conclusion</h3>
