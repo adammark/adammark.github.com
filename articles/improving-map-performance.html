@@ -54,15 +54,15 @@
 <section>
 <h3>The code</h3>
 
-<p>First, I exposed a hook that allows client applications to access the drawing context:</p>
+<p>First, I exposed a hook, <code>useMapCanvas</code>, that allows client applications to access the drawing context:</p>
 
 <script src="https://gist.github.com/adammark/721ab9476b40a61af768341d7587bf73.js"></script>
 
-<p>Then I added a callback function to the Map component that allows clients to respond to zoom and pan events:</p>
+<p>Then I added a callback function, <code>onZoom</code>, to the Map component that allows clients to respond to zoom and pan events:</p>
 
 <script src="https://gist.github.com/adammark/a6a4d45d268ec04aa3020f4f4e29bd02.js"></script>
 
-<p>Finally, the client application could draw arbitrary content on the map:</p>
+<p>Finally, I could respond to this callback function with an arbitrary drawing routine:</p>
 
 <script src="https://gist.github.com/adammark/95f5cebd5503ca5fe42d10292f90052a.js"></script>
 </section>
