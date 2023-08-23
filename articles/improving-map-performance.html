@@ -41,7 +41,7 @@
 
 <p><img src="https://user-images.githubusercontent.com/28193/216777398-ec513b0e-efa9-4540-9bc2-b93bf8f55a02.png" width="100%"/></p>
 
-<p>The following demo illustrates the performance power of Canvas. As the user zooms in and out, the canvas redraws 1,000 circles up to <b>50 times per second</b>:</p>
+<p>The following demo illustrates the performance power of Canvas, using <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame" target="_blank">requestAnimationFrame</a> to schedule animations. As the user zooms in and out, the canvas redraws 1,000 circles at up to <i>60 frames per second</i>:</p>
 
 <p>
   <video width="100%" controls>
@@ -62,7 +62,7 @@
 
 <script src="https://gist.github.com/adammark/a6a4d45d268ec04aa3020f4f4e29bd02.js"></script>
 
-<p>Now the client application could access and manipulate this drawing context:</p>
+<p>Finally, the client application could draw arbitrary content on the map:</p>
 
 <script src="https://gist.github.com/adammark/95f5cebd5503ca5fe42d10292f90052a.js"></script>
 </section>
