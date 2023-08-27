@@ -16,7 +16,7 @@ code {
 main {
   margin: 5em auto;
   text-align: left;
-  max-width: 55%;
+  max-width: min(55%, 800px);
 }
 
 img {
