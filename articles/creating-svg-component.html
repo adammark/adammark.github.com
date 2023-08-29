@@ -1,0 +1,75 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Creating an animated SVG component in React</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Creating an animated SVG component in React"/>
+
+<link href="../main.css?1692300141312" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Adam Mark</a>
+
+<h1>Creating an animated SVG component in React</h1>
+
+<section>
+<h3>Background</h3>
+
+<p>From 2020 to 2023, I developed dashboards and mapping tools for a warehouse automation system using TypeScript, React and SVG.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our wall-mounted dashboards displayed data that changed by small amounts every 20 or 30 seconds. These transitions could go completely unnoticed to the casual observer.</i></p>
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I developed various visual effects to call attention to changes in state. For example, I used CSS and some basic math to animate the dial inside the <code>Gauge</code> component, as shown in the following example:</p>
+
+<p>
+  <video width="100%" controls autoplay muted loop>
+    <source src="https://github.com/adammark/adammark.github.com/assets/28193/875d0ea4-e035-44f1-bffb-c7e4c2322721" type="video/mp4"/>
+  </video>
+</p>
+
+<p>The effect is both visually pleasing and useful: it's a small cue to the user that something is changing.</p>
+
+<p>The text itself also "rolls" to the next value, like a car odometer.</p>
+
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>The <code>Gauge</code> component, made with React and SVG, is a collection of <code>&lt;circle&gt;</code> and <code>&lt;line&gt;</code> nodes. The dial itself receives a rotational <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform" target="_blank">transform</a> of between 0 and 180 degrees, corresponding to 0% and 100%, respectively:</p>
+
+<script src="https://gist.github.com/adammark/e91ad0447d1e651c6230a4f1b6ab0c0c.js"></script>
+
+<p>Whenever the component receives a new <code>value</code>, it recalculates <code>degrees</code> and updates the SVG node containing the transform. Then CSS takes over by applying a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition">transition</a> to it:</p>
+
+<script src="https://gist.github.com/adammark/11a0734406fb491a4c4875370f6b1b0a.js"></script>
+
+<p>The transition uses a custom <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function" target="_blank">easing function</a> to produce a recoil or "bounce" effect.</p>
+</section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>I created a subtle, playful effect without needing an animation library or charting package. It's fast and lightweight!</p>
+</section>
+
+</main>
+
+</body>
+
+</html>
