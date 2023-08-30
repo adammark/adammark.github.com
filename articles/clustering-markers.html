@@ -44,7 +44,7 @@
 <p>Here's the effect as the user zooms in and out:</p>
 
 <p>
-  <video width="100%" controls>
+  <video width="100%" controls autoplay muted loop>
     <source src="https://github.com/adammark/adammark.github.com/assets/28193/2bd512a7-70ae-4b7f-8aec-78976c64ef46" type="video/mp4"/>
   </video>
 </p>
@@ -54,7 +54,7 @@
 <section>
 <h3>The code</h3>
 
-<p>First, I created Input and Output types. An input represents a unit of data on the map. An ouput takes the same shape as an input yet also retains a reference to its constituent inputs:</p>
+<p>First, I created <code>Input</code> and <code>Output</code> types. An input represents a unit of data on the map. An ouput takes the same shape as an input yet also retains a reference to its constituent inputs:</p>
 
 <script src="https://gist.github.com/adammark/61fe48b176bfaf4f9b062a68d08a96ab.js"></script>
 
@@ -62,7 +62,7 @@
 
 <script src="https://gist.github.com/adammark/518f9bd4283491337da4664b05724a89.js"></script>
 
-<p>Finally, with just a few extra lines of presentation code, I could pack hundreds of "pins" together:</p>
+<p>Finally, with just a few extra lines of presentation code, I could pack hundreds of “pins” together:</p>
 
 <script src="https://gist.github.com/adammark/dbc7011c2f2aad6797e867f08f462883.js"></script>
 </section>
