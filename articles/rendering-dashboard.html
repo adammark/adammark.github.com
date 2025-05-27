@@ -48,7 +48,7 @@
 
 <ul>
   <li>I used a foundational <a href="https://reshaped.so/" target="_blank">component library</a> that allowed me to cherry-pick just the few widgets I needed. This cut down on my bundle size (and the time it takes for the browser to load it).</li>
-  <li>I used a Canvas-based data visualization library rather one that relied on SVG, which would have bogged down the DOM and made the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
+  <li>I used a Canvas-based data visualization library rather one that relied on SVG, which would burden the DOM and make the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
   <li>I <a href="https://react.dev/reference/react/memo" target="_blank">memoized</a> components to avoid unnecessary re-rendering.</li>
   <li>I aggressively cached queries using a <a href="https://tanstack.com/query/latest" target="_blank">data fetching</a> library. If two unrelated components needed to use the same API endpoint, the endpoint would be loaded just once.</li>
   <li>I rendered all data visualization elements immediately, even before data was loaded. This way, they served as the "skeleton" of the page and made rendering feel instantaneous.</li>
