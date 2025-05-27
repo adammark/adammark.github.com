@@ -1,0 +1,69 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Rendering a dashboard in under half a second</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Rendering a dashboard in under half a second"/>
+
+<link href="../main.css?1693318426059" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Adam Mark</a>
+
+<h1>Rendering a dashboard in under half a second</h1>
+
+<section>
+<h3>Background</h3>
+
+<p>Since 2023, I've been developing analytical tools for a clinical trial management system using TypeScript and React.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our existing reporting solution was slow to render and cumbersome to use. <i>We needed a fast, responsive reporting framework.</i></p>
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I developed a new UI with a priority on speed: rendering the initial view within <em>500 milliseconds</em> and handling subsequent user interactions within <em>300 milliseconds</em>. The result met this goal with time to spare:
+
+<p><img src="../assets/img-dashboard-snapshot.png" width="100%"/></p>
+
+<p>A performance profile of the above pictured dashboard—a complex page containing six charts and utilizing eight API endpoints—shows that it starts rendering in under <em>200 milliseconds</em> and finishes rendering in under <em>350 milliseconds</em> with no layout shifts:</p>
+
+<p><img src="../assets/img-dashboard-profile.png" width="100%"/></p>
+
+<p>How did I do it? Actually, it was a team effort. First, my partner on the back end built snappy REST API endpoints to meet the response-time target of 300 milliseconds. We made sure every endpoint could stand on its own, such that the UI would never need to load endpoints in a waterfall, or cascading, pattern.</p>
+
+<p>On the front end, I employed a variety of techniques to make the UI feel lightning fast:</p>
+
+<ul>
+  <li>I used a foundational <a href="https://reshaped.so/" target="_blank">component library</a> that allowed me to cherry-pick just the few widgets I needed. This cut down on my bundle size (and the time it takes for the browser to load it).</li>
+  <li>I used a Canvas-based data visualization library rather one that relied on SVG, which would have bogged down the DOM and made the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
+  <li>I <a href="https://react.dev/reference/react/memo" target="_blank">memoized</a> components to avoid unnecessary re-rendering.</li>
+  <li>I aggressively cached queries using a <a href="https://tanstack.com/query/latest" target="_blank">data fetching</a> library. If two unrelated components needed to use the same API endpoint, the endpoint would be loaded just once.</li>
+  <li>I rendered all data visualization elements immediately, even before data was loaded. This way, they served as the "skeleton" of the page and made rendering feel instantaneous.</li>
+
+</ul>
+</section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>Building a better dashboard started with a simple objective: that it should load in under half a second. Now for the hard part: maintaining this standard as the application grows in scale and scope.</p>
+</section>
+
+</main>
+
+</body>
+
+</html>
