@@ -38,20 +38,22 @@
 
 <p><img src="../assets/img-dashboard-snapshot.png" width="100%"/></p>
 
-<p>The above pictured dashboard contains six charts and utilizes eight API endpoints, yet it starts rendering in under <em>200 milliseconds</em> and finishes rendering in under <em>350 milliseconds</em> with no layout shifts:</p>
+<p>The above pictured dashboard contains six charts and utilizes eight API endpoints, yet it begins rendering in under <em>200 milliseconds</em> and finishes rendering in under <em>350 milliseconds</em> with no layout shifts:</p>
 
 <p><img src="../assets/img-dashboard-profile.png" width="100%"/></p>
 
-<p>How did I do it? Actually, it was a team effort. First, my partner on the back end built snappy REST API endpoints to meet the response-time target of 300 milliseconds. We made sure every endpoint could stand on its own, such that the UI would never need to load endpoints in a waterfall, or cascading, pattern.</p>
+<p>How did I do it? Actually, it was a team effort. First, my teammate built snappy REST API endpoints to meet the response-time target of 300 milliseconds. We made sure every endpoint could stand on its own, such that the UI would never need to load endpoints in a waterfall, or cascading, pattern.</p>
 
 <p>On the front end, I employed a variety of techniques to make the UI feel lightning fast:</p>
 
 <ul>
   <li>I used a foundational <a href="https://reshaped.so/" target="_blank">component library</a> that allowed me to cherry-pick just the few widgets I needed. This cut down on my bundle size (and the time it takes for the browser to load it).</li>
-  <li>I used a Canvas-based data visualization library rather one that relied on SVG, which would burden the DOM and make the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
+  <li>I used a Canvas-based <a href="https://echarts.apache.org/en/index.html" target="_blank">data visualization library</a> rather one that relied on SVG, which would burden the DOM and make the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
   <li>I <a href="https://react.dev/reference/react/memo" target="_blank">memoized</a> components to avoid unnecessary re-rendering.</li>
-  <li>I aggressively cached queries using a <a href="https://tanstack.com/query/latest" target="_blank">data fetching</a> library. If two unrelated components needed to use the same API endpoint, the endpoint would be loaded just once.</li>
+  <li>I aggressively cached queries using a <a href="https://tanstack.com/query/latest" target="_blank">data fetching</a> library.</li>
+  <li>I ensured all requests for data could be made in parallel.</li>
   <li>I rendered all data visualization elements immediately, even before data was loaded. This way, they served as the "skeleton" of the page and made loading feel instantaneous.</li>
+  <li>I avoided gratuitous animations, which would delay the visual processing of data.</li>
 </ul>
 </section>
 
