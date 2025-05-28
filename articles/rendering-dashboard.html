@@ -47,8 +47,8 @@
 <p>On the front end, I employed a variety of techniques to make the UI feel lightning fast:</p>
 
 <ul>
-  <li>I used a foundational <a href="https://reshaped.so/" target="_blank">component library</a> that allowed me to cherry-pick just the few widgets I needed. This cut down on my bundle size (and the time it takes for the browser to load it).</li>
-  <li>I used a Canvas-based <a href="https://echarts.apache.org/en/index.html" target="_blank">data visualization library</a> rather one that relied on SVG, which would burden the DOM and make the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
+  <li>I used a foundational <a href="https://reshaped.so/" target="_blank">component library</a> that allowed me to cherry-pick just the widgets I needed. This cut down on my bundle size (and the time it takes for the browser to load it).</li>
+  <li>I used a Canvas-based <a href="https://echarts.apache.org/en/index.html" target="_blank">data visualization library</a> rather than one that relied on SVG, which would burden the DOM and make the UI feel sluggish. (See <a href="selecting-data-viz.html">Selecting the right data visualization library</a>)</li>
   <li>I <a href="https://react.dev/reference/react/memo" target="_blank">memoized</a> components to avoid unnecessary re-rendering.</li>
   <li>I aggressively cached queries using a <a href="https://tanstack.com/query/latest" target="_blank">data fetching</a> library.</li>
   <li>I ensured all requests for data could be made in parallel.</li>
