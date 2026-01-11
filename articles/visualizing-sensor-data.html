@@ -1,0 +1,91 @@
+<html>
+
+<head>
+
+<title>Adam Mark - Visualizing data from many different kinds of sensors</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="title" content="Adam Mark - Visualizing data from many different kinds of sensors"/>
+
+<link href="../main.css?1693318426059" rel="stylesheet">
+
+</head>
+
+<body>
+
+<main>
+
+<a href="../">Adam Mark</a>
+
+<h1>Visualizing data from many different kinds of sensors</h1>
+
+<section>
+<h3>Background</h3>
+
+<p>Since 2023, I've been developing analytical tools for a clinical trial management system using TypeScript and React.</p>
+</section>
+
+<section>
+<h3>Problem</h3>
+
+<p>Our platform ingested data from many different kinds of biometric sensors. Some of these sensors worked <i>episodically</i> and collected small bits of data, while others worked <i>continuously</i> and produced long streams of data. We needed a simple way to show any kind of sensor data as it was collected, even in studies that used multiple sensors.</p>
+</section>
+
+<section>
+<h3>Solution</h3>
+
+<p>I developed an interface that allowed customers to quickly visualize data from any kind of sensor activity, including:</p>
+
+<ul>
+  <li>Point measurements (e.g. blood pressure readings, blood oxygen tests)</li>
+  <li>Long-running processes (e.g. glucose monitoring sessions)</li>
+  <li>Test suites (e.g. spirometry tests)</li>
+</ul>
+
+<p>Although no two sensor activities looked alike, they shared a few things in common: the <b>start time</b> of the activity, the <b>patient</b> who performed the activity, and the <b>site</b> that supervised it. All other data points were specific to the type of activity.</p>
+
+<p>Here, the UI shows the results of a <a href="https://en.wikipedia.org/wiki/Spirometry" target="_blank">spirometry</a> test suite, which took place over several minutes:</p>
+
+<p><img src="../assets/img-sensor-spirometry.png" width="100%"/></p>
+
+<p>Here, the UI shows <a href="https://en.wikipedia.org/wiki/Actigraphy" target="_blank">actigraphy</a> and sleep data collected over the course of a day:</p>
+
+<p><img src="../assets/img-sensor-actigraphy.png" width="100%"/></p>
+
+<p>Here, the UI shows the results of <a href="https://en.wikipedia.org/wiki/Continuous_glucose_monitor" target="_blank">continuous glucose monitoring</a> taken over many days:</p>
+
+<p><img src="../assets/img-sensor-cgm.png" width="100%"/></p>
+
+<p>Here, the UI shows the results of a single <a href="https://en.wikipedia.org/wiki/Pulse_oximetry" target="_blank">pulse oximetry</a> reading:</p>
+
+<p><img src="../assets/img-sensor-spo2.png" width="100%"/></p>
+
+</section>
+
+<section>
+<h3>The code</h3>
+
+<p>Every sensor activity, whether a simple, episodic measurement or a long-running, continuous recording session, is comprised of <i>observations</i>:</p>
+
+<script src="https://gist.github.com/adammark/60bc654dde4aa870bd969d321fe82c2a.js"></script>
+
+<p>Observations contain all the data necessary to build a visualization:</p>
+
+<script src="https://gist.github.com/adammark/7e387b8cded4def9f2922ae33782bcf1.js"></script>
+
+<p>When the UI loads details of a specific activity, it maps the activity to a custom React component and renders the component:</p>
+
+<script src="https://gist.github.com/adammark/51a888dd48d1a3e9a7dd26313cf384ce.js"></script>
+</section>
+
+<section>
+<h3>Conclusion</h3>
+
+<p>Creating a UI for visualizing any type of sensor activity started with defining the "shape" of an activity: identifying the common attributes (time, person, place) and encoding the data itself as <i>observations</i>. This contract between the front-end and back-end gave the UI ultimate flexibility.<p>
+</section>
+
+</main>
+
+</body>
+
+</html>
