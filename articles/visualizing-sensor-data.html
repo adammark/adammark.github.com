@@ -28,13 +28,13 @@
 <section>
 <h3>Problem</h3>
 
-<p>Our platform ingested data from many different kinds of biometric sensors. Some of these sensors worked <i>episodically</i> and collected small bits of data, while others worked <i>continuously</i> and produced long streams of data. We needed a simple way to show any kind of sensor data as it was collected, even in studies that used multiple sensors.</p>
+<p>Our platform ingested data from many different kinds of biometric sensors. Some of these sensors worked <i>episodically</i> and collected small bits of data, while others worked <i>continuously</i> and produced long streams of data. We needed a predictable, repeatable way to show any kind of sensor data as it was collected, even in studies that used many different types of sensors at the same time.</p>
 </section>
 
 <section>
 <h3>Solution</h3>
 
-<p>I developed an interface that allowed customers to quickly visualize data from any kind of sensor activity, including:</p>
+<p>I developed a UI pattern that allowed customers to easily navigate, drill into and visualize any type of sensor activity, including:</p>
 
 <ul>
   <li>Point measurements (e.g. blood pressure readings, blood oxygen tests)</li>
@@ -42,23 +42,19 @@
   <li>Test suites (e.g. spirometry tests)</li>
 </ul>
 
-<p>Although no two sensor activities looked alike, they shared a few things in common: the <b>start time</b> of the activity, the <b>patient</b> who performed the activity, and the <b>site</b> that supervised it. All other data points were specific to the type of activity.</p>
+<p>Although no two sensor activities looked alike, they shared a few things in common: the <b>start time</b> of the activity, the <b>patient</b> who performed the activity, and the <b>site</b> that supervised it. With this metadata alone, a customer could call up all spirometry tests by Patient 1 at Site A conducted in the last month, or view all glucose monitoring sessions for all patients at Site B conducted this year.</p>
 
-<p>Here, the UI shows the results of a <a href="https://en.wikipedia.org/wiki/Spirometry" target="_blank">spirometry</a> test suite, which took place over several minutes:</p>
+<p>Actual sensor data, and the accompanying data visualizations, varied from one type of activity to the next. For example, a <a href="https://en.wikipedia.org/wiki/Spirometry" target="_blank">spirometry</a> test, typically conducted over the course of several minutes, included air flow/volume curves and related statistics:</p>
 
 <p><img src="../assets/img-sensor-spirometry.png" width="100%"/></p>
 
-<p>Here, the UI shows <a href="https://en.wikipedia.org/wiki/Actigraphy" target="_blank">actigraphy</a> and sleep data collected over the course of a day:</p>
+<p>An <a href="https://en.wikipedia.org/wiki/Actigraphy" target="_blank">actigraphy</a> session displayed a breakdown of a patient's activity levels and energy expenditure over a 24-hour period:</p>
 
 <p><img src="../assets/img-sensor-actigraphy.png" width="100%"/></p>
 
-<p>Here, the UI shows the results of <a href="https://en.wikipedia.org/wiki/Continuous_glucose_monitor" target="_blank">continuous glucose monitoring</a> taken over many days:</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Continuous_glucose_monitor" target="_blank">continuous glucose monitoring</a> session showed blood glucose levels sampled at 5-minute intervals over a ten-day period:</p>
 
 <p><img src="../assets/img-sensor-cgm.png" width="100%"/></p>
-
-<p>Here, the UI shows the results of a single <a href="https://en.wikipedia.org/wiki/Pulse_oximetry" target="_blank">pulse oximetry</a> reading:</p>
-
-<p><img src="../assets/img-sensor-spo2.png" width="100%"/></p>
 
 </section>
 
@@ -73,7 +69,7 @@
 
 <script src="https://gist.github.com/adammark/7e387b8cded4def9f2922ae33782bcf1.js"></script>
 
-<p>When the UI loads details of a specific activity, it maps the activity to a custom React component and renders the component:</p>
+<p>When the UI loads details of a specific activity, it maps the activity to a custom React component and passes the activity's observations into the component:</p>
 
 <script src="https://gist.github.com/adammark/51a888dd48d1a3e9a7dd26313cf384ce.js"></script>
 </section>
@@ -81,7 +77,7 @@
 <section>
 <h3>Conclusion</h3>
 
-<p>Creating a UI for visualizing any type of sensor activity started with defining the "shape" of an activity: identifying the common attributes (time, person, place) and encoding the data itself as <i>observations</i>. This contract between the front-end and back-end gave the UI ultimate flexibility.<p>
+<p>Creating a UI for navigating and visualizing any type of sensor activity started with identifying the common attributes of all activities—the type of activity, when it occurred, and who performed it—and using this data as an index into the details of any activity. And by encoding activity data in a generic way—as <i>observations</i>—it was simple to customize the UI for each type of activity.<p>
 </section>
 
 </main>
