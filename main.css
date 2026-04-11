@@ -8,11 +8,15 @@ body {
   color: #111;
 }
 
-code {
+code, .gist {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  font-size: 0.85em;
+  font-size: 0.85em !important;
   padding: .2em .4em;
   background: #eee;
+}
+
+.gist {
+  margin-bottom: 1rem;
 }
 
 main {
