@@ -10,13 +10,14 @@ body {
 
 code, .gist {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  font-size: 0.85em !important;
+  font-size: 0.85em;
   padding: .2em .4em;
   background: #eee;
 }
 
 .gist {
   margin-bottom: 1rem;
+  font-size: 0.75em !important;
 }
 
 main {
